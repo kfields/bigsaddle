@@ -1,0 +1,16 @@
+[submodule "lib/bgfx"]
+	path = lib/bgfx
+	url = https://github.com/bkaradzic/bgfx
+[submodule "lib/sdl"]
+	path = lib/sdl
+	url = https://github.com/libsdl-org/SDL
+[submodule "lib/bx"]
+	path = lib/bx
+	url = https://github.com/bkaradzic/bx
+[submodule "lib/bimg"]
+	path = lib/bimg
+	url = https://github.com/bkaradzic/bimg
+[submodule "lib/imgui"]
+	path = lib/imgui
+	url = https://github.com/ocornut/imgui
+	branch = docking
