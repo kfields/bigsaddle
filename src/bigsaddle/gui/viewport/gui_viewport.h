@@ -16,19 +16,16 @@ public:
     GuiViewport(CreateParams& params = CreateParams());
     ~GuiViewport() {}
 
-    virtual bool DoCreate(CreateParams params) override;
+    virtual void DoCreate(CreateParams params) override;
+    static GuiViewport& Produce(CreateParams params) {
+        GuiViewport& r = *new GuiViewport(params);
+        r.Create(params);
+        return r;
+    }
     virtual void DoDraw();
     virtual void Reset() override;
 
-    static bool InitHooks(Gui& gui, void* sdl_gl_context) {
-        if(InitPlatformHooks(gui, sdl_gl_context)) {
-            return InitRendererHooks();
-        }
-        return false;
-    }
-    static bool InitPlatformHooks(Gui& gui, void* sdl_gl_context);
-    static bool InitRendererHooks();
+    static bool InitHooks(Gui& gui);
     //Data members
     ImGuiViewport* viewport_;
-    bgfx::FrameBufferHandle frameBuffer_;
 };

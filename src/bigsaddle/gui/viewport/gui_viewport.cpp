@@ -14,19 +14,18 @@
 
 
 GuiViewport::GuiViewport(CreateParams& params) : Window(params),
-    frameBuffer_(BGFX_INVALID_HANDLE), viewport_(nullptr)
+    viewport_(nullptr)
 {
 }
 
-bool GuiViewport::DoCreate(CreateParams params) {
+void GuiViewport::DoCreate(CreateParams params) {
     Window::DoCreate(params);
     Reset();
-    return true;
 }
 
 void GuiViewport::DoDraw() {
     Window::DoDraw();
-    gui().renderer().Render(viewId_, viewport_->DrawData);
+    gui().renderer().Render(viewId(), viewport_->DrawData);
 }
 
 void GuiViewport::Reset()
@@ -35,5 +34,5 @@ void GuiViewport::Reset()
         destroy(frameBuffer_);
     void* nh = GetHandle();
     frameBuffer_ = bgfx::createFrameBuffer(nh, width(), height());
-    bgfx::setViewFrameBuffer(viewId_, frameBuffer_);
+    bgfx::setViewFrameBuffer(viewId(), frameBuffer_);
 }

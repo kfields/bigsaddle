@@ -9,8 +9,7 @@
 
 #include "window_base.h"
 
-//TODO:Recycle handles
-uint16_t WindowBase::instanceCount_ = 0;
+std::map<uint32_t, WindowBase*> WindowBase::windowMap_;
 
 bool WindowBase::Startup() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -30,23 +29,23 @@ WindowBase::WindowBase(CreateParams& params) :
     size_(params.size),
     flags_(params.flags),
     window_(nullptr),
-    gui_(nullptr),
-    viewId_(instanceCount_++)
+    gui_(nullptr)
 {
 }
 
 WindowBase::~WindowBase() {
     Destroy();
+    UnmapWindow(windowId());
 }
 
-bool WindowBase::DoCreate(CreateParams params) {
+void WindowBase::DoCreate(CreateParams params) {
     window_ = SDL_CreateWindow(
       title_.c_str(), x(), y(), width(),
       height(), flags_);
 
     if (window_ == nullptr) {
         printf("WindowBase could not be created. SDL_Error: %s\n", SDL_GetError());
-        return false;
+        return;
     }
     SDL_SysWMinfo wmi;
     SDL_VERSION(&wmi.version);
@@ -54,11 +53,10 @@ bool WindowBase::DoCreate(CreateParams params) {
         printf(
             "SDL_SysWMinfo could not be retrieved. SDL_Error: %s\n",
             SDL_GetError());
-        return false;
+        return;
     }
-    windowId_ = SDL_GetWindowID(window_);
-
-    return true;
+    SetWindowId(SDL_GetWindowID(window_));
+    MapWindow(windowId(), this);
 }
 
 bool WindowBase::Show() {
@@ -83,17 +81,6 @@ void WindowBase::OnSize() {
     Reset();
 }
 
-void WindowBase::Run() {
-    for (bool quit = false; !quit;) {
-        SDL_Event event;
-        SDL_WaitEvent(&event);
-        if (!Dispatch(event)) {
-            quit = true;
-            break;
-        }
-    }
-}
-
 bool WindowBase::Dispatch(const SDL_Event& event) {
     switch (event.type) {
         case SDL_QUIT:
@@ -105,12 +92,11 @@ bool WindowBase::Dispatch(const SDL_Event& event) {
 }
 
 bool WindowBase::DispatchWindowEvent(const SDL_Event& event) {
-    //TODO:  Will be fixed in next push
-    /*if (event.window.windowID != windowId_) {
-        WindowBase* child = childMap_[event.window.windowID];
+    if (event.window.windowID != windowId()) {
+        WindowBase* child = windowMap_[event.window.windowID];
         if(child != nullptr)
-            return childMap_[event.window.windowID]->DispatchWindowEvent(event);
-    }*/
+            return windowMap_[event.window.windowID]->DispatchWindowEvent(event);
+    }
 
     Uint8 window_event = event.window.event;
     switch (window_event) {
@@ -121,6 +107,8 @@ bool WindowBase::DispatchWindowEvent(const SDL_Event& event) {
         case SDL_WINDOWEVENT_EXPOSED:
             Draw();
             break;
+        case SDL_WINDOWEVENT_CLOSE:
+            return false;
     }
     return true;
 }

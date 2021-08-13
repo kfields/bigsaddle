@@ -6,8 +6,8 @@ class App : public Window {
 public:
     App(CreateParams& params = CreateParams()) : Window(params), resetFlags_(BGFX_RESET_VSYNC) {}
     virtual ~App();
-    virtual bool DoCreate(CreateParams params) override;
-    virtual bool PostCreate(WindowBase::CreateParams params) override;
+    virtual void DoCreate(CreateParams params) override;
+    virtual void PostCreate(WindowBase::CreateParams params) override;
     virtual bool CreateGui(CreateParams params);
     virtual bool Dispatch(const SDL_Event& event) override;
     virtual void Destroy() override;
@@ -15,6 +15,8 @@ public:
     virtual void DoDraw() override;
     virtual void PostDraw() override;
     virtual void Reset() override;
+
+    void Run();
 
     //Data members
     std::thread paint_thread_;

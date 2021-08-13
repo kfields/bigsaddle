@@ -72,8 +72,7 @@ int main(int argc, char** argv)
 
     MyApp app;
 
-    if(!app.Create())
-        return 1;
+    app.Create();
     
     app.Run();
 

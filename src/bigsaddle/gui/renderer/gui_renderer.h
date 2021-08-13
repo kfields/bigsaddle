@@ -19,6 +19,11 @@ class GuiRenderer {
 public:
     GuiRenderer();
     bool Create();
+    static GuiRenderer& Produce() {
+        GuiRenderer& r = *new GuiRenderer();
+        r.Create();
+        return r;
+    }
     void Shutdown();
     void Render(uint16_t viewId, struct ImDrawData* draw_data);
 

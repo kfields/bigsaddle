@@ -4,6 +4,8 @@
 #include <list>
 #include <map>
 
+#include <bgfx/bgfx.h>
+
 #include "dispatcher.h"
 
 typedef std::pair<uint32_t, uint16_t> SurfaceId;
@@ -11,6 +13,7 @@ typedef std::pair<uint32_t, uint16_t> SurfaceId;
 class Surface : public Dispatcher {
 public:
     Surface();
+    virtual ~Surface();
     void AddChild(Surface& child) {
         child.parent_ = this;
         children_.push_back(&child);

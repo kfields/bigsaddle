@@ -29,8 +29,7 @@ static const Uint32 SDL_WINDOW_VULKAN = 0x10000000;
 #include "renderer/gui_renderer.h"
 #include "viewport/gui_viewport.h"
 
-Gui::Gui(App& app) : app_(&app), window_(app.window_) {
-    renderer_ = new GuiRenderer();
+Gui::Gui(App& app) : app_(&app), window_(app.window_), renderer_(nullptr) {
 }
 
 bool Gui::Create() {
@@ -38,15 +37,17 @@ bool Gui::Create() {
     io_ = &ImGui::GetIO();
     io().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable | ImGuiConfigFlags_DockingEnable;
     io().BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
+    //io().ConfigViewportsNoDecoration = true;
+    //io().ConfigViewportsNoTaskBarIcon = true;
 
-    renderer_->Create();
+    renderer_ = &GuiRenderer::Produce();
 
     return Init();
 }
 
 void Gui::Render() {
     ImGui::Render();
-    uint16_t viewId = app().viewId_;
+    uint16_t viewId = app().viewId();
     renderer().Render(viewId, ImGui::GetDrawData());
     // Update and Render additional Platform Windows
     if (io().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -222,7 +223,7 @@ bool Gui::Init(void* sdl_gl_context)
     // We need SDL_CaptureMouse(), SDL_GetGlobalMouseState() from SDL 2.0.4+ to support multiple viewports.
     // We left the call to ImGui_ImplSDL2_InitPlatformInterface() outside of #ifdef to avoid unused-function warnings.
     if ((io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) && (io.BackendFlags & ImGuiBackendFlags_PlatformHasViewports))
-        return GuiViewport::InitHooks(*this, sdl_gl_context);
+        return GuiViewport::InitHooks(*this);
 
     return true;
 }

@@ -9,3 +9,9 @@ Surface::Surface() :
     id_(SurfaceId(0, viewCount_++)), frameBuffer_(BGFX_INVALID_HANDLE)
 {
 }
+
+Surface::~Surface() {
+    /*if (parent_ != nullptr) {
+        parent_->RemoveChild(*this);
+    }*/
+}

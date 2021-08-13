@@ -16,7 +16,7 @@ App::~App() {
     paint_thread_.detach();
 }
 
-bool App::DoCreate(CreateParams params) {
+void App::DoCreate(CreateParams params) {
     Window::DoCreate(params);
     auto result = bgfx::renderFrame(); // single threaded mode
 
@@ -33,14 +33,14 @@ bool App::DoCreate(CreateParams params) {
     bgfx::init(bgfx_init);
 
     bgfx::setViewClear(
-        viewId_, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x11111111, 1.0f, 0);
-    bgfx::setViewRect(viewId_, 0, 0, width(), height());
+        viewId(), BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x11111111, 1.0f, 0);
+    bgfx::setViewRect(viewId(), 0, 0, width(), height());
 
 
-    return CreateGui(params);
+    CreateGui(params);
 }
 
-bool App::PostCreate(WindowBase::CreateParams params) {
+void App::PostCreate(WindowBase::CreateParams params) {
     paint_thread_ = std::thread([this]() {
         while (true) {
             std::this_thread::sleep_for(std::chrono::milliseconds(16));
@@ -48,7 +48,7 @@ bool App::PostCreate(WindowBase::CreateParams params) {
         }
     });
 
-    return Window::PostCreate(params);
+    Window::PostCreate(params);
 }
 
 bool App::CreateGui(CreateParams params){
@@ -79,11 +79,22 @@ void App::PreDraw() {
 
 void App::DoDraw() {
     Window::DoDraw();
-    bgfx::touch(viewId_);
+    bgfx::touch(viewId());
 }
 
 void App::PostDraw() {
     gui().Render();
     bgfx::frame();
     Window::PostDraw();
+}
+
+void App::Run() {
+    for (bool quit = false; !quit;) {
+        SDL_Event event;
+        SDL_WaitEvent(&event);
+        if (!Dispatch(event)) {
+            quit = true;
+            break;
+        }
+    }
 }

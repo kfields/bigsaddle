@@ -52,9 +52,7 @@ static void Platform_CreateWindow(ImGuiViewport* viewport)
         Point((int)viewport->Pos.x, (int)viewport->Pos.y),
         Size((int)viewport->Size.x, (int)viewport->Size.y),
         sdl_flags);
-    GuiViewport& vp = *new GuiViewport();
-    //vd.gui_ = &gui;
-    vp.Create(params);
+    GuiViewport& vp = GuiViewport::Produce(params);
     app.AddChild(vp);
     vp.gui_ = &gui;
     vp.viewport_ = viewport;
@@ -148,7 +146,7 @@ static void Platform_SwapBuffers(ImGuiViewport* viewport, void*)
     GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
 }
 
-bool GuiViewport::InitPlatformHooks(Gui& gui, void* sdl_gl_context)
+bool GuiViewport::InitHooks(Gui& gui)
 {
     // Register platform interface (will be coupled with a renderer interface)
     ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();

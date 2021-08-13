@@ -20,8 +20,7 @@ set(SHELL_SRC
     gui.cpp
     renderer/gui_renderer.cpp
     viewport/gui_viewport.cpp
-    viewport/platform_hooks.cpp
-    viewport/renderer_hooks.cpp
+    viewport/gui_viewport_hooks.cpp
 )
 
 add_library(${THIS} ${SHELL_SRC} ${SHELL_HEADERS})

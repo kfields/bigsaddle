@@ -10,12 +10,14 @@ include(${BIG_ROOT}/cmake/Bgfx.cmake)
 
 set(SHELL_HEADERS
     dispatcher.h
+    surface.h
     window_base.h
     window.h
 )
 
 set(SHELL_SRC
     dispatcher.cpp
+    surface.cpp
     window_base.cpp
 )
 
