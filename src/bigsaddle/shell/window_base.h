@@ -49,7 +49,7 @@ public:
         uint32_t flags;
     };
 
-    WindowBase(CreateParams& params = CreateParams());
+    WindowBase(CreateParams params = CreateParams());
     virtual ~WindowBase();
     void Create(CreateParams params = CreateParams()) {
         PreCreate(params);

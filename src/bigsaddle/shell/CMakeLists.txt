@@ -26,4 +26,9 @@ USES_SDL(${THIS})
 USES_BGFX(${THIS})
 
 target_link_libraries(${THIS} bgfx BigShell${SHELL_PLATFORM})
-add_subdirectory(platform/windows)
+
+if(${SHELL_PLATFORM} STREQUAL "Windows")
+    add_subdirectory(platform/windows)
+elseif(${SHELL_PLATFORM} STREQUAL "Linux")
+    add_subdirectory(platform/x11)
+endif()

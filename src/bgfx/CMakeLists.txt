@@ -6,9 +6,6 @@ set(THIS ${PROJECT_NAME})
 
 include(../../cmake/Standard.cmake)
 
-#find_package(AimGui REQUIRED)
-#set(AIMGFX_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
-
 set(BX_SRC
   ${BX_ROOT}/src/amalgamated.cpp
 )
@@ -41,7 +38,9 @@ add_library(${THIS} STATIC
 USES_STD(${THIS})
 
 #TODO:PRIxPTR???
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 target_compile_definitions(${THIS} PRIVATE PRIxPTR="Ix")
+endif()
 
 install(TARGETS ${THIS} EXPORT BgfxTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -57,13 +56,13 @@ target_include_directories(${THIS}
         $<BUILD_INTERFACE:${BGFX_ROOT}>
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${BX_ROOT}/include/compat/msvc
+        if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+            ${BX_ROOT}/include/compat/msvc
+        endif()
         ${BX_ROOT}/include
         ${BX_ROOT}/3rdparty
         ${BIMG_ROOT}/include
         ${BIMG_ROOT}/3rdparty
-        #${BIMG_ROOT}/3rdparty/astc-codec/include
-        #${BIMG_ROOT}/3rdparty/astc-codec
         ${BGFX_ROOT}/include
         ${BGFX_ROOT}/3rdparty
         ${BGFX_ROOT}/3rdparty/khronos

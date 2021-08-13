@@ -23,7 +23,7 @@ void WindowBase::Shutdown() {
     SDL_Quit();
 }
 
-WindowBase::WindowBase(CreateParams& params) :
+WindowBase::WindowBase(CreateParams params) :
     title_(params.title), 
     origin_(params.origin),
     size_(params.size),

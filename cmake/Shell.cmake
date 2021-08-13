@@ -7,7 +7,8 @@ if(${SHELL_PLATFORM} STREQUAL "Windows")
     set(SHELL_HEADER "<bigsaddle/shell/platform/windows/win32_window.h>")
     set(SHELL_CLASS "Win32Window")
 elseif(${SHELL_PLATFORM} STREQUAL "Linux")
-    #TODO: add linux support
+    set(SHELL_HEADER "<bigsaddle/shell/platform/x11/x11_window.h>")
+    set(SHELL_CLASS "X11Window")
 endif()
 
 function(USES_SHELL THIS)

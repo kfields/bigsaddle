@@ -1,6 +1,6 @@
 include_guard()
 
-set(SHELL_PLATFORM Windows)
+set(SHELL_PLATFORM ${CMAKE_SYSTEM_NAME})
 
 set(BIG_ROOT ${CMAKE_CURRENT_LIST_DIR}/..)
 set(BX_ROOT ${BIG_ROOT}/lib/bx)
