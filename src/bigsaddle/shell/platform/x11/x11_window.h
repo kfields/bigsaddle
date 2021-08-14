@@ -4,7 +4,8 @@
 #include <memory>
 #include <string>
 
-#include <X11/Xlib.h>
+//#include <X11/Xlib.h>
+typedef unsigned long XWindow;
 
 #include <bigsaddle/shell/window_base.h>
 
@@ -16,6 +17,6 @@ class X11Window : public WindowBase {
 
     virtual void ReDraw() override;
 
-    Window GetNativeHandle();
+    XWindow GetNativeHandle();
     virtual void* GetHandle() override { return (void*)GetNativeHandle(); }
 };

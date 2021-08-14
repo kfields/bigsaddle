@@ -16,7 +16,6 @@ function(USES_SHELL THIS)
     USES_BGFX(${THIS})
 
     target_compile_definitions(${THIS} PRIVATE SHELL_HEADER=${SHELL_HEADER} SHELL_CLASS=${SHELL_CLASS})
-    #target_link_libraries(${THIS} ImGui bgfx ${SHELL_PLATFORM}${SHELL_CLASS})
     target_link_libraries(${THIS} BigShell BigShell${CMAKE_SYSTEM_NAME})
 
 endfunction()

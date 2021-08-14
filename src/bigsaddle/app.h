@@ -4,7 +4,7 @@
 
 class App : public Window {
 public:
-    App(CreateParams& params = CreateParams()) : Window(params), resetFlags_(BGFX_RESET_VSYNC) {}
+    App(CreateParams params = CreateParams()) : Window(params), resetFlags_(BGFX_RESET_VSYNC) {}
     virtual ~App();
     virtual void DoCreate(CreateParams params) override;
     virtual void PostCreate(WindowBase::CreateParams params) override;

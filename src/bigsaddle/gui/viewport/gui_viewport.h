@@ -13,7 +13,7 @@ class GuiRenderer;
 class GuiViewport : public Window
 {
 public:
-    GuiViewport(CreateParams& params = CreateParams());
+    GuiViewport(CreateParams params = CreateParams());
     ~GuiViewport() {}
 
     virtual void DoCreate(CreateParams params) override;
