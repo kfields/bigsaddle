@@ -13,6 +13,8 @@
 #include <bigsaddle/gui/gui.h>
 #include <bigsaddle/app.h>
 
+using namespace bigsaddle;
+
 class MyApp : public App {
 public:
     MyApp() {

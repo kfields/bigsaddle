@@ -8,4 +8,4 @@ public:
     virtual bool DispatchWindowEvent(const SDL_Event& event) { return true; }
 };
 
-}
+} //namespace bigsaddle

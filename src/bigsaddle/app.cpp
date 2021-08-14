@@ -12,6 +12,8 @@
 #include "app.h"
 #include "gui/gui.h"
 
+namespace bigsaddle {
+
 App::~App() {
     paint_thread_.detach();
 }
@@ -98,3 +100,5 @@ void App::Run() {
         }
     }
 }
+
+} //namespace bigsaddle

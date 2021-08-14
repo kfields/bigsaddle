@@ -2,6 +2,8 @@
 
 #include "shell/window.h"
 
+namespace bigsaddle {
+
 class App : public Window {
 public:
     App(CreateParams params = CreateParams()) : Window(params), resetFlags_(BGFX_RESET_VSYNC) {}
@@ -23,3 +25,5 @@ public:
     uint32_t resetFlags_;
 
 };
+
+} //namespace bigsaddle

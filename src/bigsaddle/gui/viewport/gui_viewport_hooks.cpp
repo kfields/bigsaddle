@@ -28,6 +28,8 @@ static const Uint32 SDL_WINDOW_VULKAN = 0x10000000;
 
 #include "gui_viewport.h"
 
+namespace bigsaddle {
+
 static void Platform_CreateWindow(ImGuiViewport* viewport)
 {
     ImGuiIO& io = ImGui::GetIO();
@@ -174,3 +176,5 @@ bool GuiViewport::InitHooks(Gui& gui)
 
     return true;
 }
+
+} //namespace bigsaddle

@@ -7,6 +7,8 @@ struct SDL_Cursor;
 
 typedef union SDL_Event SDL_Event;
 
+namespace bigsaddle {
+
 class Gui;
 class GuiRenderer;
 
@@ -29,3 +31,5 @@ public:
     //Data members
     ImGuiViewport* viewport_;
 };
+
+} //namespace bigsaddle

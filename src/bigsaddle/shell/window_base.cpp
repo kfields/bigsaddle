@@ -9,6 +9,8 @@
 
 #include "window_base.h"
 
+namespace bigsaddle {
+
 std::map<uint32_t, WindowBase*> WindowBase::windowMap_;
 
 bool WindowBase::Startup() {
@@ -116,3 +118,5 @@ bool WindowBase::DispatchWindowEvent(const SDL_Event& event) {
 void WindowBase::Destroy() {
     SDL_DestroyWindow(window_);
 }
+
+} //namespace bigsaddle

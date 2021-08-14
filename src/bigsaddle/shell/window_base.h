@@ -7,6 +7,8 @@
 
 #include "surface.h"
 
+namespace bigsaddle {
+
 class Gui;
 
 struct Point {
@@ -107,3 +109,5 @@ public:
     SDL_Window* window_;
     Gui* gui_;
 };
+
+} //namespace bigsaddle

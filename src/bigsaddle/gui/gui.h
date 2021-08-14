@@ -6,6 +6,8 @@ struct SDL_Window;
 struct SDL_Cursor;
 typedef union SDL_Event SDL_Event;
 
+namespace bigsaddle {
+
 class App;
 class GuiRenderer;
 
@@ -45,3 +47,5 @@ public:
     bool        mouseCanUseGlobalState_ = false;
     bool        useVulkan_ = false;
 };
+
+} //namespace bigsaddle

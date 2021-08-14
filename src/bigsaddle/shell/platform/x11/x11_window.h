@@ -9,6 +9,8 @@ typedef unsigned long XWindow;
 
 #include <bigsaddle/shell/window_base.h>
 
+namespace bigsaddle {
+
 class X11Window : public WindowBase {
  public:
 
@@ -20,3 +22,5 @@ class X11Window : public WindowBase {
     XWindow GetNativeHandle();
     virtual void* GetHandle() override { return (void*)GetNativeHandle(); }
 };
+
+} //namespace bigsaddle

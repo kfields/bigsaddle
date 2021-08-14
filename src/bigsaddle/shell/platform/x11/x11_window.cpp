@@ -3,6 +3,8 @@
 
 #include "x11_window.h"
 
+namespace bigsaddle {
+
 X11Window::~X11Window() {
 }
 
@@ -23,3 +25,5 @@ void X11Window::ReDraw() {
     Display* display = wmInfo.info.x11.display;
     XClearWindow(display, wnd);
 }
+
+} //namespace bigsaddle

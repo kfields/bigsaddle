@@ -25,6 +25,8 @@
 
 #define IMGUI_FLAGS_ALPHA_BLEND UINT8_C(0x01)
 
+namespace bigsaddle {
+
 GuiRenderer::GuiRenderer()
 {
 }
@@ -284,3 +286,5 @@ void GuiRenderer::InvalidateDeviceObjects()
         fontTexture_.idx = bgfx::kInvalidHandle;
     }
 }
+
+} //namespace bigsaddle

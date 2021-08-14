@@ -8,6 +8,8 @@
 
 #include "dispatcher.h"
 
+namespace bigsaddle {
+
 typedef std::pair<uint32_t, uint16_t> SurfaceId;
 
 class Surface : public Dispatcher {
@@ -38,3 +40,5 @@ public:
     std::map<SurfaceId, Surface*> childMap_;
     bgfx::FrameBufferHandle frameBuffer_;
 };
+
+} //namespace bigsaddle

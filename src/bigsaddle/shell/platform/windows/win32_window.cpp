@@ -2,6 +2,7 @@
 
 #include "win32_window.h"
 
+namespace bigsaddle {
 
 Win32Window::~Win32Window() {
 }
@@ -44,3 +45,5 @@ void Win32Window::ReDraw() {
     GetClientRect(hwnd, &rc);
     InvalidateRect(hwnd, &rc, true);
 }
+
+} //namespace bigsaddle

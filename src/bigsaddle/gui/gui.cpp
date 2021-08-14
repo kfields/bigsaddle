@@ -29,6 +29,8 @@ static const Uint32 SDL_WINDOW_VULKAN = 0x10000000;
 #include "renderer/gui_renderer.h"
 #include "viewport/gui_viewport.h"
 
+namespace bigsaddle {
+
 Gui::Gui(App& app) : app_(&app), window_(app.window_), renderer_(nullptr) {
 }
 
@@ -432,3 +434,5 @@ void Gui::NewFrame()
 
     ImGui::NewFrame();
 }
+
+} //namespace bigsaddle

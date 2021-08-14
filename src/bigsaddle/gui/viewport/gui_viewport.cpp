@@ -12,8 +12,9 @@
 
 #include "gui_viewport.h"
 
+namespace bigsaddle {
 
-GuiViewport::GuiViewport(CreateParams& params) : Window(params),
+GuiViewport::GuiViewport(CreateParams params) : Window(params),
     viewport_(nullptr)
 {
 }
@@ -36,3 +37,5 @@ void GuiViewport::Reset()
     frameBuffer_ = bgfx::createFrameBuffer(nh, width(), height());
     bgfx::setViewFrameBuffer(viewId(), frameBuffer_);
 }
+
+} //namespace bigsaddle

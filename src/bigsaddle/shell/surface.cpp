@@ -2,6 +2,8 @@
 
 #include <bgfx/bgfx.h>
 
+namespace bigsaddle {
+
 //TODO:Recycle handles
 uint16_t Surface::viewCount_ = 0;
 
@@ -15,3 +17,5 @@ Surface::~Surface() {
         parent_->RemoveChild(*this);
     }*/
 }
+
+} //namespace bigsaddle

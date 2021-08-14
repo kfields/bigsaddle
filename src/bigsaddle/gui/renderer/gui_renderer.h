@@ -15,6 +15,8 @@ namespace ImGui
     };
 };
 
+namespace bigsaddle {
+
 class GuiRenderer {
 public:
     GuiRenderer();
@@ -43,3 +45,5 @@ public:
 	bgfx::UniformHandle imageLodEnabled_;
     bgfx::UniformHandle samplerTex_;
 };
+
+} //namespace bigsaddle

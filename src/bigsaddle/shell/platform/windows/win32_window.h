@@ -8,6 +8,8 @@
 
 #include <bigsaddle/shell/window_base.h>
 
+namespace bigsaddle {
+
 class Win32Window : public WindowBase {
  public:
 
@@ -22,3 +24,5 @@ class Win32Window : public WindowBase {
     RECT GetClientArea();
 
 };
+
+} //namespace bigsaddle {
