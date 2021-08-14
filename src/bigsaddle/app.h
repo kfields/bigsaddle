@@ -6,7 +6,12 @@ namespace bigsaddle {
 
 class App : public Window {
 public:
-    App(CreateParams params = CreateParams()) : Window(params), resetFlags_(BGFX_RESET_VSYNC) {}
+    enum class State {
+        kRunning,
+        kShutdown
+    };
+
+    App(CreateParams params = CreateParams()) : Window(params), state_(State::kRunning), resetFlags_(BGFX_RESET_VSYNC) {}
     virtual ~App();
     virtual void DoCreate(CreateParams params) override;
     virtual void PostCreate(WindowBase::CreateParams params) override;
@@ -21,6 +26,7 @@ public:
     void Run();
 
     //Data members
+    State state_;
     std::thread paint_thread_;
     uint32_t resetFlags_;
 

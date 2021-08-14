@@ -50,9 +50,9 @@ void App::DoCreate(CreateParams params) {
 
 void App::PostCreate(WindowBase::CreateParams params) {
     paint_thread_ = std::thread([this]() {
-        while (true) {
+        while (state_ == State::kRunning) {
             std::this_thread::sleep_for(std::chrono::milliseconds(16));
-            this->ReDraw();
+            ReDraw();
         }
     });
 
@@ -97,12 +97,11 @@ void App::PostDraw() {
 }
 
 void App::Run() {
-    for (bool quit = false; !quit;) {
+    while (state_ == State::kRunning) {
         SDL_Event event;
         SDL_WaitEvent(&event);
         if (!Dispatch(event)) {
-            quit = true;
-            break;
+            state_ = State::kShutdown;
         }
     }
 }
