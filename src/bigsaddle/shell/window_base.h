@@ -89,8 +89,8 @@ public:
     //
     virtual void* GetHandle() = 0;
     //
-    void SetPosition(Point& origin);
-    void SetSize(Size& size);
+    void SetPosition(Point origin);
+    void SetSize(Size size);
     //
     static void MapWindow(uint32_t key, WindowBase* window) { windowMap_[key] = window; }
     static void UnmapWindow(uint32_t key) { windowMap_.erase(key); }

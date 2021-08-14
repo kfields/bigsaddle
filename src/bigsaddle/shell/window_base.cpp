@@ -67,13 +67,13 @@ bool WindowBase::Show() {
     return true;
 }
 
-void WindowBase::SetPosition(Point& origin) {
+void WindowBase::SetPosition(Point origin) {
     origin_ = origin;
     SDL_SetWindowPosition(window_, origin.x, origin.y);
     Reset();
 }
 
-void WindowBase::SetSize(Size& size) {
+void WindowBase::SetSize(Size size) {
     SDL_SetWindowSize(window_, size.width, size.height);
     OnSize();
 }
