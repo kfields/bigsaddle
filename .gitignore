@@ -8,6 +8,7 @@ env
 *.egg-info
 dist/
 build
+build-debug
 _build
 _skbuild
 tmp

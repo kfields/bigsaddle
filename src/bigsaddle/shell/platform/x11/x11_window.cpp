@@ -23,7 +23,7 @@ void X11Window::ReDraw() {
 
     XID wnd = wmInfo.info.x11.window;
     Display* display = wmInfo.info.x11.display;
-    XClearWindow(display, wnd);
+    XClearArea(display, wnd, 0, 0, 1, 1, true);
 }
 
 } //namespace bigsaddle
