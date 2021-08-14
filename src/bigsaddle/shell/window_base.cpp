@@ -13,18 +13,6 @@ namespace bigsaddle {
 
 std::map<uint32_t, WindowBase*> WindowBase::windowMap_;
 
-bool WindowBase::Startup() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("SDL could not initialize. SDL_Error: %s\n", SDL_GetError());
-        return false;
-    }
-    return true;
-}
-void WindowBase::Shutdown() {
-    bgfx::shutdown();
-    SDL_Quit();
-}
-
 WindowBase::WindowBase(CreateParams params) :
     title_(params.title), 
     origin_(params.origin),

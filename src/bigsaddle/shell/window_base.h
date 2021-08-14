@@ -70,9 +70,6 @@ public:
     virtual bool Show();
     virtual bool Hide(){ return true; }
 
-    static bool Startup();
-    static void Shutdown();
-
     virtual void Destroy();
     virtual void DestroyGui(){}
 

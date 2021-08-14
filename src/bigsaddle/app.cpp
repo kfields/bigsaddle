@@ -76,8 +76,10 @@ bool App::Dispatch(const SDL_Event& event) {
 }
 
 void App::Destroy() {
-    gui().Destroy();
+    gui().Destroy(); //TODO: Have gui call this in it's destructor
     Window::Destroy();
+    bgfx::shutdown();
+    SDL_Quit();
 }
 
 void App::PreDraw() {
@@ -96,7 +98,14 @@ void App::PostDraw() {
     Window::PostDraw();
 }
 
-void App::Run() {
+int App::Run() {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("SDL could not initialize. SDL_Error: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    Create();
+
     while (state_ == State::kRunning) {
         SDL_Event event;
         SDL_WaitEvent(&event);
@@ -104,6 +113,8 @@ void App::Run() {
             state_ = State::kShutdown;
         }
     }
+
+    return 0;
 }
 
 static void setup_bgfx_platform_data(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi) {

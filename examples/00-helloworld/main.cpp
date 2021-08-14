@@ -70,15 +70,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    App::Startup();
-
     MyApp app;
 
-    app.Create();
-    
-    app.Run();
-
-    App::Shutdown();
-
-    return 0;
+    return app.Run();
 }

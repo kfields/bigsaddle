@@ -23,7 +23,7 @@ public:
     virtual void PostDraw() override;
     virtual void Reset() override;
 
-    void Run();
+    int Run();
 
     //Data members
     State state_;
