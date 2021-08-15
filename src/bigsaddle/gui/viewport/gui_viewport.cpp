@@ -19,8 +19,8 @@ GuiViewport::GuiViewport(WindowParams params) : Window(params),
 {
 }
 
-void GuiViewport::DoCreate(WindowParams params) {
-    Window::DoCreate(params);
+void GuiViewport::Create(WindowParams params) {
+    Window::Create(params);
     Reset();
 }
 

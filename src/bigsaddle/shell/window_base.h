@@ -51,15 +51,7 @@ public:
     WindowBase(WindowParams params = WindowParams());
     virtual ~WindowBase();
 
-    void Create(WindowParams params = WindowParams()) {
-        PreCreate(params);
-        DoCreate(params);
-        PostCreate(params);
-    }
-
-    virtual void PreCreate(WindowParams params){}
-    virtual void DoCreate(WindowParams params);
-    virtual void PostCreate(WindowParams params){}
+    virtual void Create(WindowParams params = WindowParams());
 
     bool CreateAndShow(WindowParams params = WindowParams()) {
         Create(params);

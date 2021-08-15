@@ -13,9 +13,9 @@ public:
 
     App(WindowParams params = WindowParams()) : Window(params), state_(State::kRunning), resetFlags_(BGFX_RESET_VSYNC) {}
     virtual ~App();
-    virtual void DoCreate(WindowParams params) override;
-    virtual void PostCreate(WindowParams params) override;
-    virtual bool CreateGui(WindowParams params);
+    virtual void Create(WindowParams params = WindowParams()) override;
+    virtual void CreateGfx();
+    virtual void CreateGui();
     virtual bool Dispatch(const SDL_Event& event) override;
     virtual void PreRender() override;
     virtual void PostRender() override;

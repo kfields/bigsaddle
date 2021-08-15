@@ -145,7 +145,7 @@ static void Platform_RenderWindow(ImGuiViewport* viewport, void*)
     wnd.Render();
 }
 
-bool Gui::InitHooks()
+void Gui::InitHooks()
 {
     // Register platform interface (will be coupled with a renderer interface)
     ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
@@ -169,8 +169,6 @@ bool Gui::InitHooks()
     Window* vp = app_;
     main_viewport->PlatformUserData = vp;
     main_viewport->PlatformHandle = vp->window_;
-
-    return true;
 }
 
 } //namespace bigsaddle

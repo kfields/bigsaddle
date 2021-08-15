@@ -18,7 +18,7 @@ public:
     GuiViewport(WindowParams params = WindowParams());
     ~GuiViewport() {}
 
-    virtual void DoCreate(WindowParams params) override;
+    virtual void Create(WindowParams params) override;
     static GuiViewport& Produce(WindowParams params) {
         GuiViewport& r = *new GuiViewport(params);
         r.Create(params);

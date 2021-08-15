@@ -23,8 +23,22 @@ App::~App() {
     SDL_Quit();
 }
 
-void App::DoCreate(WindowParams params) {
-    Window::DoCreate(params);
+void App::Create(WindowParams params) {
+    Window::Create(params);
+
+    CreateGfx();
+
+    CreateGui();
+
+    paint_thread_ = std::thread([this]() {
+        while (state_ == State::kRunning) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(16));
+            ReRender();
+        }
+    });
+}
+
+void App::CreateGfx() {
     auto result = bgfx::renderFrame(); // single threaded mode
 
     bgfx::PlatformData pd{};
@@ -46,25 +60,10 @@ void App::DoCreate(WindowParams params) {
     bgfx::setViewClear(
         viewId(), BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x11111111, 1.0f, 0);
     bgfx::setViewRect(viewId(), 0, 0, width(), height());
-
-
-    CreateGui(params);
 }
 
-void App::PostCreate(WindowParams params) {
-    paint_thread_ = std::thread([this]() {
-        while (state_ == State::kRunning) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(16));
-            ReRender();
-        }
-    });
-
-    Window::PostCreate(params);
-}
-
-bool App::CreateGui(WindowParams params){
-    gui_ = new Gui(*this);
-    return gui_->Create();
+void App::CreateGui(){
+    gui_ = &Gui::Produce(*this);
 }
 
 void App::Reset()

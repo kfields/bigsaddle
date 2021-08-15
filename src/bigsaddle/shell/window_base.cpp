@@ -28,7 +28,7 @@ WindowBase::~WindowBase() {
     SDL_DestroyWindow(window_);
 }
 
-void WindowBase::DoCreate(WindowParams params) {
+void WindowBase::Create(WindowParams params) {
     window_ = SDL_CreateWindow(
       title_.c_str(), x(), y(), width(),
       height(), flags_);

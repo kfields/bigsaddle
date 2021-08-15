@@ -15,9 +15,14 @@ class Gui {
 public:
     Gui(App& app);
     virtual ~Gui();
-    bool Create();
-    bool Init(void* sdl_gl_context = nullptr);
-    bool InitHooks();
+    void Create();
+    static Gui& Produce(App& app) {
+        Gui& r = *new Gui(app);
+        r.Create();
+        return r;
+    }
+    void Init();
+    void InitHooks();
     void NewFrame();
     void Render();
     bool Dispatch(const SDL_Event* event);

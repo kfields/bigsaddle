@@ -41,9 +41,10 @@ int Win32Window::AttachTo(HWND hParent) {
 
 void Win32Window::ReRender() {
     HWND hwnd = GetNativeHandle();
-    RECT rc;
-    GetClientRect(hwnd, &rc);
-    InvalidateRect(hwnd, &rc, true);
+    /*RECT rc;
+    GetClientRect(hwnd, &rc);*/
+    RECT rc = { 0, 0, 1, 1 };
+    InvalidateRect(hwnd, &rc, false);
 }
 
 } //namespace bigsaddle

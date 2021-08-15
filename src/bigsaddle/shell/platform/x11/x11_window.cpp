@@ -16,7 +16,7 @@ XWindow X11Window::GetNativeHandle() {
     return hwnd;
 }
 
-void X11Window::ReDraw() {
+void X11Window::ReRender() {
     SDL_SysWMinfo wmInfo;
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(window_, &wmInfo);

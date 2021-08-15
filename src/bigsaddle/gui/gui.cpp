@@ -48,7 +48,7 @@ Gui::~Gui() {
         SDL_FreeCursor(mouseCursors_[cursor_n]);
 }
 
-bool Gui::Create() {
+void Gui::Create() {
     context_ = ImGui::CreateContext();
     io_ = &ImGui::GetIO();
     io().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable | ImGuiConfigFlags_DockingEnable;
@@ -58,7 +58,7 @@ bool Gui::Create() {
 
     renderer_ = &GuiRenderer::Produce();
 
-    return Init();
+    Init();
 }
 
 void Gui::Render() {
@@ -158,7 +158,7 @@ bool Gui::Dispatch(const SDL_Event* event)
 }
 
 
-bool Gui::Init(void* sdl_gl_context)
+void Gui::Init()
 {
     ImGuiIO& io = ImGui::GetIO();
     IM_ASSERT(io.BackendPlatformUserData == NULL && "Already initialized a platform backend!");
@@ -248,9 +248,7 @@ bool Gui::Init(void* sdl_gl_context)
     // We need SDL_CaptureMouse(), SDL_GetGlobalMouseState() from SDL 2.0.4+ to support multiple viewports.
     // We left the call to ImGui_ImplSDL2_InitPlatformInterface() outside of #ifdef to avoid unused-function warnings.
     if ((io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) && (io.BackendFlags & ImGuiBackendFlags_PlatformHasViewports))
-        return InitHooks();
-
-    return true;
+        InitHooks();
 }
 
 // This code is incredibly messy because some of the functions we need for full viewport support are not available in SDL < 2.0.4.
