@@ -14,7 +14,7 @@ namespace bigsaddle {
 class X11Window : public WindowBase {
  public:
 
-    X11Window(CreateParams params = CreateParams()) : WindowBase(params) {}
+    X11Window(WindowParams params = WindowParams()) : WindowBase(params) {}
     virtual ~X11Window();
 
     virtual void ReDraw() override;

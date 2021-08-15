@@ -14,12 +14,12 @@
 
 namespace bigsaddle {
 
-GuiViewport::GuiViewport(CreateParams params) : Window(params),
+GuiViewport::GuiViewport(WindowParams params) : Window(params),
     viewport_(nullptr)
 {
 }
 
-void GuiViewport::DoCreate(CreateParams params) {
+void GuiViewport::DoCreate(WindowParams params) {
     Window::DoCreate(params);
     Reset();
 }

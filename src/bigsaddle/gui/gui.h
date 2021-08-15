@@ -14,10 +14,10 @@ class GuiRenderer;
 class Gui {
 public:
     Gui(App& app);
-
+    virtual ~Gui();
     bool Create();
     bool Init(void* sdl_gl_context = nullptr);
-    void Destroy();
+    bool InitHooks();
     void NewFrame();
     void Render();
     bool Dispatch(const SDL_Event* event);

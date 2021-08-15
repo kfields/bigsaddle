@@ -15,11 +15,11 @@ class GuiRenderer;
 class GuiViewport : public Window
 {
 public:
-    GuiViewport(CreateParams params = CreateParams());
+    GuiViewport(WindowParams params = WindowParams());
     ~GuiViewport() {}
 
-    virtual void DoCreate(CreateParams params) override;
-    static GuiViewport& Produce(CreateParams params) {
+    virtual void DoCreate(WindowParams params) override;
+    static GuiViewport& Produce(WindowParams params) {
         GuiViewport& r = *new GuiViewport(params);
         r.Create(params);
         return r;
@@ -27,7 +27,6 @@ public:
     virtual void DoDraw();
     virtual void Reset() override;
 
-    static bool InitHooks(Gui& gui);
     //Data members
     ImGuiViewport* viewport_;
 };

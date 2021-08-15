@@ -28,50 +28,45 @@ struct Size {
     Size(const Size& s1) { width = s1.width; height = s1.height; }
 };
 
+struct WindowParams {
+    WindowParams(std::string _title = "Big Saddle",
+        Point _origin = Point(SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED),
+        Size _size = Size(800,600),
+        uint32_t _flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
+    ) {
+        title = _title;
+        origin = _origin;
+        size = _size;
+        flags = _flags;
+    }
+    std::string title;
+    Point origin;
+    Size size;
+    uint32_t flags;
+};
+
 class WindowBase : public Surface
 {
 public:
-    //
-    // Create
-    //
-    struct CreateParams {
-        CreateParams(std::string _title = "Big Saddle",
-            Point _origin = Point(SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED),
-            Size _size = Size(800,600),
-            uint32_t _flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
-        ) {
-            title = _title;
-            origin = _origin;
-            size = _size;
-            flags = _flags;
-        }
-        std::string title;
-        Point origin;
-        Size size;
-        uint32_t flags;
-    };
-
-    WindowBase(CreateParams params = CreateParams());
+    WindowBase(WindowParams params = WindowParams());
     virtual ~WindowBase();
-    void Create(CreateParams params = CreateParams()) {
+
+    void Create(WindowParams params = WindowParams()) {
         PreCreate(params);
         DoCreate(params);
         PostCreate(params);
     }
 
-    virtual void PreCreate(CreateParams params){}
-    virtual void DoCreate(CreateParams params);
-    virtual void PostCreate(CreateParams params){}
+    virtual void PreCreate(WindowParams params){}
+    virtual void DoCreate(WindowParams params);
+    virtual void PostCreate(WindowParams params){}
 
-    bool CreateAndShow(CreateParams params = CreateParams()) {
+    bool CreateAndShow(WindowParams params = WindowParams()) {
         Create(params);
         return Show();
     }
     virtual bool Show();
     virtual bool Hide(){ return true; }
-
-    virtual void Destroy();
-    virtual void DestroyGui(){}
 
     virtual bool Dispatch(const SDL_Event& event);
     virtual bool DispatchWindowEvent(const SDL_Event& event) override;

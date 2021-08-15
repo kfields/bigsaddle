@@ -26,7 +26,7 @@ static const Uint32 SDL_WINDOW_VULKAN = 0x10000000;
 #include <bigsaddle/app.h>
 #include <bigsaddle/gui/gui.h>
 
-#include "gui_viewport.h"
+#include "viewport/gui_viewport.h"
 
 namespace bigsaddle {
 
@@ -50,7 +50,7 @@ static void Platform_CreateWindow(ImGuiViewport* viewport)
 #if SDL_HAS_ALWAYS_ON_TOP
     sdl_flags |= (viewport->Flags & ImGuiViewportFlags_TopMost) ? SDL_WINDOW_ALWAYS_ON_TOP : 0;
 #endif
-    Window::CreateParams params = Window::CreateParams("No Title Yet",
+    WindowParams params = WindowParams("No Title Yet",
         Point((int)viewport->Pos.x, (int)viewport->Pos.y),
         Size((int)viewport->Size.x, (int)viewport->Size.y),
         sdl_flags);
@@ -67,7 +67,9 @@ static void Platform_CreateWindow(ImGuiViewport* viewport)
 static void Platform_DestroyWindow(ImGuiViewport* viewport)
 {
     Window* vp = (Window*)viewport->PlatformUserData;
-    delete vp;
+    if (typeid(*vp) != typeid(App)) {
+        delete vp;
+    }
     viewport->PlatformUserData = viewport->PlatformHandle = NULL;
 }
 
@@ -148,7 +150,7 @@ static void Platform_SwapBuffers(ImGuiViewport* viewport, void*)
     GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
 }
 
-bool GuiViewport::InitHooks(Gui& gui)
+bool Gui::InitHooks()
 {
     // Register platform interface (will be coupled with a renderer interface)
     ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
@@ -170,7 +172,7 @@ bool GuiViewport::InitHooks(Gui& gui)
 #endif
 
     ImGuiViewport* main_viewport = ImGui::GetMainViewport();
-    Window* vp = gui.app_;
+    Window* vp = app_;
     main_viewport->PlatformUserData = vp;
     main_viewport->PlatformHandle = vp->window_;
 

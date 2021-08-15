@@ -18,9 +18,9 @@ set(SHELL_HEADERS
 
 set(SHELL_SRC
     gui.cpp
+    gui_hooks.cpp
     renderer/gui_renderer.cpp
     viewport/gui_viewport.cpp
-    viewport/gui_viewport_hooks.cpp
 )
 
 add_library(${THIS} ${SHELL_SRC} ${SHELL_HEADERS})

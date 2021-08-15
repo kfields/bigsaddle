@@ -13,7 +13,7 @@ namespace bigsaddle {
 
 std::map<uint32_t, WindowBase*> WindowBase::windowMap_;
 
-WindowBase::WindowBase(CreateParams params) :
+WindowBase::WindowBase(WindowParams params) :
     title_(params.title), 
     origin_(params.origin),
     size_(params.size),
@@ -24,11 +24,11 @@ WindowBase::WindowBase(CreateParams params) :
 }
 
 WindowBase::~WindowBase() {
-    Destroy();
     UnmapWindow(windowId());
+    SDL_DestroyWindow(window_);
 }
 
-void WindowBase::DoCreate(CreateParams params) {
+void WindowBase::DoCreate(WindowParams params) {
     window_ = SDL_CreateWindow(
       title_.c_str(), x(), y(), width(),
       height(), flags_);
@@ -101,10 +101,6 @@ bool WindowBase::DispatchWindowEvent(const SDL_Event& event) {
             return false;
     }
     return true;
-}
-
-void WindowBase::Destroy() {
-    SDL_DestroyWindow(window_);
 }
 
 } //namespace bigsaddle

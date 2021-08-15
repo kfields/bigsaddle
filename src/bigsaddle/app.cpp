@@ -18,9 +18,12 @@ static void setup_bgfx_platform_data(bgfx::PlatformData &pd, const SDL_SysWMinfo
 
 App::~App() {
     paint_thread_.detach();
+    delete gui_;
+    bgfx::shutdown();
+    SDL_Quit();
 }
 
-void App::DoCreate(CreateParams params) {
+void App::DoCreate(WindowParams params) {
     Window::DoCreate(params);
     auto result = bgfx::renderFrame(); // single threaded mode
 
@@ -48,7 +51,7 @@ void App::DoCreate(CreateParams params) {
     CreateGui(params);
 }
 
-void App::PostCreate(WindowBase::CreateParams params) {
+void App::PostCreate(WindowParams params) {
     paint_thread_ = std::thread([this]() {
         while (state_ == State::kRunning) {
             std::this_thread::sleep_for(std::chrono::milliseconds(16));
@@ -59,7 +62,7 @@ void App::PostCreate(WindowBase::CreateParams params) {
     Window::PostCreate(params);
 }
 
-bool App::CreateGui(CreateParams params){
+bool App::CreateGui(WindowParams params){
     gui_ = new Gui(*this);
     return gui_->Create();
 }
@@ -73,13 +76,6 @@ bool App::Dispatch(const SDL_Event& event) {
     //if (gui().Dispatch(&event)) return true;
     gui().Dispatch(&event);
     return Window::Dispatch(event);
-}
-
-void App::Destroy() {
-    gui().Destroy(); //TODO: Have gui call this in it's destructor
-    Window::Destroy();
-    bgfx::shutdown();
-    SDL_Quit();
 }
 
 void App::PreDraw() {

@@ -31,16 +31,13 @@ GuiRenderer::GuiRenderer()
 {
 }
 
-bool GuiRenderer::Create() {
-    //ImGui::GetIO().BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
-    //ImGui::GetIO().BackendRendererUserData = this;
-    CreateDeviceObjects();
-    return true;
+GuiRenderer::~GuiRenderer() {
+    InvalidateDeviceObjects();
 }
 
-void GuiRenderer::Shutdown()
-{
-    InvalidateDeviceObjects();
+bool GuiRenderer::Create() {
+    CreateDeviceObjects();
+    return true;
 }
 
 inline bool checkAvailTransientBuffers(uint32_t _numVertices, const bgfx::VertexLayout& _layout, uint32_t _numIndices)
@@ -197,7 +194,7 @@ bool GuiRenderer::CreateFontsTexture() {
 
     ImGuiIO& io = ImGui::GetIO();
     ImFontConfig config;
-    config.FontDataOwnedByAtlas = true;
+    config.FontDataOwnedByAtlas = false;
     config.MergeMode = false;
     //config.MergeGlyphCenterV = true;
 

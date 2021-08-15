@@ -24,7 +24,7 @@ HWND Win32Window::GetNativeHandle() {
 int Win32Window::AttachTo(HWND hParent) {
   Point origin(10, 10);
   Size size(1280, 720);
-  bool success = CreateAndShow(CreateParams("NoName", origin, size));
+  bool success = CreateAndShow(WindowParams("NoName", origin, size));
   if (!success) {
     return 1;
   }
