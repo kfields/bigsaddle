@@ -66,10 +66,19 @@ void Gui::Render() {
     uint16_t viewId = app().viewId();
     renderer().Render(viewId, ImGui::GetDrawData());
     // Update and Render additional Platform Windows
-    if (io().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    if (!(io().ConfigFlags & ImGuiConfigFlags_ViewportsEnable))
+        return;
+
+    ImGui::UpdatePlatformWindows();
+
+    // Skip the main viewport (index 0), which is always fully handled by the application!
+    ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
+    for (int i = 1; i < platform_io.Viewports.Size; i++)
     {
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
+        ImGuiViewport* viewport = platform_io.Viewports[i];
+        if (viewport->Flags & ImGuiViewportFlags_Minimized)
+            continue;
+        if (platform_io.Platform_RenderWindow) platform_io.Platform_RenderWindow(viewport, nullptr);
     }
 }
 

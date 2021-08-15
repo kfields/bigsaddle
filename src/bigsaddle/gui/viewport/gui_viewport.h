@@ -24,7 +24,7 @@ public:
         r.Create(params);
         return r;
     }
-    virtual void DoDraw();
+    virtual void PostRender();
     virtual void Reset() override;
 
     //Data members

@@ -55,7 +55,7 @@ void App::PostCreate(WindowParams params) {
     paint_thread_ = std::thread([this]() {
         while (state_ == State::kRunning) {
             std::this_thread::sleep_for(std::chrono::milliseconds(16));
-            ReDraw();
+            ReRender();
         }
     });
 
@@ -78,20 +78,16 @@ bool App::Dispatch(const SDL_Event& event) {
     return Window::Dispatch(event);
 }
 
-void App::PreDraw() {
+void App::PreRender() {
+    Window::PreRender();
     gui().NewFrame();
-    Window::PreDraw();
 }
 
-void App::DoDraw() {
-    Window::DoDraw();
-    bgfx::touch(viewId());
-}
-
-void App::PostDraw() {
+void App::PostRender() {
     gui().Render();
+    bgfx::touch(viewId());
     bgfx::frame();
-    Window::PostDraw();
+    Window::PostRender();
 }
 
 int App::Run() {

@@ -19,8 +19,8 @@ class MyApp : public App {
 public:
     MyApp() {
     }
-    virtual void DoDraw() override {
-        App::DoDraw();
+    virtual void Draw() override {
+        App::Draw();
         ImGui::ShowDemoWindow();
 
         // simple input code for orbit camera

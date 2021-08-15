@@ -142,12 +142,7 @@ static bool Platform_GetWindowMinimized(ImGuiViewport* viewport)
 static void Platform_RenderWindow(ImGuiViewport* viewport, void*)
 {
     Window& wnd = *(Window*)viewport->PlatformUserData;
-    wnd.Draw();
-}
-
-static void Platform_SwapBuffers(ImGuiViewport* viewport, void*)
-{
-    GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
+    wnd.Render();
 }
 
 bool Gui::InitHooks()
@@ -166,7 +161,6 @@ bool Gui::InitHooks()
     platform_io.Platform_GetWindowMinimized = Platform_GetWindowMinimized;
     platform_io.Platform_SetWindowTitle = Platform_SetWindowTitle;
     platform_io.Platform_RenderWindow = Platform_RenderWindow;
-    platform_io.Platform_SwapBuffers = Platform_SwapBuffers;
 #if SDL_HAS_WINDOW_ALPHA
     platform_io.Platform_SetWindowAlpha = Platform_SetWindowAlpha;
 #endif

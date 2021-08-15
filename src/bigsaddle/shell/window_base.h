@@ -71,11 +71,6 @@ public:
     virtual bool Dispatch(const SDL_Event& event);
     virtual bool DispatchWindowEvent(const SDL_Event& event) override;
 
-    void Draw() { PreDraw(); DoDraw(); PostDraw(); }
-    virtual void PreDraw() {}
-    virtual void DoDraw() {}
-    virtual void PostDraw() {}
-    virtual void ReDraw() {}
     virtual void OnSize();
     virtual void Reset() {}
     //

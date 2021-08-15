@@ -26,6 +26,13 @@ public:
         children_.remove(&child);
         childMap_.erase(child.id_);
     }
+
+    void Render() { PreRender(); Draw(); PostRender(); }
+    virtual void PreRender() {}
+    virtual void Draw() {}
+    virtual void PostRender() {}
+    virtual void ReRender() {}
+
     //Accessors
     uint32_t windowId() { return id_.first; }
     void SetWindowId(uint32_t id) { id_.first = id; }

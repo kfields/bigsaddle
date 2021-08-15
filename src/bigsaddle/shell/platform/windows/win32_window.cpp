@@ -39,7 +39,7 @@ int Win32Window::AttachTo(HWND hParent) {
   return 0;
 }
 
-void Win32Window::ReDraw() {
+void Win32Window::ReRender() {
     HWND hwnd = GetNativeHandle();
     RECT rc;
     GetClientRect(hwnd, &rc);

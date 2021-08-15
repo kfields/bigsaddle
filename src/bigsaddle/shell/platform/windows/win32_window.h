@@ -16,7 +16,7 @@ class Win32Window : public WindowBase {
     Win32Window(WindowParams& params = WindowParams()) : WindowBase(params) {}
     virtual ~Win32Window();
 
-    virtual void ReDraw() override;
+    virtual void ReRender() override;
 
     int AttachTo(HWND hParent);
     HWND GetNativeHandle();

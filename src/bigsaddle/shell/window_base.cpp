@@ -95,7 +95,7 @@ bool WindowBase::DispatchWindowEvent(const SDL_Event& event) {
         case SDL_WINDOWEVENT_MOVED:
         case SDL_WINDOWEVENT_SHOWN:
         case SDL_WINDOWEVENT_EXPOSED:
-            Draw();
+            Render();
             break;
         case SDL_WINDOWEVENT_CLOSE:
             return false;

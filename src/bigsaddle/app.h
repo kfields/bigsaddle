@@ -17,9 +17,8 @@ public:
     virtual void PostCreate(WindowParams params) override;
     virtual bool CreateGui(WindowParams params);
     virtual bool Dispatch(const SDL_Event& event) override;
-    virtual void PreDraw() override;
-    virtual void DoDraw() override;
-    virtual void PostDraw() override;
+    virtual void PreRender() override;
+    virtual void PostRender() override;
     virtual void Reset() override;
 
     int Run();

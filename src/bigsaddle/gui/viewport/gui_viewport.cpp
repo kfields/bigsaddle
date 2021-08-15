@@ -24,9 +24,9 @@ void GuiViewport::DoCreate(WindowParams params) {
     Reset();
 }
 
-void GuiViewport::DoDraw() {
-    Window::DoDraw();
+void GuiViewport::PostRender() {
     gui().renderer().Render(viewId(), viewport_->DrawData);
+    Window::PostRender();
 }
 
 void GuiViewport::Reset()
