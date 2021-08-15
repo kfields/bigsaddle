@@ -53,12 +53,12 @@ public:
 
     virtual void Create(WindowParams params = WindowParams());
 
-    bool CreateAndShow(WindowParams params = WindowParams()) {
+    void CreateAndShow(WindowParams params = WindowParams()) {
         Create(params);
-        return Show();
+        Show();
     }
-    virtual bool Show();
-    virtual bool Hide(){ return true; }
+    virtual void Show();
+    virtual void Hide() {}
 
     virtual bool Dispatch(const SDL_Event& event);
     virtual bool DispatchWindowEvent(const SDL_Event& event) override;

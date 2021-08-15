@@ -49,10 +49,9 @@ void WindowBase::Create(WindowParams params) {
     MapWindow(windowId(), this);
 }
 
-bool WindowBase::Show() {
+void WindowBase::Show() {
     SDL_ShowWindow(window_);
     Reset();
-    return true;
 }
 
 void WindowBase::SetPosition(Point origin) {

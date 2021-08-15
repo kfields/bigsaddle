@@ -24,10 +24,9 @@ HWND Win32Window::GetNativeHandle() {
 int Win32Window::AttachTo(HWND hParent) {
   Point origin(10, 10);
   Size size(1280, 720);
-  bool success = CreateAndShow(WindowParams("NoName", origin, size));
-  if (!success) {
-    return 1;
-  }
+
+  CreateAndShow(WindowParams("NoName", origin, size));
+
   HWND hWnd = GetNativeHandle();
   SetParent(hWnd, hParent);
   const LONG nNewStyle = (GetWindowLong(hWnd, GWL_STYLE) & ~WS_POPUP & ~WS_OVERLAPPEDWINDOW) | WS_CHILDWINDOW | WS_VISIBLE;

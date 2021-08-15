@@ -66,9 +66,9 @@ static void Platform_CreateWindow(ImGuiViewport* viewport)
 
 static void Platform_DestroyWindow(ImGuiViewport* viewport)
 {
-    Window* vp = (Window*)viewport->PlatformUserData;
-    if (typeid(*vp) != typeid(App)) {
-        delete vp;
+    Window& wnd = *(Window*)viewport->PlatformUserData;
+    if (typeid(wnd) != typeid(App)) {
+        delete &wnd;
     }
     viewport->PlatformUserData = viewport->PlatformHandle = NULL;
 }
@@ -95,9 +95,9 @@ static void Platform_SetWindowPos(ImGuiViewport* viewport, ImVec2 pos)
 
 static ImVec2 Platform_GetWindowSize(ImGuiViewport* viewport)
 {
-    GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
+    Window& wnd = *(Window*)viewport->PlatformUserData;
     int w = 0, h = 0;
-    SDL_GetWindowSize(vd->window_, &w, &h);
+    SDL_GetWindowSize(wnd.window_, &w, &h);
     return ImVec2((float)w, (float)h);
 }
 
@@ -109,34 +109,34 @@ static void Platform_SetWindowSize(ImGuiViewport* viewport, ImVec2 size)
 
 static void Platform_SetWindowTitle(ImGuiViewport* viewport, const char* title)
 {
-    GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
-    SDL_SetWindowTitle(vd->window_, title);
+    Window& wnd = *(Window*)viewport->PlatformUserData;
+    SDL_SetWindowTitle(wnd.window_, title);
 }
 
 #if SDL_HAS_WINDOW_ALPHA
 static void Platform_SetWindowAlpha(ImGuiViewport* viewport, float alpha)
 {
-    GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
-    SDL_SetWindowOpacity(vd->window_, alpha);
+    Window& wnd = *(Window*)viewport->PlatformUserData;
+    SDL_SetWindowOpacity(wnd.window_, alpha);
 }
 #endif
 
 static void Platform_SetWindowFocus(ImGuiViewport* viewport)
 {
-    GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
-    SDL_RaiseWindow(vd->window_);
+    Window& wnd = *(Window*)viewport->PlatformUserData;
+    SDL_RaiseWindow(wnd.window_);
 }
 
 static bool Platform_GetWindowFocus(ImGuiViewport* viewport)
 {
-    GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
-    return (SDL_GetWindowFlags(vd->window_) & SDL_WINDOW_INPUT_FOCUS) != 0;
+    Window& wnd = *(Window*)viewport->PlatformUserData;
+    return (SDL_GetWindowFlags(wnd.window_) & SDL_WINDOW_INPUT_FOCUS) != 0;
 }
 
 static bool Platform_GetWindowMinimized(ImGuiViewport* viewport)
 {
-    GuiViewport* vd = (GuiViewport*)viewport->PlatformUserData;
-    return (SDL_GetWindowFlags(vd->window_) & SDL_WINDOW_MINIMIZED) != 0;
+    Window& wnd = *(Window*)viewport->PlatformUserData;
+    return (SDL_GetWindowFlags(wnd.window_) & SDL_WINDOW_MINIMIZED) != 0;
 }
 
 static void Platform_RenderWindow(ImGuiViewport* viewport, void*)
@@ -166,9 +166,9 @@ void Gui::InitHooks()
 #endif
 
     ImGuiViewport* main_viewport = ImGui::GetMainViewport();
-    Window* vp = app_;
-    main_viewport->PlatformUserData = vp;
-    main_viewport->PlatformHandle = vp->window_;
+    Window& wnd = *app_;
+    main_viewport->PlatformUserData = &wnd;
+    main_viewport->PlatformHandle = wnd.window_;
 }
 
 } //namespace bigsaddle

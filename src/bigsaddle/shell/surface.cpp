@@ -13,9 +13,6 @@ Surface::Surface() :
 }
 
 Surface::~Surface() {
-    /*if (parent_ != nullptr) {
-        parent_->RemoveChild(*this);
-    }*/
 }
 
 } //namespace bigsaddle
