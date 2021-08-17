@@ -11,11 +11,12 @@ public:
         kShutdown
     };
 
-    App(WindowParams params = WindowParams()) : Window(params), state_(State::kRunning), resetFlags_(BGFX_RESET_VSYNC) {}
+    App(WindowParams params = WindowParams());
     virtual ~App();
     virtual void Create(WindowParams params = WindowParams()) override;
     virtual void CreateGfx();
     virtual void CreateGui();
+    virtual void Destroy() override;
     virtual bool Dispatch(const SDL_Event& event) override;
     virtual void PreRender() override;
     virtual void PostRender() override;

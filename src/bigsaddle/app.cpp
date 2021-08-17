@@ -16,11 +16,16 @@ namespace bigsaddle {
 
 static void setup_bgfx_platform_data(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi);
 
+App::App(WindowParams params) : Window(params), state_(State::kRunning), resetFlags_(BGFX_RESET_VSYNC) {}
+
 App::~App() {
     paint_thread_.detach();
+}
+
+void App::Destroy() {
     delete gui_;
     bgfx::shutdown();
-    SDL_Quit();
+    Window::Destroy();
 }
 
 void App::Create(WindowParams params) {
@@ -104,6 +109,10 @@ int App::Run() {
             state_ = State::kShutdown;
         }
     }
+
+    Destroy();
+
+    SDL_Quit();
 
     return 0;
 }

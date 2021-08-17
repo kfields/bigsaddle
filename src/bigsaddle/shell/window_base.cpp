@@ -14,6 +14,7 @@ namespace bigsaddle {
 std::map<uint32_t, WindowBase*> WindowBase::windowMap_;
 
 WindowBase::WindowBase(WindowParams params) :
+    windowId_(0),
     title_(params.title), 
     origin_(params.origin),
     size_(params.size),
@@ -24,8 +25,12 @@ WindowBase::WindowBase(WindowParams params) :
 }
 
 WindowBase::~WindowBase() {
+}
+
+void WindowBase::Destroy() {
     UnmapWindow(windowId());
     SDL_DestroyWindow(window_);
+    Surface::Destroy();
 }
 
 void WindowBase::Create(WindowParams params) {

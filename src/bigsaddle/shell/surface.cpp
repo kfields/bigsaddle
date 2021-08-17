@@ -8,7 +8,7 @@ namespace bigsaddle {
 uint16_t Surface::viewCount_ = 0;
 
 Surface::Surface() :
-    id_(SurfaceId(0, viewCount_++)), frameBuffer_(BGFX_INVALID_HANDLE)
+    viewId_(viewCount_++), parent_(nullptr), frameBuffer_(BGFX_INVALID_HANDLE)
 {
 }
 

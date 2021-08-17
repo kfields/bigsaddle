@@ -52,6 +52,7 @@ public:
     virtual ~WindowBase();
 
     virtual void Create(WindowParams params = WindowParams());
+    virtual void Destroy() override;
 
     void CreateAndShow(WindowParams params = WindowParams()) {
         Create(params);
@@ -66,7 +67,7 @@ public:
     virtual void OnSize();
     virtual void Reset() {}
     //
-    virtual void* GetHandle() = 0;
+    virtual void* GetHandle() { return nullptr; }
     //
     void SetPosition(Point origin);
     void SetSize(Size size);
@@ -74,12 +75,15 @@ public:
     static void MapWindow(uint32_t key, WindowBase* window) { windowMap_[key] = window; }
     static void UnmapWindow(uint32_t key) { windowMap_.erase(key); }
     //Accessors
+    uint32_t windowId() { return windowId_; }
+    void SetWindowId(uint32_t id) { windowId_ = id; }
     int x() { return origin_.x; }
     int y() { return origin_.y; }
     int width() { return size_.width; }
     int height() { return size_.height; }
     Gui& gui() { return *gui_; }
     //Data members
+    uint32_t windowId_;
     static std::map<uint32_t, WindowBase*> windowMap_;
     std::string title_;
     Point origin_;

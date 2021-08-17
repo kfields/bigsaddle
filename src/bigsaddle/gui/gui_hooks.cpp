@@ -66,9 +66,10 @@ static void Platform_CreateWindow(ImGuiViewport* viewport)
 
 static void Platform_DestroyWindow(ImGuiViewport* viewport)
 {
+    ImGuiViewport* main_viewport = ImGui::GetMainViewport();
     Window& wnd = *(Window*)viewport->PlatformUserData;
-    if (typeid(wnd) != typeid(App)) {
-        delete &wnd;
+    if (viewport != main_viewport) {
+        wnd.Destroy();
     }
     viewport->PlatformUserData = viewport->PlatformHandle = NULL;
 }

@@ -70,7 +70,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    MyApp app;
+    MyApp& app = *new MyApp();
 
     return app.Run();
 }
