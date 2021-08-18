@@ -23,8 +23,35 @@ set(BGFX_HEADERS
     ${BGFX_ROOT}/include/bgfx/bgfx.h
 )
 
+set(_ ${BGFX_ROOT}/src)
+
 set(BGFX_SRC
-    ${BGFX_ROOT}/src/amalgamated.cpp
+    #${BGFX_ROOT}/src/amalgamated.cpp
+    ${_}/bgfx.cpp
+    ${_}/vertexlayout.cpp
+    ${_}/shader.cpp
+    ${_}/topology.cpp
+    ${_}/debug_renderdoc.cpp
+
+    #${_}/renderer_vk.cpp
+    renderer_vk.cpp
+    ${_}/renderer_noop.cpp
+    ${_}/renderer_d3d9.cpp
+    ${_}/renderer_d3d11.cpp
+    ${_}/renderer_d3d12.cpp
+    ${_}/renderer_gnm.cpp
+    ${_}/renderer_nvn.cpp
+    ${_}/renderer_gl.cpp
+    ${_}/renderer_webgpu.cpp
+
+    ${_}/glcontext_egl.cpp
+    ${_}/glcontext_glx.cpp
+    ${_}/glcontext_html5.cpp
+    ${_}/glcontext_wgl.cpp
+
+    ${_}/shader_dxbc.cpp
+    ${_}/shader_dx9bc.cpp
+    ${_}/shader_spirv.cpp
 )
 
 add_library(${THIS} STATIC
@@ -62,6 +89,7 @@ target_include_directories(${THIS}
         ${BIMG_ROOT}/include
         ${BIMG_ROOT}/3rdparty
         ${BGFX_ROOT}/include
+        ${BGFX_ROOT}/src
         ${BGFX_ROOT}/3rdparty
         ${BGFX_ROOT}/3rdparty/khronos
         ${BGFX_ROOT}/3rdparty/dxsdk/include

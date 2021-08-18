@@ -14,7 +14,7 @@ set(SDL_AUDIO OFF CACHE BOOL "Use audio subsystem" FORCE)
 set(SDL_HAPTIC OFF CACHE BOOL "Use audio subsystem" FORCE)
 
 set(VIDEO_X11 OFF CACHE BOOL "Enable X11 support" FORCE)
-set(VIDEO_WAYLAND ON CACHE BOOL "Enable X11 support" FORCE)
+set(VIDEO_WAYLAND ON CACHE BOOL "Enable Wayland support" FORCE)
 
 #set(VIDEO_DUMMY OFF CACHE BOOL "Use dummy video driver" FORCE)
 #set(VIDEO_OPENGL OFF CACHE BOOL "Include OpenGL support" FORCE)

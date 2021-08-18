@@ -25,3 +25,9 @@ Uses ImGui docking branch with support for docking and viewports
     mkdir build
     cd build
     cmake ..
+
+### Or
+
+    mkdir build-debug
+    cd build-debug
+    cmake -DCMAKE_BUILD_TYPE=Debug ..
