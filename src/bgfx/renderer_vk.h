@@ -36,8 +36,6 @@
 #include "renderer.h"
 #include "debug_renderdoc.h"
 
-#define BGFX_WM_WAYLAND 1
-
 #define VK_IMPORT                                                          \
 			VK_IMPORT_FUNC(false, vkCreateInstance);                       \
 			VK_IMPORT_FUNC(false, vkGetInstanceProcAddr);                  \
@@ -59,8 +57,8 @@
 			VK_IMPORT_INSTANCE_FUNC(true,  vkCreateXcbSurfaceKHR);                         \
 			VK_IMPORT_INSTANCE_FUNC(true,  vkGetPhysicalDeviceXcbPresentationSupportKHR);  \
 			/* VK_KHR_wayland_surface */ \
-			VK_IMPORT_INSTANCE_FUNC(true,  vkCreateWaylandSurfaceKHR); \
-			VK_IMPORT_INSTANCE_FUNC(true,  vkGetPhysicalDeviceWaylandPresentationSupportKHR);
+			VK_IMPORT_INSTANCE_FUNC(false,  vkCreateWaylandSurfaceKHR); \
+			VK_IMPORT_INSTANCE_FUNC(false,  vkGetPhysicalDeviceWaylandPresentationSupportKHR);
 
 #define VK_IMPORT_INSTANCE_WINDOWS                                                          \
 			/* VK_KHR_win32_surface */                                                      \
