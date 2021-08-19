@@ -274,8 +274,12 @@ bool GuiRenderer::CreateDeviceObjects()
 
 void GuiRenderer::InvalidateDeviceObjects()
 {
+    bgfx::destroy(samplerTex_);
     bgfx::destroy(attribLocationTex_);
+    
+    bgfx::destroy(imageLodEnabled_);
     bgfx::destroy(program_);
+    bgfx::destroy(imageProgram_);
 
     if (isValid(fontTexture_)) {
         bgfx::destroy(fontTexture_);
