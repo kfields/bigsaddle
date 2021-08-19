@@ -53,6 +53,12 @@ set(BGFX_SRC
     ${_}/shader_dx9bc.cpp
     ${_}/shader_spirv.cpp
 )
+if(WIN32)
+set(BGFX_SRC ${BGFX_SRC}
+    ${_}/nvapi.cpp
+    ${_}/dxgi.cpp
+)
+endif()
 
 add_library(${THIS} STATIC
   ${BX_SRC}

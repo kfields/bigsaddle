@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.4)
 
 #
-# bgfx
-#
-add_subdirectory(src/bgfx)
-
-#
 # SDL
 #
 #set(SDL_VIDEO OFF CACHE BOOL "Use video subsystem" FORCE)
@@ -30,6 +25,11 @@ set(SDL_SHARED OFF CACHE BOOL "Build a shared version of the library" FORCE)
 set(HIDAPI OFF CACHE BOOL "Use HIDAPI for low level joystick drivers" FORCE)
 
 add_subdirectory(lib/sdl)
+
+#
+# bgfx
+#
+add_subdirectory(src/bgfx)
 
 #
 #ImGui
