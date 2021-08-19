@@ -32,7 +32,7 @@ void X11Window::ReRender() {
     expevt.type = Expose;
     expevt.xexpose.window = wnd;
     XSendEvent(display, wnd, False, ExposureMask, &expevt);
-    XFlush(display);
+    //XFlush(display);
 }
 
 } //namespace bigsaddle
