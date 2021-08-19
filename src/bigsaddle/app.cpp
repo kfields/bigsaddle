@@ -19,10 +19,10 @@ static void setup_bgfx_platform_data(bgfx::PlatformData &pd, const SDL_SysWMinfo
 App::App(WindowParams params) : Window(params), state_(State::kRunning), resetFlags_(BGFX_RESET_VSYNC) {}
 
 App::~App() {
-    paint_thread_.detach();
 }
 
 void App::Destroy() {
+    paint_thread_.detach();
     delete gui_;
     bgfx::shutdown();
     Window::Destroy();
