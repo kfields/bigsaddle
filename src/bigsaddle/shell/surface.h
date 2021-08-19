@@ -15,16 +15,7 @@ public:
     Surface();
     virtual ~Surface();
 
-    virtual void Destroy() {
-        for (auto child : children_) {
-            child->parent_ = nullptr;
-            child->Destroy();
-        }
-        if (parent_ != nullptr) {
-            parent_->RemoveChild(*this);
-        }
-        delete this;
-    }
+    virtual void Destroy();
 
     void AddChild(Surface& child) {
         child.parent_ = this;

@@ -22,10 +22,10 @@ App::~App() {
 }
 
 void App::Destroy() {
-    paint_thread_.detach();
+    paint_thread_.join();
     delete gui_;
-    bgfx::shutdown();
     Window::Destroy();
+    bgfx::shutdown();
 }
 
 void App::Create(WindowParams params) {

@@ -15,4 +15,20 @@ Surface::Surface() :
 Surface::~Surface() {
 }
 
+void Surface::Destroy() {
+    for (auto child : children_) {
+        child->parent_ = nullptr;
+        child->Destroy();
+    }
+    if (parent_ != nullptr) {
+        parent_->RemoveChild(*this);
+    }
+
+    if (bgfx::isValid(frameBuffer_))
+        destroy(frameBuffer_);
+
+    delete this;
+}
+
+
 } //namespace bigsaddle

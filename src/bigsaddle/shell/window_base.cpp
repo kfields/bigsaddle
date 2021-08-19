@@ -29,8 +29,9 @@ WindowBase::~WindowBase() {
 
 void WindowBase::Destroy() {
     UnmapWindow(windowId());
-    SDL_DestroyWindow(window_);
     Surface::Destroy();
+    SDL_DestroyWindow(window_);
+    window_ = nullptr;
 }
 
 void WindowBase::Create(WindowParams params) {
