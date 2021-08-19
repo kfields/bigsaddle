@@ -29,9 +29,9 @@ WindowBase::~WindowBase() {
 
 void WindowBase::Destroy() {
     UnmapWindow(windowId());
-    Surface::Destroy();
     SDL_DestroyWindow(window_);
     window_ = nullptr;
+    Surface::Destroy();
 }
 
 void WindowBase::Create(WindowParams params) {
@@ -99,6 +99,7 @@ bool WindowBase::DispatchWindowEvent(const SDL_Event& event) {
             OnSize();
         case SDL_WINDOWEVENT_MOVED:
         case SDL_WINDOWEVENT_SHOWN:
+            break;
         case SDL_WINDOWEVENT_EXPOSED:
             Render();
             break;
