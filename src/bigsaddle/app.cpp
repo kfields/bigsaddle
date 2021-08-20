@@ -77,6 +77,8 @@ void App::Reset()
 }
 
 bool App::Dispatch(const SDL_Event& event) {
+    if (state_ == State::kShutdown)
+        return false;
     //if (gui().Dispatch(&event)) return true;
     gui().Dispatch(&event);
     return Window::Dispatch(event);
