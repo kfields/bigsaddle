@@ -19,6 +19,8 @@ public:
     ~GuiViewport() {}
 
     virtual void Create(WindowParams params) override;
+    virtual void Destroy() override;
+    
     static GuiViewport& Produce(WindowParams params) {
         GuiViewport& r = *new GuiViewport(params);
         r.Create(params);
@@ -29,6 +31,7 @@ public:
 
     //Data members
     ImGuiViewport* viewport_;
+    bgfx::FrameBufferHandle frameBuffer_;
 };
 
 } //namespace bigsaddle

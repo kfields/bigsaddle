@@ -15,13 +15,24 @@
 namespace bigsaddle {
 
 GuiViewport::GuiViewport(WindowParams params) : Window(params),
-    viewport_(nullptr)
+    viewport_(nullptr), frameBuffer_(BGFX_INVALID_HANDLE)
 {
 }
 
 void GuiViewport::Create(WindowParams params) {
     Window::Create(params);
     Reset();
+}
+
+void GuiViewport::Destroy() {
+    if (bgfx::isValid(frameBuffer_)) {
+        destroy(frameBuffer_);
+        frameBuffer_.idx = BGFX_INVALID_HANDLE;
+        bgfx::setViewFrameBuffer(viewId(), BGFX_INVALID_HANDLE);
+        bgfx::frame();
+    }
+
+    Window::Destroy();
 }
 
 void GuiViewport::PostRender() {
