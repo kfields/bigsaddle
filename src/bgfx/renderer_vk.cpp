@@ -6693,7 +6693,7 @@ VK_DESTROY
 				sci.surface = (wl_surface*)m_nwh;
 				result = vkCreateWaylandSurfaceKHR(instance, &sci, allocatorCb, &m_surface);
 			}
-			if (VK_SUCCESS != result && NULL != vkCreateXlibSurfaceKHR)
+			/*if (NULL != vkCreateXlibSurfaceKHR)
 			{
 				VkXlibSurfaceCreateInfoKHR sci;
 				sci.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
@@ -6726,7 +6726,7 @@ VK_DESTROY
 
 					bx::dlclose(xcbdll);
 				}
-			}
+			}*/
 		}
 #elif BX_PLATFORM_OSX
 		{

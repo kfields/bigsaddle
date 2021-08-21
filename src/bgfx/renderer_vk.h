@@ -11,10 +11,11 @@
 #	define KHR_SURFACE_EXTENSION_NAME VK_KHR_ANDROID_SURFACE_EXTENSION_NAME
 #	define VK_IMPORT_INSTANCE_PLATFORM VK_IMPORT_INSTANCE_ANDROID
 #elif BX_PLATFORM_LINUX
-#	define VK_USE_PLATFORM_XLIB_KHR
-#	define VK_USE_PLATFORM_XCB_KHR
+//#	define VK_USE_PLATFORM_XLIB_KHR
+//#	define VK_USE_PLATFORM_XCB_KHR
 #	define VK_USE_PLATFORM_WAYLAND_KHR
-#	define KHR_SURFACE_EXTENSION_NAME VK_KHR_XCB_SURFACE_EXTENSION_NAME
+//#	define KHR_SURFACE_EXTENSION_NAME VK_KHR_XCB_SURFACE_EXTENSION_NAME
+#   define KHR_SURFACE_EXTENSION_NAME VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME
 #	define VK_IMPORT_INSTANCE_PLATFORM VK_IMPORT_INSTANCE_LINUX
 #elif BX_PLATFORM_WINDOWS
 #	define VK_USE_PLATFORM_WIN32_KHR
@@ -50,8 +51,11 @@
 			VK_IMPORT_INSTANCE_FUNC(true,  vkCreateAndroidSurfaceKHR); \
 
 #define VK_IMPORT_INSTANCE_LINUX                                                           \
+			VK_IMPORT_INSTANCE_FUNC(false,  vkCreateWaylandSurfaceKHR); \
+			VK_IMPORT_INSTANCE_FUNC(false,  vkGetPhysicalDeviceWaylandPresentationSupportKHR);
+
 			/* VK_KHR_xlib_surface */                                                      \
-			VK_IMPORT_INSTANCE_FUNC(true,  vkCreateXlibSurfaceKHR);                        \
+			//VK_IMPORT_INSTANCE_FUNC(true,  vkCreateXlibSurfaceKHR);                        \
 			VK_IMPORT_INSTANCE_FUNC(true,  vkGetPhysicalDeviceXlibPresentationSupportKHR); \
 			/* VK_KHR_xcb_surface */                                                       \
 			VK_IMPORT_INSTANCE_FUNC(true,  vkCreateXcbSurfaceKHR);                         \

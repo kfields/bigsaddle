@@ -13,8 +13,8 @@ set(SDL_HAPTIC OFF CACHE BOOL "Use haptic subsystem" FORCE)
 set(VIDEO_X11 ${BIG_WM_X11} CACHE BOOL "Enable X11 support" FORCE)
 set(VIDEO_WAYLAND ${BIG_WM_WAYLAND} CACHE BOOL "Enable Wayland support" FORCE)
 
-#set(WAYLAND_SHARED OFF CACHE BOOL "Enable Wayland support" FORCE)
-
+#set(WAYLAND_SHARED ON CACHE BOOL "Enable Wayland support" FORCE)
+#set(WAYLAND_LIBDECOR ON CACHE BOOL "Enable Wayland support" FORCE)
 #set(VIDEO_VULKAN ON CACHE BOOL "Enable Vulkan support" FORCE)
 #set(VIDEO_OPENGL OFF CACHE BOOL "Include OpenGL support" FORCE)
 #set(VIDEO_OPENGLES OFF CACHE BOOL "Include OpenGL support" FORCE)

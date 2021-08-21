@@ -23,9 +23,10 @@ void WaylandWindow::ReRender() {
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(window_, &wmInfo);
 
-    wl_surface* wnd = wmInfo.info.wl.surface;
+    wl_surface* surface = wmInfo.info.wl.surface;
     wl_display* display = wmInfo.info.wl.display;
-    wl_surface_damage_buffer(wnd, 0, 0, 1, 1);
+    //wl_surface_damage(surface, 0, 0, width(), height());
+    //wl_surface_commit(surface);
 }
 
 } //namespace bigsaddle

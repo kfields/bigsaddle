@@ -40,6 +40,7 @@ Uses ImGui docking branch with support for docking and viewports
 
     sudo apt install libwayland-dev
     sudo apt install libxkbcommon-dev
+    sudo add-apt-repository ppa:christianrauch/libdecoration
 
     cmake -DBIG_WM_WAYLAND=ON -DCMAKE_BUILD_TYPE=Debug ..
 

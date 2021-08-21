@@ -32,9 +32,6 @@ set(BGFX_SRC
     ${_}/shader.cpp
     ${_}/topology.cpp
     ${_}/debug_renderdoc.cpp
-
-    ${_}/renderer_vk.cpp
-    #renderer_vk.cpp
     ${_}/renderer_noop.cpp
     ${_}/renderer_d3d9.cpp
     ${_}/renderer_d3d11.cpp
@@ -53,6 +50,16 @@ set(BGFX_SRC
     ${_}/shader_dx9bc.cpp
     ${_}/shader_spirv.cpp
 )
+if(${BIG_WM_WAYLAND})
+set(BGFX_SRC ${BGFX_SRC}
+    renderer_vk.cpp
+)
+else()
+set(BGFX_SRC ${BGFX_SRC}
+    ${_}/renderer_vk.cpp
+)
+endif()
+
 if(WIN32)
 set(BGFX_SRC ${BGFX_SRC}
     ${_}/nvapi.cpp
