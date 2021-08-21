@@ -32,7 +32,17 @@ Uses ImGui docking branch with support for docking and viewports
     cd build-debug
     cmake -DCMAKE_BUILD_TYPE=Debug ..
 
+## Vulkan
+
+    cmake -DBIG_RENDERER_VULKAN=ON -DCMAKE_BUILD_TYPE=Debug ..
+
 ## Wayland
 
     sudo apt install libwayland-dev
     sudo apt install libxkbcommon-dev
+
+    cmake -DBIG_WM_WAYLAND=ON -DCMAKE_BUILD_TYPE=Debug ..
+
+## Vulkan and Wayland
+
+    cmake -DBIG_RENDERER_VULKAN=ON -DBIG_WM_WAYLAND=ON -DCMAKE_BUILD_TYPE=Debug ..

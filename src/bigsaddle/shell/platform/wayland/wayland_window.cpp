@@ -1,7 +1,7 @@
 #include "SDL.h"
 #include "SDL_syswm.h"
 
-//#include <wayland-client.h>
+#include <wayland-client.h>
 
 #include "wayland_window.h"
 
@@ -25,7 +25,7 @@ void WaylandWindow::ReRender() {
 
     wl_surface* wnd = wmInfo.info.wl.surface;
     wl_display* display = wmInfo.info.wl.display;
-    //wl_surface_damage_buffer(wnd, 0, 0, 1, 1);
+    wl_surface_damage_buffer(wnd, 0, 0, 1, 1);
 }
 
 } //namespace bigsaddle
