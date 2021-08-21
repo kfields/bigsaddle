@@ -31,3 +31,8 @@ Uses ImGui docking branch with support for docking and viewports
     mkdir build-debug
     cd build-debug
     cmake -DCMAKE_BUILD_TYPE=Debug ..
+
+## Wayland
+
+    sudo apt install libwayland-dev
+    sudo apt install libxkbcommon-dev

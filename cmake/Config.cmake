@@ -1,5 +1,7 @@
 include_guard()
 
+include(CMakeDependentOption)
+
 set(BIG_PLATFORM ${CMAKE_SYSTEM_NAME})
 
 set(BIG_PLATFORM_WINDOWS OFF)
@@ -28,7 +30,7 @@ if(${BIG_WM_X11})
     set(BIG_COMPILE_DEFS
         SDL_VIDEO_DRIVER_X11=1
     )
-else()
+elseif(${BIG_WM_WAYLAND})
     set(BIG_COMPILE_DEFS
         SDL_VIDEO_DRIVER_WAYLAND=1
     )
@@ -40,7 +42,7 @@ if(${BIG_RENDERER_GL})
         BGFX_CONFIG_RENDERER_OPENGLES=0
         BGFX_CONFIG_RENDERER_VULKAN=0
     )
-else()
+elseif(${BIG_RENDERER_VULKAN})
     set(BIG_COMPILE_DEFS ${BIG_COMPILE_DEFS}
         BGFX_CONFIG_RENDERER_OPENGL=0
         BGFX_CONFIG_RENDERER_OPENGLES=0

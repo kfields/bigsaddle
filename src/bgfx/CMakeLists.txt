@@ -33,8 +33,8 @@ set(BGFX_SRC
     ${_}/topology.cpp
     ${_}/debug_renderdoc.cpp
 
-    ${_}/renderer_vk.cpp
-    #renderer_vk.cpp
+    #${_}/renderer_vk.cpp
+    renderer_vk.cpp
     ${_}/renderer_noop.cpp
     ${_}/renderer_d3d9.cpp
     ${_}/renderer_d3d11.cpp

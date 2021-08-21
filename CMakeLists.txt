@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.4)
 
+include(./cmake/Config.cmake)
 #
 # SDL
 #
@@ -11,6 +12,7 @@ set(SDL_HAPTIC OFF CACHE BOOL "Use haptic subsystem" FORCE)
 
 set(VIDEO_X11 ${BIG_WM_X11} CACHE BOOL "Enable X11 support" FORCE)
 set(VIDEO_WAYLAND ${BIG_WM_WAYLAND} CACHE BOOL "Enable Wayland support" FORCE)
+
 #set(WAYLAND_SHARED OFF CACHE BOOL "Enable Wayland support" FORCE)
 
 #set(VIDEO_VULKAN ON CACHE BOOL "Enable Vulkan support" FORCE)

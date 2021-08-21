@@ -1,7 +1,7 @@
 #include "SDL.h"
 #include "SDL_syswm.h"
 
-#include <wayland-client.h>
+//#include <wayland-client.h>
 
 #include "wayland_window.h"
 
