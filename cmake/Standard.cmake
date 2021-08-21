@@ -7,12 +7,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/Config.cmake)
 function(USES_STD THIS)
     if(${BIG_PLATFORM} STREQUAL "Linux")
         target_compile_definitions(${THIS} PRIVATE
-        #SDL_VIDEO_DRIVER_X11=1
-        #SDL_VIDEO_VULKAN=1
-        #BGFX_CONFIG_RENDERER_VULKAN=1
-        #BGFX_CONFIG_RENDERER_OPENGL=0
-        #BGFX_CONFIG_RENDERER_OPENGLES=0
-        ${BIG_COMPILE_DEFS}
+            ${BIG_COMPILE_DEFS}
         )
     endif()
     target_compile_features(${THIS} PUBLIC cxx_std_17)

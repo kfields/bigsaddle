@@ -3,14 +3,15 @@ cmake_minimum_required(VERSION 3.4)
 #
 # SDL
 #
-#set(SDL_VIDEO OFF CACHE BOOL "Use video subsystem" FORCE)
+
+# Minimal build for now
 set(SDL_RENDER OFF CACHE BOOL "Use render subsystem" FORCE)
 set(SDL_AUDIO OFF CACHE BOOL "Use audio subsystem" FORCE)
-set(SDL_HAPTIC OFF CACHE BOOL "Use audio subsystem" FORCE)
+set(SDL_HAPTIC OFF CACHE BOOL "Use haptic subsystem" FORCE)
 
-set(VIDEO_X11 ON CACHE BOOL "Enable X11 support" FORCE)
-set(VIDEO_WAYLAND OFF CACHE BOOL "Enable Wayland support" FORCE)
-set(WAYLAND_SHARED OFF CACHE BOOL "Enable Wayland support" FORCE)
+set(VIDEO_X11 ${BIG_WM_X11} CACHE BOOL "Enable X11 support" FORCE)
+set(VIDEO_WAYLAND ${BIG_WM_WAYLAND} CACHE BOOL "Enable Wayland support" FORCE)
+#set(WAYLAND_SHARED OFF CACHE BOOL "Enable Wayland support" FORCE)
 
 #set(VIDEO_VULKAN ON CACHE BOOL "Enable Vulkan support" FORCE)
 #set(VIDEO_OPENGL OFF CACHE BOOL "Include OpenGL support" FORCE)
