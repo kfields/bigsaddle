@@ -167,11 +167,11 @@ void Gui::Init()
     // ("wayland" and "rpi" don't support it, but we chose to use a white-list instead of a black-list)
     const char* sdl_backend = SDL_GetCurrentVideoDriver();
     const char* global_mouse_whitelist[] = { "windows", "cocoa", "x11", "DIVE", "VMAN" };
-    bool mouse_can_use_global_state = false;
+
 #if SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE
     for (int n = 0; n < IM_ARRAYSIZE(global_mouse_whitelist); n++)
         if (strncmp(sdl_backend, global_mouse_whitelist[n], strlen(global_mouse_whitelist[n])) == 0)
-            mouse_can_use_global_state = true;
+            mouseCanUseGlobalState_ = true;
 #endif
 
     // Setup backend capabilities flags
@@ -179,10 +179,8 @@ void Gui::Init()
     io.BackendPlatformName = "BigSaddle";
     io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;           // We can honor GetMouseCursor() values (optional)
     io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;            // We can honor io.WantSetMousePos requests (optional, rarely used)
-    if (mouse_can_use_global_state)
+    if (mouseCanUseGlobalState_)
         io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;// | ImGuiBackendFlags_RendererHasViewports;  // We can create multi-viewports on the Platform side (optional)
-
-    mouseCanUseGlobalState_ = mouse_can_use_global_state;
 
     // Keyboard mapping. Dear ImGui will use those indices to peek into the io.KeysDown[] array.
     io.KeyMap[ImGuiKey_Tab] = SDL_SCANCODE_TAB;

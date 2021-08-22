@@ -50,7 +50,6 @@ public:
     SDL_Cursor* mouseCursors_[ImGuiMouseCursor_COUNT];
     static char* clipboardTextData_;
     bool        mouseCanUseGlobalState_ = false;
-    bool        useVulkan_ = false;
 };
 
 } //namespace bigsaddle
