@@ -13,19 +13,14 @@ elseif(${BIG_PLATFORM} STREQUAL "Linux")
     set(BIG_PLATFORM_LINUX ON)
 endif()
 
-option(BIG_WM_WAYLAND "Use Wayland" OFF)
-cmake_dependent_option(BIG_WM_X11 "Use X11" ON
-                       "BIG_PLATFORM_LINUX; NOT BIG_WM_WAYLAND" OFF)
-#set(BIG_WM_X11 1)
-#set(BIG_WM_WAYLAND 1)
-
 option(BIG_RENDERER_VULKAN "Use Vulkan" OFF)
 cmake_dependent_option(BIG_RENDERER_GL "Use GL" ON
                        "BIG_PLATFORM_LINUX; NOT BIG_RENDERER_VULKAN" OFF)
 
-#set(BIG_RENDERER_GL 1)
-#set(BIG_RENDERER_VULKAN 1)
-
+option(BIG_WM_WAYLAND "Use Wayland" OFF)
+cmake_dependent_option(BIG_WM_X11 "Use X11" ON
+                        "BIG_PLATFORM_LINUX; NOT BIG_WM_WAYLAND" OFF)
+                       
 if(${BIG_WM_X11})
     set(BIG_COMPILE_DEFS
         SDL_VIDEO_DRIVER_X11=1

@@ -36,12 +36,19 @@ void App::Create(WindowParams params) {
 
     CreateGui();
 
-    /*paint_thread_ = std::thread([this]() {
+    paint_thread_ = std::thread([this]() {
         while (state_ == State::kRunning) {
             std::this_thread::sleep_for(std::chrono::milliseconds(16));
-            ReRender();
+            //ReRender();
+            SDL_Event event;
+            event.type = SDL_WINDOWEVENT;
+            event.window.event = SDL_WINDOWEVENT_EXPOSED;
+            event.window.data1 = 0;
+            event.window.data2 = 0;
+            event.window.windowID = windowId_;
+            SDL_PushEvent(&event);
         }
-    });*/
+    });
 }
 
 void App::CreateGfx() {
@@ -108,18 +115,18 @@ int App::Run() {
     Show();
 
     while (state_ == State::kRunning) {
-        Render();
-
         SDL_Event event;
-        /*SDL_WaitEvent(&event);
+        SDL_WaitEvent(&event);
         if (!Dispatch(event)) {
             state_ = State::kShutdown;
-        }*/
+        }
+        /*Render();
+        SDL_Event event;
         while (SDL_PollEvent(&event)) {  // poll until all events are handled!
             if (!Dispatch(event)) {
                 state_ = State::kShutdown;
             }
-        }
+        }*/
     }
 
     Destroy();
