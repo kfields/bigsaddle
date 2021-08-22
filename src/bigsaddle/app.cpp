@@ -39,14 +39,14 @@ void App::Create(WindowParams params) {
     paint_thread_ = std::thread([this]() {
         while (state_ == State::kRunning) {
             std::this_thread::sleep_for(std::chrono::milliseconds(16));
-            //ReRender();
-            SDL_Event event;
+            ReRender();
+            /*SDL_Event event;
             event.type = SDL_WINDOWEVENT;
             event.window.event = SDL_WINDOWEVENT_EXPOSED;
             event.window.data1 = 0;
             event.window.data2 = 0;
             event.window.windowID = windowId_;
-            SDL_PushEvent(&event);
+            SDL_PushEvent(&event);*/
         }
     });
 }
@@ -115,18 +115,21 @@ int App::Run() {
     Show();
 
     while (state_ == State::kRunning) {
+        #if defined WIN32
         SDL_Event event;
         SDL_WaitEvent(&event);
         if (!Dispatch(event)) {
             state_ = State::kShutdown;
         }
-        /*Render();
+        #else
+        Render();
         SDL_Event event;
         while (SDL_PollEvent(&event)) {  // poll until all events are handled!
             if (!Dispatch(event)) {
                 state_ = State::kShutdown;
             }
-        }*/
+        }
+        #endif
     }
 
     Destroy();
