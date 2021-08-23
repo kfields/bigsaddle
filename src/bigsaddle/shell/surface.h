@@ -12,6 +12,11 @@ namespace bigsaddle {
 
 class Surface : public Dispatcher {
 public:
+    enum class ResetKind {
+        kSoft,
+        kHard
+    };
+
     Surface();
     virtual ~Surface();
 
@@ -32,7 +37,7 @@ public:
     virtual void Draw() {}
     virtual void PostRender() {}
 
-    virtual void Reset() {}
+    virtual void Reset(ResetKind kind = ResetKind::kHard) {}
 
     //Accessors
     uint16_t viewId() { return viewId_; }

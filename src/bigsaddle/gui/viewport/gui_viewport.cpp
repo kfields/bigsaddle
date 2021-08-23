@@ -40,8 +40,14 @@ void GuiViewport::PostRender() {
     Window::PostRender();
 }
 
-void GuiViewport::Reset()
+void GuiViewport::Reset(ResetKind kind)
 {
+    if (kind == ResetKind::kSoft) {
+        if (bgfx::isValid(frameBuffer_))
+            bgfx::setViewFrameBuffer(viewId(), frameBuffer_);
+        return;
+    }
+    
     if (bgfx::isValid(frameBuffer_))
         destroy(frameBuffer_);
     void* nh = GetHandle();

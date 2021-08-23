@@ -20,7 +20,7 @@ public:
     virtual bool Dispatch(const SDL_Event& event) override;
     virtual void PreRender() override;
     virtual void PostRender() override;
-    virtual void Reset() override;
+    virtual void Reset(ResetKind kind = ResetKind::kHard) override;
 
     int Run();
 

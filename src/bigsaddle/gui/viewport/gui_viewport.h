@@ -27,7 +27,7 @@ public:
         return r;
     }
     virtual void PostRender();
-    virtual void Reset() override;
+    virtual void Reset(ResetKind kind = ResetKind::kHard) override;
 
     //Data members
     ImGuiViewport* viewport_;

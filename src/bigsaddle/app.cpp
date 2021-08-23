@@ -62,12 +62,12 @@ void App::CreateGui(){
     gui_ = &Gui::Produce(*this);
 }
 
-void App::Reset()
+void App::Reset(ResetKind kind)
 {
     bgfx::reset(width(), height(), resetFlags_);
     bgfx::setViewRect(viewId(), 0, 0, width(), height());
     for (auto child : children_) {
-        child->Reset();
+        child->Reset(ResetKind::kSoft);
     }
 }
 
