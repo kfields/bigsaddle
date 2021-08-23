@@ -18,8 +18,6 @@ class WaylandWindow : public WindowBase {
     WaylandWindow(WindowParams params = WindowParams()) : WindowBase(params) {}
     virtual ~WaylandWindow();
 
-    virtual void ReRender() override;
-
     wl_surface* GetNativeHandle();
     virtual void* GetHandle() override { return (void*)GetNativeHandle(); }
 };

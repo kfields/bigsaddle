@@ -83,7 +83,7 @@ void App::PreRender() {
 
 void App::PostRender() {
     gui().Render();
-    bgfx::touch(viewId());
+    //bgfx::touch(viewId());
     bgfx::frame();
     Window::PostRender();
 }

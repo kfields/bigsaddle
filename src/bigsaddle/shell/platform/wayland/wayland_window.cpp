@@ -18,15 +18,4 @@ wl_surface* WaylandWindow::GetNativeHandle() {
     return hwnd;
 }
 
-void WaylandWindow::ReRender() {
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(window_, &wmInfo);
-
-    wl_surface* surface = wmInfo.info.wl.surface;
-    wl_display* display = wmInfo.info.wl.display;
-    //wl_surface_damage(surface, 0, 0, width(), height());
-    //wl_surface_commit(surface);
-}
-
 } //namespace bigsaddle

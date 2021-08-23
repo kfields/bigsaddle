@@ -17,8 +17,6 @@ class X11Window : public WindowBase {
     X11Window(WindowParams params = WindowParams()) : WindowBase(params) {}
     virtual ~X11Window();
 
-    virtual void ReRender() override;
-
     XWindow GetNativeHandle();
     virtual void* GetHandle() override { return (void*)GetNativeHandle(); }
 };

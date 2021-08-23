@@ -31,7 +31,6 @@ public:
     virtual void PreRender() {}
     virtual void Draw() {}
     virtual void PostRender() {}
-    virtual void ReRender() {}
 
     //Accessors
     uint16_t viewId() { return viewId_; }
