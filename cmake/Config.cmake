@@ -13,9 +13,9 @@ elseif(${BIG_PLATFORM} STREQUAL "Linux")
     set(BIG_PLATFORM_LINUX ON)
 endif()
 
-option(BIG_RENDERER_VULKAN "Use Vulkan" OFF)
-cmake_dependent_option(BIG_RENDERER_GL "Use GL" ON
-                       "BIG_PLATFORM_LINUX; NOT BIG_RENDERER_VULKAN" OFF)
+option(BIG_RENDERER_GL "Use GL" OFF)
+cmake_dependent_option(BIG_RENDERER_VULKAN "Use Vulkan" ON
+                       "BIG_PLATFORM_LINUX; NOT BIG_RENDERER_GL" OFF)
 
 option(BIG_WM_WAYLAND "Use Wayland" OFF)
 cmake_dependent_option(BIG_WM_X11 "Use X11" ON

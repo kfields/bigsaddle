@@ -79,7 +79,7 @@ USES_STD(${THIS})
 
 #TODO:PRIxPTR???
 if(BGFX_COMPATIBILITY)
-target_compile_definitions(${THIS} PRIVATE PRIxPTR="Ix")
+    target_compile_definitions(${THIS} PRIVATE PRIxPTR="Ix")
 endif()
 
 install(TARGETS ${THIS} EXPORT BgfxTargets
@@ -88,7 +88,7 @@ install(TARGETS ${THIS} EXPORT BgfxTargets
 )
 
 # add include files
-target_sources(${THIS} PRIVATE ${AIMGFX_INCLUDE}) # for intellisense
+target_sources(${THIS} PRIVATE ${BGFX_HEADERS}) # for intellisense
 target_include_directories(${THIS}
 	PUBLIC
 		$<INSTALL_INTERFACE:include>

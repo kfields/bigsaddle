@@ -19,8 +19,6 @@ XWindow X11Window::GetNativeHandle() {
 }
 
 void X11Window::ReRender() {
-    if (window_ == nullptr)
-        return;
     SDL_SysWMinfo wmInfo;
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(window_, &wmInfo);

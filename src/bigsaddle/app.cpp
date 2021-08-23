@@ -22,7 +22,6 @@ App::~App() {
 }
 
 void App::Destroy() {
-    paint_thread_.join();
     bgfx::frame();
     delete gui_;
     bgfx::shutdown();
@@ -35,20 +34,6 @@ void App::Create(WindowParams params) {
     CreateGfx();
 
     CreateGui();
-
-    paint_thread_ = std::thread([this]() {
-        while (state_ == State::kRunning) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(16));
-            ReRender();
-            /*SDL_Event event;
-            event.type = SDL_WINDOWEVENT;
-            event.window.event = SDL_WINDOWEVENT_EXPOSED;
-            event.window.data1 = 0;
-            event.window.data2 = 0;
-            event.window.windowID = windowId_;
-            SDL_PushEvent(&event);*/
-        }
-    });
 }
 
 void App::CreateGfx() {
@@ -60,7 +45,6 @@ void App::CreateGfx() {
     SDL_GetWindowWMInfo(window_, &wmInfo);
 
     setup_bgfx_platform_data(pd, wmInfo);
-    //pd.nwh = GetHandle();
 
     bgfx::Init bgfx_init;
     bgfx_init.type = bgfx::RendererType::Count; // auto choose renderer
@@ -114,22 +98,26 @@ int App::Run() {
 
     Show();
 
+    const int FPS = 60;
+    const int frameDelay = 1000 / FPS;
+    Uint32 frameStart;
+    int frameTime;
+
     while (state_ == State::kRunning) {
-        #if defined WIN32
+        frameStart = SDL_GetTicks();
+
         SDL_Event event;
-        SDL_WaitEvent(&event);
-        if (!Dispatch(event)) {
-            state_ = State::kShutdown;
-        }
-        #else
-        Render();
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {  // poll until all events are handled!
+        while (SDL_PollEvent(&event)) {
             if (!Dispatch(event)) {
                 state_ = State::kShutdown;
             }
         }
-        #endif
+        Render();
+
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > frameTime) {
+            SDL_Delay(frameDelay - frameTime);
+        }
     }
 
     Destroy();

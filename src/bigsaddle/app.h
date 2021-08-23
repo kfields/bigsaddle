@@ -26,7 +26,6 @@ public:
 
     //Data members
     State state_;
-    std::thread paint_thread_;
     uint32_t resetFlags_;
 
 };

@@ -5,7 +5,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/Standard.cmake)
 function(USES_BGFX THIS)
     USES_STD(${THIS})
     target_include_directories(${THIS} PRIVATE
-        #${BX_ROOT}/include/compat/msvc
         ${BGFX_COMPATIBILITY}
         ${BX_ROOT}/include
         ${BX_ROOT}/3rdparty
