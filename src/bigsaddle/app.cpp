@@ -54,8 +54,7 @@ void App::CreateGfx() {
     bgfx_init.platformData = pd;
     bgfx::init(bgfx_init);
 
-    bgfx::setViewClear(
-        viewId(), BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x11111111, 1.0f, 0);
+    bgfx::setViewClear(viewId(), BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH);
     bgfx::setViewRect(viewId(), 0, 0, width(), height());
 }
 
@@ -83,7 +82,7 @@ void App::PreRender() {
 
 void App::PostRender() {
     gui().Render();
-    //bgfx::touch(viewId());
+    bgfx::touch(viewId());
     bgfx::frame();
     Window::PostRender();
 }
