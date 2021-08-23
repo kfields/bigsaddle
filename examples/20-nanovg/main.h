@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include <bx/bx.h>
 #include <bx/timer.h>
 #include <bx/math.h>
