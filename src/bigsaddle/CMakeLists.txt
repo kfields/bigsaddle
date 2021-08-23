@@ -13,7 +13,6 @@ set(BIG_HEADERS
 
 set(BIG_SRC
     app.cpp
-    stb.cpp
 )
 
 add_library(${THIS} ${BIG_SRC} ${BIG_HEADERS})
