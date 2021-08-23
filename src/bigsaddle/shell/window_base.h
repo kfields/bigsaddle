@@ -65,7 +65,6 @@ public:
     virtual bool DispatchWindowEvent(const SDL_Event& event) override;
 
     virtual void OnSize();
-    virtual void Reset() {}
     //
     virtual void* GetHandle() { return nullptr; }
     //

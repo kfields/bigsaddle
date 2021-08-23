@@ -32,6 +32,8 @@ public:
     virtual void Draw() {}
     virtual void PostRender() {}
 
+    virtual void Reset() {}
+
     //Accessors
     uint16_t viewId() { return viewId_; }
     void SetViewId(uint16_t id) { viewId_ = id; }

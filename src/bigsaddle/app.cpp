@@ -65,6 +65,10 @@ void App::CreateGui(){
 void App::Reset()
 {
     bgfx::reset(width(), height(), resetFlags_);
+    bgfx::setViewRect(viewId(), 0, 0, width(), height());
+    for (auto child : children_) {
+        child->Reset();
+    }
 }
 
 bool App::Dispatch(const SDL_Event& event) {

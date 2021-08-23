@@ -3,15 +3,16 @@
 using namespace bigsaddle;
 
 //void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float height, float t, int blowup, struct DemoData* data)
-void renderDemo(struct NVGcontext* vg, float width, float height, float t)
+//void renderDemo(struct NVGcontext* vg, float width, float height, float t)
+void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float height, float t)
 {
 	float x, y, popx, popy;
 
-	/*drawEyes(vg, width - 800, height - 240, 150, 100, mx, my, t);
-	drawParagraph(vg, width - 550, 35, 150, 100, mx, my);*/
+	drawEyes(vg, width - 800, height - 240, 150, 100, mx, my, t);
+	drawParagraph(vg, width - 550, 35, 150, 100, mx, my);
 	drawGraph(vg, 0, height / 2, width, height / 2, t);
 
-	/*drawColorwheel(vg, width - 350, 35, 250.0f, 250.0f, t);
+	drawColorwheel(vg, width - 350, 35, 250.0f, 250.0f, t);
 
 	// Line joints
 	drawLines(vg, 50, height - 50, 600, 35, t);
@@ -25,7 +26,7 @@ void renderDemo(struct NVGcontext* vg, float width, float height, float t)
 	drawScissor(vg, 40, height - 150, t);
 
 	nvgSave(vg);
-	if (blowup)
+	/*if (blowup)
 	{
 		nvgRotate(vg, sinf(t * 0.3f) * 5.0f / 180.0f * NVG_PI);
 		nvgScale(vg, 2.0f, 2.0f);
@@ -69,8 +70,8 @@ void renderDemo(struct NVGcontext* vg, float width, float height, float t)
 
 	// Blendish
 	drawBlendish(vg, 10, 62, 600.0f, 420.0f, t);
-
-	nvgRestore(vg);*/
+	*/
+	nvgRestore(vg);
 }
 
 class MyApp : public App {
@@ -105,12 +106,16 @@ public:
 		x = width - 520; y = height - 420;
 
 		nvgBeginFrame(nvg_, width, height, 1.0f);
-		//renderDemo(nvg_, float(m_mouseState.m_mx), float(m_mouseState.m_my), float(m_width), float(m_height), time, 0, &m_data);
+
 		int64_t now = bx::getHPCounter();
 		const double freq = double(bx::getHPFrequency());
 		float time = (float)((now - timeOffset_) / freq);
 
-		renderDemo(nvg_, width, height, time);
+		int mx, my;
+		//Uint32 SDL_GetGlobalMouseState(int* x, int* y);
+		Uint32 mState = SDL_GetGlobalMouseState(&mx, &my);
+		//renderDemo(nvg_, float(m_mouseState.m_mx), float(m_mouseState.m_my), float(m_width), float(m_height), time, 0, &m_data);
+		renderDemo(nvg_, float(mx), float(my), width, height, time);
 		nvgEndFrame(nvg_);
 
 		ImGui::ShowDemoWindow();

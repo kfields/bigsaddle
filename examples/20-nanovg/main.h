@@ -1,5 +1,8 @@
 #include <bx/bx.h>
 #include <bx/timer.h>
+#include <bx/math.h>
+#include <bx/string.h>
+
 #include <imgui/imgui.h>
 #include <nanovg/nanovg.h>
 #include <bigsaddle/app.h>
@@ -12,6 +15,16 @@
 #define ICON_TRASH 0xE729
 
 extern char* cpToUTF8(int cp, char* str);
+
 extern void drawWindow(struct NVGcontext* vg, const char* title, float x, float y, float w, float h);
 extern void drawSearchBox(struct NVGcontext* vg, const char* text, float x, float y, float w, float h);
+extern void drawEyes(struct NVGcontext* vg, float x, float y, float w, float h, float mx, float my, float t);
+extern void drawParagraph(struct NVGcontext* vg, float x, float y, float width, float height, float mx, float my);
+
+extern void drawLines(struct NVGcontext* vg, float x, float y, float w, float h, float t);
+extern void drawWidths(struct NVGcontext* vg, float x, float y, float width);
+extern void drawCaps(struct NVGcontext* vg, float x, float y, float width);
+
 extern void drawGraph(struct NVGcontext* vg, float x, float y, float w, float h, float t);
+extern void drawColorwheel(struct NVGcontext* vg, float x, float y, float w, float h, float t);
+extern void drawScissor(struct NVGcontext* vg, float x, float y, float t);

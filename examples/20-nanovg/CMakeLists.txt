@@ -16,7 +16,12 @@ set(BIG_SRC
     util.cpp
     window.cpp
     searchbox.cpp
+    eyes.cpp
+    paragraph.cpp
+    lines.cpp
     graph.cpp
+    colorwheel.cpp
+    scissor.cpp
 )
 
 add_executable(${THIS} ${BIG_SRC} ${BIG_HEADERS})
