@@ -78,7 +78,7 @@ add_library(${THIS} STATIC
 USES_STD(${THIS})
 
 #TODO:PRIxPTR???
-if(BGFX_COMPATIBILITY)
+if(BX_COMPATIBILITY)
     target_compile_definitions(${THIS} PRIVATE PRIxPTR="Ix")
 endif()
 
@@ -96,7 +96,7 @@ target_include_directories(${THIS}
         $<BUILD_INTERFACE:${BGFX_ROOT}>
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${BGFX_COMPATIBILITY}
+        ${BX_COMPATIBILITY}
         ${BX_ROOT}/include
         ${BX_ROOT}/3rdparty
         ${BIMG_ROOT}/include

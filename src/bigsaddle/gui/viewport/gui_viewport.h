@@ -18,12 +18,12 @@ public:
     GuiViewport(WindowParams params = WindowParams());
     ~GuiViewport() {}
 
-    virtual void Create(WindowParams params) override;
+    virtual void Create() override;
     virtual void Destroy() override;
     
     static GuiViewport& Produce(WindowParams params) {
         GuiViewport& r = *new GuiViewport(params);
-        r.Create(params);
+        r.Create();
         return r;
     }
     virtual void PostRender();

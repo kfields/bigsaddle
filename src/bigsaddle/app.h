@@ -13,7 +13,7 @@ public:
 
     App(WindowParams params = WindowParams());
     virtual ~App();
-    virtual void Create(WindowParams params = WindowParams()) override;
+    virtual void Create() override;
     virtual void CreateGfx();
     virtual void CreateGui();
     virtual void Destroy() override;

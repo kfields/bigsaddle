@@ -28,8 +28,8 @@ void App::Destroy() {
     Window::Destroy();
 }
 
-void App::Create(WindowParams params) {
-    Window::Create(params);
+void App::Create() {
+    Window::Create();
 
     CreateGfx();
 
@@ -93,9 +93,7 @@ int App::Run() {
         return 1;
     }
 
-    Create();
-
-    Show();
+    CreateAndShow();
 
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;

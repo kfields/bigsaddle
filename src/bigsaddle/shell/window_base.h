@@ -51,11 +51,11 @@ public:
     WindowBase(WindowParams params = WindowParams());
     virtual ~WindowBase();
 
-    virtual void Create(WindowParams params = WindowParams());
+    virtual void Create();
     virtual void Destroy() override;
 
-    void CreateAndShow(WindowParams params = WindowParams()) {
-        Create(params);
+    void CreateAndShow() {
+        Create();
         Show();
     }
     virtual void Show();

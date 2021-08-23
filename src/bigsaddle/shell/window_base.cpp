@@ -34,7 +34,7 @@ void WindowBase::Destroy() {
     Surface::Destroy();
 }
 
-void WindowBase::Create(WindowParams params) {
+void WindowBase::Create() {
     window_ = SDL_CreateWindow(
       title_.c_str(), x(), y(), width(),
       height(), flags_);

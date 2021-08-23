@@ -22,10 +22,7 @@ HWND Win32Window::GetNativeHandle() {
 }
 
 int Win32Window::AttachTo(HWND hParent) {
-  Point origin(10, 10);
-  Size size(1280, 720);
-
-  CreateAndShow(WindowParams("NoName", origin, size));
+  CreateAndShow();
 
   HWND hWnd = GetNativeHandle();
   SetParent(hWnd, hParent);
