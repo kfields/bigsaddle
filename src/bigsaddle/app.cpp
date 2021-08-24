@@ -16,7 +16,11 @@ namespace bigsaddle {
 
 static void setup_bgfx_platform_data(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi);
 
-App::App(WindowParams params) : Window(params), state_(State::kRunning), resetFlags_(BGFX_RESET_VSYNC) {}
+App::App(WindowParams params) : Window(params),
+    state_(State::kRunning),
+    resetFlags_(BGFX_RESET_VSYNC),
+    debugFlags_(BGFX_DEBUG_TEXT)
+    {}
 
 App::~App() {
 }

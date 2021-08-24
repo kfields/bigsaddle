@@ -27,6 +27,7 @@ public:
     //Data members
     State state_;
     uint32_t resetFlags_;
+    uint32_t debugFlags_;
 
 };
 
