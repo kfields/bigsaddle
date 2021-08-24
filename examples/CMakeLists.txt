@@ -5,6 +5,7 @@ project(BigExamples LANGUAGES CXX)
 set(THIS ${PROJECT_NAME})
 
 include(${BIG_ROOT}/cmake/Big.cmake)
+include(${BIG_ROOT}/cmake/Utils.cmake)
 
 set(HEADERS
     example_app.h
@@ -16,6 +17,7 @@ set(SOURCES
 
 add_library(${THIS} ${HEADERS} ${SOURCES})
 USES_BIG(${THIS})
+USES_UTILS(${THIS})
 
 add_subdirectory(00-helloworld)
 add_subdirectory(20-nanovg)
