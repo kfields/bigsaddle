@@ -20,4 +20,5 @@ USES_BIG(${THIS})
 USES_UTILS(${THIS})
 
 add_subdirectory(00-helloworld)
+add_subdirectory(01-cubes)
 add_subdirectory(20-nanovg)
