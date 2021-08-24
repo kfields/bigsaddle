@@ -5,7 +5,7 @@ project(NanoVG VERSION "0.1")
 set(THIS ${PROJECT_NAME})
 
 include(../../cmake/Bgfx.cmake)
-include(../../cmake/Stb.cmake)
+include(../../cmake/Utils.cmake)
 
 set(NVG_HEADERS
     ${NVG_ROOT}/nanovg.h
@@ -22,4 +22,4 @@ add_library(${THIS} STATIC
   ${NVG_SRC}
 )
 USES_BGFX(${THIS})
-USES_STB(${THIS})
+USES_UTILS(${THIS})

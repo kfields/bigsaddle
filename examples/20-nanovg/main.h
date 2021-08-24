@@ -7,7 +7,6 @@
 
 #include <imgui/imgui.h>
 #include <nanovg/nanovg.h>
-#include <bigsaddle/app.h>
 
 #define ICON_SEARCH 0x1F50D
 #define ICON_CIRCLED_CROSS 0x2716
@@ -15,6 +14,16 @@
 #define ICON_CHECK 0x2713
 #define ICON_LOGIN 0xE740
 #define ICON_TRASH 0xE729
+
+struct DemoData
+{
+	int fontNormal, fontBold, fontIcons, fontEmoji;
+	int images[12];
+};
+
+//extern int32_t createImage(struct NVGcontext* _ctx, const char* _filePath, int _imageFlags);
+extern int loadDemoData(struct NVGcontext* vg, struct DemoData* data);
+extern void freeDemoData(struct NVGcontext* vg, struct DemoData* data);
 
 extern char* cpToUTF8(int cp, char* str);
 

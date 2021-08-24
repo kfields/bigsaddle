@@ -4,7 +4,7 @@ project(00-helloworld LANGUAGES CXX)
 
 set(THIS ${PROJECT_NAME})
 
-include(../../cmake/Big.cmake)
+include(${BIG_ROOT}/cmake/Examples.cmake)
 
 set(BIG_HEADERS
 )
@@ -14,4 +14,4 @@ set(BIG_SRC
 )
 
 add_executable(${THIS} ${BIG_SRC} ${BIG_HEADERS})
-USES_BIG(${THIS})
+USES_EXAMPLES(${THIS})

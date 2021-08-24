@@ -17,6 +17,8 @@ add_subdirectory(${BIMG_ROOT}/3rdparty/astc-codec astc-codec)
 set(BIMG_SRC
   ${BIMG_ROOT}/src/image.cpp
   ${BIMG_ROOT}/src/image_gnf.cpp
+  ${BIMG_ROOT}/src/image_decode.cpp
+  ${BIMG_ROOT}/3rdparty/tinyexr/deps/miniz/miniz.c
 )
 
 set(BGFX_HEADERS
@@ -101,6 +103,7 @@ target_include_directories(${THIS}
         ${BX_ROOT}/3rdparty
         ${BIMG_ROOT}/include
         ${BIMG_ROOT}/3rdparty
+        ${BIMG_ROOT}/3rdparty/tinyexr/deps/miniz
         ${BGFX_ROOT}/include
         ${BGFX_ROOT}/src
         ${BGFX_ROOT}/3rdparty
@@ -109,3 +112,5 @@ target_include_directories(${THIS}
 )
 
 target_link_libraries(${THIS} PRIVATE astc-codec)
+
+add_subdirectory(utils)

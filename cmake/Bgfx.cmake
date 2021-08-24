@@ -8,8 +8,10 @@ function(USES_BGFX THIS)
         ${BX_COMPATIBILITY}
         ${BX_ROOT}/include
         ${BX_ROOT}/3rdparty
+
         ${BIMG_ROOT}/include
         ${BIMG_ROOT}/3rdparty
+
         ${BGFX_ROOT}/include
         ${BGFX_ROOT}/3rdparty
         ${BGFX_ROOT}/3rdparty/khronos

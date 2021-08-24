@@ -8,6 +8,7 @@ function(USES_STD THIS)
     if(${BIG_PLATFORM} STREQUAL "Linux")
         target_compile_definitions(${THIS} PRIVATE
             ${BIG_COMPILE_DEFS}
+            NOMINMAX
         )
     endif()
     target_compile_features(${THIS} PUBLIC cxx_std_17)

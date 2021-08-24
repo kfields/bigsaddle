@@ -22,11 +22,6 @@ add_subdirectory(lib/sdl)
 add_subdirectory(src/bgfx)
 
 #
-# Stb
-#
-add_subdirectory(src/stb)
-
-#
 # NanoVG
 #
 add_subdirectory(src/nanovg)

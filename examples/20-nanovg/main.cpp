@@ -1,5 +1,7 @@
 #include "main.h"
 
+#include <examples/example_app.h>
+
 using namespace bigsaddle;
 
 //void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float height, float t, int blowup, struct DemoData* data)
@@ -74,19 +76,20 @@ void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float he
 	nvgRestore(vg);
 }
 
-class MyApp : public App {
+class MyApp : public ExampleApp {
 public:
     MyApp() : nvg_(nullptr) {
         
     }
     virtual void Create() override {
-        App::Create();
+        ExampleApp::Create();
 		timeOffset_ = bx::getHPCounter();
         int32_t edgeAntiAlias = 1;
         nvg_ = nvgCreate(edgeAntiAlias, viewId_);
+        loadDemoData(nvg_, &data_);
     }
 	virtual void CreateGfx() override {
-		App::CreateGfx();
+		ExampleApp::CreateGfx();
 		bgfx::setViewClear(0
 			, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
 			, 0x303030ff
@@ -95,11 +98,12 @@ public:
 		);
 	}
     virtual void Destroy() override {
+        freeDemoData(nvg_, &data_);
         nvgDelete(nvg_);
-        App::Destroy();
+		ExampleApp::Destroy();
     }
     virtual void Draw() override {
-        App::Draw();
+        ExampleApp::Draw();
 		float width = size_.width;
 		float height = size_.height;
 		float x, y, popx, popy;
@@ -112,8 +116,7 @@ public:
 		float time = (float)((now - timeOffset_) / freq);
 
 		int mx, my;
-		//Uint32 SDL_GetGlobalMouseState(int* x, int* y);
-		Uint32 mState = SDL_GetGlobalMouseState(&mx, &my);
+		Uint32 mState = SDL_GetMouseState(&mx, &my);
 		//renderDemo(nvg_, float(m_mouseState.m_mx), float(m_mouseState.m_my), float(m_width), float(m_height), time, 0, &m_data);
 		renderDemo(nvg_, float(mx), float(my), width, height, time);
 		nvgEndFrame(nvg_);
@@ -124,6 +127,7 @@ public:
     //Data members
     NVGcontext* nvg_;
 	int64_t timeOffset_;
+    DemoData data_;
 };
 
 int main(int argc, char** argv)

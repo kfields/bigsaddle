@@ -1,15 +1,15 @@
 #include <imgui.h>
 
-#include <bigsaddle/app.h>
+#include <examples/example_app.h>
 
 using namespace bigsaddle;
 
-class MyApp : public App {
+class MyApp : public ExampleApp {
 public:
     MyApp() {
     }
     virtual void Draw() override {
-        App::Draw();
+        ExampleApp::Draw();
         ImGui::ShowDemoWindow();
     }
     //Data members

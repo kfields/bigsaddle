@@ -51,6 +51,7 @@ set(BX_ROOT ${BIG_ROOT}/lib/bx)
 set(BIMG_ROOT ${BIG_ROOT}/lib/bimg)
 set(BGFX_ROOT ${BIG_ROOT}/lib/bgfx)
 set(NVG_ROOT ${BIG_ROOT}/lib/bgfx/examples/common/nanovg)
+set(EXAMPLES_ROOT ${BIG_ROOT}/examples)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 set(BX_COMPATIBILITY ${BX_ROOT}/include/compat/msvc)

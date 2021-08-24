@@ -1,9 +1,9 @@
 include_guard()
 
-include(${CMAKE_CURRENT_LIST_DIR}/Stb.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Utils.cmake)
 
 function(USES_NVG THIS)
-  USES_STB(${THIS})
+  USES_UTILS(${THIS})
   target_include_directories(${THIS} PRIVATE
     ${NVG_ROOT}
   )
