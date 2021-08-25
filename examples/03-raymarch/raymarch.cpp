@@ -105,6 +105,7 @@ public:
 
     virtual void Create() override {
         ExampleApp::Create();
+		viewId1_ = AllocViewId();
 		// Create vertex stream declaration.
 		PosColorTexCoord0Vertex::init();
 
@@ -129,10 +130,10 @@ public:
         ShowExampleDialog();
 
         // Set view 0 default viewport.
-        bgfx::setViewRect(0, 0, 0, uint16_t(width()), uint16_t(height()) );
+        bgfx::setViewRect(viewId_, 0, 0, uint16_t(width()), uint16_t(height()) );
 
         // Set view 1 default viewport.
-        bgfx::setViewRect(1, 0, 0, uint16_t(width()), uint16_t(height()) );
+        bgfx::setViewRect(viewId1_, 0, 0, uint16_t(width()), uint16_t(height()) );
 
 		// This dummy draw call is here to make sure that view 0 is cleared
 		// if no other draw calls are submitted to viewZ 0.
@@ -148,14 +149,14 @@ public:
         const bgfx::Caps* caps = bgfx::getCaps();
         bx::mtxProj(proj, 60.0f, float(height())/float(height()), 0.1f, 100.0f, caps->homogeneousDepth);
 
-        // Set view and projection matrix for view 1.
-        bgfx::setViewTransform(0, view, proj);
+        // Set view and projection matrix for view 0.
+        bgfx::setViewTransform(viewId_, view, proj);
 
         float ortho[16];
         bx::mtxOrtho(ortho, 0.0f, 1280.0f, 720.0f, 0.0f, 0.0f, 100.0f, 0.0, caps->homogeneousDepth);
 
-        // Set view and projection matrix for view 0.
-        bgfx::setViewTransform(1, NULL, ortho);
+        // Set view and projection matrix for view 1.
+        bgfx::setViewTransform(viewId1_, NULL, ortho);
 
         float time = (float)( (bx::getHPCounter()-m_timeOffset)/double(bx::getHPFrequency() ) );
 
@@ -183,9 +184,10 @@ public:
         bx::mtxInverse(invMvp, mvp);
         bgfx::setUniform(u_mtx, invMvp);
 
-        renderScreenSpaceQuad(1, m_program, 0.0f, 0.0f, 1280.0f, 720.0f);
+        renderScreenSpaceQuad(viewId1_, m_program, 0.0f, 0.0f, 1280.0f, 720.0f);
     }
     //Data members
+	uint16_t viewId1_;
 	int64_t m_timeOffset;
 	bgfx::UniformHandle u_mtx;
 	bgfx::UniformHandle u_lightDirTime;

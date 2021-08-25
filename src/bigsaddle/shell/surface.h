@@ -39,6 +39,9 @@ public:
 
     virtual void Reset(ResetKind kind = ResetKind::kHard) {}
 
+    uint16_t AllocViewId();
+    void FreeViewId(uint16_t id);
+
     //Accessors
     uint16_t viewId() { return viewId_; }
     void SetViewId(uint16_t id) { viewId_ = id; }

@@ -27,5 +27,13 @@ void Surface::Destroy() {
     delete this;
 }
 
+uint16_t Surface::AllocViewId() {
+    return viewCount_++;
+}
+
+void Surface::FreeViewId(uint16_t id) {
+    //TODO:Laziness
+}
+
 
 } //namespace bigsaddle
