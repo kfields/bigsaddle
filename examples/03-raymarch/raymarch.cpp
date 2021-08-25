@@ -135,10 +135,6 @@ public:
         // Set view 1 default viewport.
         bgfx::setViewRect(viewId1_, 0, 0, uint16_t(width()), uint16_t(height()) );
 
-		// This dummy draw call is here to make sure that view 0 is cleared
-		// if no other draw calls are submitted to viewZ 0.
-		bgfx::touch(0);
-
         const bx::Vec3 at  = { 0.0f, 0.0f,   0.0f };
         const bx::Vec3 eye = { 0.0f, 0.0f, -15.0f };
 
