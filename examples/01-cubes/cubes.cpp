@@ -1,4 +1,4 @@
-#include <imgui.h>
+#include <imgui/imgui.h>
 
 #include <bx/math.h>
 #include <bx/timer.h>
@@ -121,9 +121,9 @@ BX_STATIC_ASSERT(BX_COUNTOF(s_ptState) == BX_COUNTOF(s_ptNames) );
 
 using namespace bigsaddle;
 
-class MyApp : public ExampleApp {
+class ExampleCubes : public ExampleApp {
 public:
-    MyApp() : ExampleApp(),
+	ExampleCubes(ExampleParams params) : ExampleApp(params),
 		pt_(0),
 		r_(true),
 		g_(true),
@@ -196,7 +196,8 @@ public:
 
     virtual void Draw() override {
         ExampleApp::Draw();
-        ImGui::ShowDemoWindow();
+        //ImGui::ShowDemoWindow();
+		ShowExampleDialog();
 
 		ImGui::SetNextWindowPos(
 			ImVec2(width() - width() / 5.0f - 10.0f, 10.0f)
@@ -292,9 +293,9 @@ public:
 	bool a_;
 };
 
-int main(int argc, char** argv)
-{
-    MyApp& app = *new MyApp();
-
-    return app.Run();
-}
+EXAMPLE_MAIN(
+	ExampleCubes
+	, "01-cubes"
+	, "Rendering simple static mesh."
+	, "https://bkaradzic.github.io/bgfx/examples.html#cubes"
+);

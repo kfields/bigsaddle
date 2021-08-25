@@ -15,7 +15,7 @@ std::map<uint32_t, WindowBase*> WindowBase::windowMap_;
 
 WindowBase::WindowBase(WindowParams params) :
     windowId_(0),
-    title_(params.title), 
+    name_(params.name), 
     origin_(params.origin),
     size_(params.size),
     flags_(params.flags),
@@ -36,7 +36,7 @@ void WindowBase::Destroy() {
 
 void WindowBase::Create() {
     window_ = SDL_CreateWindow(
-      title_.c_str(), x(), y(), width(),
+      name_.c_str(), x(), y(), width(),
       height(), flags_);
 
     if (window_ == nullptr) {

@@ -6,12 +6,13 @@ set(THIS ${PROJECT_NAME})
 
 include(${BIG_ROOT}/cmake/Examples.cmake)
 
-set(BIG_HEADERS
+set(HEADERS
+    logo.h
 )
 
-set(BIG_SRC
-    main.cpp
+set(SOURCES
+    helloworld.cpp
 )
 
-add_executable(${THIS} ${BIG_SRC} ${BIG_HEADERS})
+add_executable(${THIS} ${HEADERS} ${SOURCES})
 USES_EXAMPLES(${THIS})

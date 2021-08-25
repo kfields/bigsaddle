@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(01-cubes LANGUAGES CXX)
+project(02-metaballs LANGUAGES CXX)
 
 set(THIS ${PROJECT_NAME})
 
@@ -10,7 +10,7 @@ set(HEADERS
 )
 
 set(SOURCES
-    cubes.cpp
+    metaballs.cpp
 )
 
 add_executable(${THIS} ${HEADERS} ${SOURCES})

@@ -29,17 +29,17 @@ struct Size {
 };
 
 struct WindowParams {
-    WindowParams(std::string _title = "Big Saddle",
+    WindowParams(std::string _name = "Big Saddle",
         Point _origin = Point(SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED),
         Size _size = Size(800,600),
         uint32_t _flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
     ) {
-        title = _title;
+        name = _name;
         origin = _origin;
         size = _size;
         flags = _flags;
     }
-    std::string title;
+    std::string name;
     Point origin;
     Size size;
     uint32_t flags;
@@ -84,7 +84,7 @@ public:
     //Data members
     uint32_t windowId_;
     static std::map<uint32_t, WindowBase*> windowMap_;
-    std::string title_;
+    std::string name_;
     Point origin_;
     Size size_;
     uint32_t flags_;

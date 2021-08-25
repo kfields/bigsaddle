@@ -12,15 +12,19 @@ include(${BIG_ROOT}/cmake/Shell.cmake)
 
 set(SHELL_HEADERS
     gui.h
-    renderer/gui_renderer.h
-    viewport/gui_viewport.h
+    gui_font.h
+    gui_renderer.h
+    gui_viewport.h
+    gui_user.h
 )
 
 set(SHELL_SRC
     gui.cpp
+    gui_font.cpp
     gui_hooks.cpp
-    renderer/gui_renderer.cpp
-    viewport/gui_viewport.cpp
+    gui_renderer.cpp
+    gui_viewport.cpp
+    gui_user.cpp
 )
 
 add_library(${THIS} ${SHELL_SRC} ${SHELL_HEADERS})

@@ -8,7 +8,7 @@
 
 #include <bigsaddle/shell/window.h>
 #include <bigsaddle/gui/gui.h>
-#include <bigsaddle/gui/renderer/gui_renderer.h>
+#include <bigsaddle/gui/gui_renderer.h>
 
 #include "gui_viewport.h"
 
@@ -17,6 +17,7 @@ namespace bigsaddle {
 GuiViewport::GuiViewport(WindowParams params) : Window(params),
     viewport_(nullptr), frameBuffer_(BGFX_INVALID_HANDLE)
 {
+    //viewId_ |= 0x7F;
 }
 
 void GuiViewport::Create() {

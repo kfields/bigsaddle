@@ -1,13 +1,13 @@
-
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 
-// BGFX/BX
-#include <bgfx/bgfx.h>
-#include <bgfx/embedded_shader.h>
 #include <bx/math.h>
 #include <bx/timer.h>
 
+#include <bgfx/bgfx.h>
+#include <bgfx/embedded_shader.h>
+
+#include <bigsaddle/gui/gui_font.h>
 #include "gui_renderer.h"
 
 #include "resource/vs_ocornut_imgui.bin.h"
@@ -15,15 +15,16 @@
 #include "resource/vs_imgui_image.bin.h"
 #include "resource/fs_imgui_image.bin.h"
 
-#include "resource/roboto_regular.ttf.h"
-#include "resource/robotomono_regular.ttf.h"
-#include "resource/icons_kenney.ttf.h"
-#include "resource/icons_font_awesome.ttf.h"
-
-#include <iconfontheaders/icons_font_awesome.h>
-#include <iconfontheaders/icons_kenney.h>
-
 #define IMGUI_FLAGS_ALPHA_BLEND UINT8_C(0x01)
+
+static const bgfx::EmbeddedShader s_embeddedShaders[] = {
+    BGFX_EMBEDDED_SHADER(vs_ocornut_imgui),
+    BGFX_EMBEDDED_SHADER(fs_ocornut_imgui),
+    BGFX_EMBEDDED_SHADER(vs_imgui_image),
+    BGFX_EMBEDDED_SHADER(fs_imgui_image),
+
+    BGFX_EMBEDDED_SHADER_END()
+};
 
 namespace bigsaddle {
 
@@ -32,12 +33,47 @@ GuiRenderer::GuiRenderer()
 }
 
 GuiRenderer::~GuiRenderer() {
-    InvalidateDeviceObjects();
+    bgfx::destroy(samplerTex_);
+    bgfx::destroy(attribLocationTex_);
+
+    bgfx::destroy(imageLodEnabled_);
+    bgfx::destroy(program_);
+    bgfx::destroy(imageProgram_);
+
+    if (isValid(fontTexture_)) {
+        bgfx::destroy(fontTexture_);
+        ImGui::GetIO().Fonts->TexID = 0;
+        fontTexture_.idx = bgfx::kInvalidHandle;
+    }
 }
 
-bool GuiRenderer::Create() {
-    CreateDeviceObjects();
-    return true;
+void GuiRenderer::Create() {
+    bgfx::RendererType::Enum type = bgfx::getRendererType();
+    program_ = bgfx::createProgram(
+        bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_ocornut_imgui"),
+        bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_ocornut_imgui"),
+        true);
+
+    vertexLayout_.begin()
+        .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+        .end();
+
+    attribLocationTex_ =
+        bgfx::createUniform("attribLocationTex_", bgfx::UniformType::Sampler);
+
+    imageLodEnabled_ = bgfx::createUniform("imageLodEnabled_", bgfx::UniformType::Vec4);
+
+    imageProgram_ = bgfx::createProgram(
+        bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_imgui_image")
+        , bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_imgui_image")
+        , true
+    );
+
+    samplerTex_ = bgfx::createUniform("s_tex", bgfx::UniformType::Sampler);
+
+    fontTexture_ = GuiFonts::instance().CreateFontTexture();
 }
 
 inline bool checkAvailTransientBuffers(uint32_t _numVertices, const bgfx::VertexLayout& _layout, uint32_t _numIndices)
@@ -170,121 +206,6 @@ void GuiRenderer::Render(uint16_t viewId, ImDrawData* drawData)
         }
 
         bgfx::end(encoder);
-    }
-}
-
-struct FontRangeMerge
-{
-    const void* data;
-    size_t      size;
-    ImWchar     ranges[3];
-};
-
-static FontRangeMerge s_fontRangeMerge[] =
-{
-    { s_iconsKenneyTtf,      sizeof(s_iconsKenneyTtf),      { ICON_MIN_KI, ICON_MAX_KI, 0 } },
-    { s_iconsFontAwesomeTtf, sizeof(s_iconsFontAwesomeTtf), { ICON_MIN_FA, ICON_MAX_FA, 0 } },
-};
-
-bool GuiRenderer::CreateFontsTexture() {
-    uint8_t* data;
-    int32_t width;
-    int32_t height;
-    float _fontSize = 18.0f;
-
-    ImGuiIO& io = ImGui::GetIO();
-    ImFontConfig config;
-    config.FontDataOwnedByAtlas = false;
-    config.MergeMode = false;
-    //config.MergeGlyphCenterV = true;
-
-    const ImWchar* ranges = io.Fonts->GetGlyphRangesCyrillic();
-    fonts_[ImGui::Font::Regular] = io.Fonts->AddFontFromMemoryTTF( (void*)s_robotoRegularTtf,     sizeof(s_robotoRegularTtf),     _fontSize,      &config, ranges);
-    fonts_[ImGui::Font::Mono   ] = io.Fonts->AddFontFromMemoryTTF( (void*)s_robotoMonoRegularTtf, sizeof(s_robotoMonoRegularTtf), _fontSize-3.0f, &config, ranges);
-
-    config.MergeMode = true;
-    config.DstFont   = fonts_[ImGui::Font::Regular];
-
-    for (uint32_t ii = 0; ii < BX_COUNTOF(s_fontRangeMerge); ++ii)
-    {
-        const FontRangeMerge& frm = s_fontRangeMerge[ii];
-
-        io.Fonts->AddFontFromMemoryTTF( (void*)frm.data
-                , (int)frm.size
-                , _fontSize-3.0f
-                , &config
-                , frm.ranges
-                );
-    }
-
-    io.Fonts->GetTexDataAsRGBA32(&data, &width, &height);
-
-    fontTexture_ = bgfx::createTexture2D(
-            (uint16_t)width
-        , (uint16_t)height
-        , false
-        , 1
-        , bgfx::TextureFormat::BGRA8
-        , 0
-        , bgfx::copy(data, width*height*4)
-        );
-    return true;
-}
-
-static const bgfx::EmbeddedShader s_embeddedShaders[] = {
-    BGFX_EMBEDDED_SHADER(vs_ocornut_imgui),
-    BGFX_EMBEDDED_SHADER(fs_ocornut_imgui),
-    BGFX_EMBEDDED_SHADER(vs_imgui_image),
-    BGFX_EMBEDDED_SHADER(fs_imgui_image),
-
-    BGFX_EMBEDDED_SHADER_END()
-};
-
-bool GuiRenderer::CreateDeviceObjects()
-{
-    bgfx::RendererType::Enum type = bgfx::getRendererType();
-    program_ = bgfx::createProgram(
-        bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_ocornut_imgui"),
-        bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_ocornut_imgui"),
-        true);
-
-    vertexLayout_.begin()
-        .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-        .end();
-
-    attribLocationTex_ =
-        bgfx::createUniform("attribLocationTex_", bgfx::UniformType::Sampler);
-
-    imageLodEnabled_ = bgfx::createUniform("imageLodEnabled_", bgfx::UniformType::Vec4);
-
-    imageProgram_ = bgfx::createProgram(
-            bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_imgui_image")
-        , bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_imgui_image")
-        , true
-        );
-
-    samplerTex_ = bgfx::createUniform("s_tex", bgfx::UniformType::Sampler);
-
-    CreateFontsTexture();
-
-    return true;
-}
-
-void GuiRenderer::InvalidateDeviceObjects()
-{
-    bgfx::destroy(samplerTex_);
-    bgfx::destroy(attribLocationTex_);
-    
-    bgfx::destroy(imageLodEnabled_);
-    bgfx::destroy(program_);
-    bgfx::destroy(imageProgram_);
-
-    if (isValid(fontTexture_)) {
-        bgfx::destroy(fontTexture_);
-        ImGui::GetIO().Fonts->TexID = 0;
-        fontTexture_.idx = bgfx::kInvalidHandle;
     }
 }
 

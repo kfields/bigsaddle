@@ -76,27 +76,19 @@ void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float he
 	nvgRestore(vg);
 }
 
-class MyApp : public ExampleApp {
+class ExampleNanoVG : public ExampleApp {
 public:
-    MyApp() : nvg_(nullptr) {
-        
+	ExampleNanoVG(ExampleParams params) : ExampleApp(params),
+    nvg_(nullptr) {    
     }
     virtual void Create() override {
         ExampleApp::Create();
 		timeOffset_ = bx::getHPCounter();
         int32_t edgeAntiAlias = 1;
-        nvg_ = nvgCreate(edgeAntiAlias, viewId_);
+		//TODO:Only wants to work on same viewId as ImGui, (255).  Wierd.
+        nvg_ = nvgCreate(edgeAntiAlias, 255);
         loadDemoData(nvg_, &data_);
     }
-	virtual void CreateGfx() override {
-		ExampleApp::CreateGfx();
-		bgfx::setViewClear(0
-			, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
-			, 0x303030ff
-			, 1.0f
-			, 0
-		);
-	}
     virtual void Destroy() override {
         freeDemoData(nvg_, &data_);
         nvgDelete(nvg_);
@@ -104,6 +96,8 @@ public:
     }
     virtual void Draw() override {
         ExampleApp::Draw();
+		ShowExampleDialog();
+
 		float width = size_.width;
 		float height = size_.height;
 		float x, y, popx, popy;
@@ -121,8 +115,6 @@ public:
 		renderDemo(nvg_, float(mx), float(my), width, height, time);
 		nvgEndFrame(nvg_);
 
-		ImGui::ShowDemoWindow();
-
     }
     //Data members
     NVGcontext* nvg_;
@@ -130,9 +122,9 @@ public:
     DemoData data_;
 };
 
-int main(int argc, char** argv)
-{
-    MyApp& app = *new MyApp();
-
-    return app.Run();
-}
+EXAMPLE_MAIN(
+	ExampleNanoVG
+	, "20-nanovg"
+	, "NanoVG is small antialiased vector graphics rendering library."
+	, "https://bkaradzic.github.io/bgfx/examples.html#nanovg"
+);

@@ -26,8 +26,8 @@ static const Uint32 SDL_WINDOW_VULKAN = 0x10000000;
 #include <bigsaddle/app.h>
 
 #include "gui.h"
-#include "renderer/gui_renderer.h"
-#include "viewport/gui_viewport.h"
+#include "gui_renderer.h"
+#include "gui_viewport.h"
 
 namespace bigsaddle {
 
@@ -63,7 +63,9 @@ void Gui::Create() {
 
 void Gui::Render() {
     ImGui::Render();
-    uint16_t viewId = app().viewId();
+    //uint16_t viewId = app().viewId();
+    //TODO: Dynamically allocate viewId?
+    uint16_t viewId = 255;
     renderer().Render(viewId, ImGui::GetDrawData());
     // Update and Render additional Platform Windows
     if (!(io().ConfigFlags & ImGuiConfigFlags_ViewportsEnable))

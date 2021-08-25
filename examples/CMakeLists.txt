@@ -13,6 +13,7 @@ set(HEADERS
 
 set(SOURCES
     example_app.cpp
+    example_dialog.cpp
 )
 
 add_library(${THIS} ${HEADERS} ${SOURCES})
@@ -21,4 +22,6 @@ USES_UTILS(${THIS})
 
 add_subdirectory(00-helloworld)
 add_subdirectory(01-cubes)
+add_subdirectory(02-metaballs)
+add_subdirectory(03-raymarch)
 add_subdirectory(20-nanovg)

@@ -7,10 +7,10 @@
 
 using namespace bigsaddle;
 
-class MyApp : public ExampleApp {
+class ExampleHelloWorld : public ExampleApp {
 public:
-    MyApp() {
-    }
+    EXAMPLE_CTOR(ExampleHelloWorld)
+
     virtual void Create() override {
         ExampleApp::Create();
         // Enable debug text.
@@ -18,7 +18,8 @@ public:
     }
     virtual void Draw() override {
         ExampleApp::Draw();
-        ImGui::ShowDemoWindow();
+        //ImGui::ShowDemoWindow();
+        ShowExampleDialog();
         // Use debug font to print information about this example.
         bgfx::dbgTextClear();
         bgfx::dbgTextImage(
@@ -45,9 +46,10 @@ public:
     //Data members
 };
 
-int main(int argc, char** argv)
-{
-    MyApp& app = *new MyApp();
+EXAMPLE_MAIN(
+    ExampleHelloWorld
+    , "00-helloworld"
+    , "Initialization and debug text."
+    , "https://bkaradzic.github.io/bgfx/examples.html#helloworld"
+);
 
-    return app.Run();
-}

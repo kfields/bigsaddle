@@ -26,7 +26,7 @@ static const Uint32 SDL_WINDOW_VULKAN = 0x10000000;
 #include <bigsaddle/app.h>
 #include <bigsaddle/gui/gui.h>
 
-#include "viewport/gui_viewport.h"
+#include "gui_viewport.h"
 
 namespace bigsaddle {
 

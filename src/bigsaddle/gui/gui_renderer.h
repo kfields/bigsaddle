@@ -2,19 +2,6 @@
 
 #include <list>
 
-namespace ImGui
-{
-    struct Font
-    {
-        enum Enum
-        {
-            Regular,
-            Mono,
-            Count
-        };
-    };
-};
-
 namespace bigsaddle {
 
 class GuiRenderer {
@@ -22,7 +9,8 @@ public:
     GuiRenderer();
     virtual ~GuiRenderer();
 
-    bool Create();
+    void Create();
+
     static GuiRenderer& Produce() {
         GuiRenderer& r = *new GuiRenderer();
         r.Create();
@@ -30,13 +18,7 @@ public:
     }
     void Render(uint16_t viewId, struct ImDrawData* draw_data);
 
-    // Use if you want to reset your rendering device without losing ImGui state.
-    void InvalidateDeviceObjects();
-    bool CreateDeviceObjects();
-    bool CreateFontsTexture();
     //Data members
-    ImFont* fonts_[ImGui::Font::Count];
-
     bgfx::ProgramHandle program_ = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle fontTexture_ = BGFX_INVALID_HANDLE;
     bgfx::VertexLayout vertexLayout_;

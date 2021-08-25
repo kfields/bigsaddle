@@ -4,22 +4,26 @@
 #include "SDL.h"
 #include "SDL_syswm.h"
 
+#include <imgui/imgui.h>
+
+#include <bx/math.h>
+#include <bx/timer.h>
+
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
-#include <bx/math.h>
-#include <imgui.h>
 
 #include "app.h"
 #include "gui/gui.h"
 
 namespace bigsaddle {
 
-static void setup_bgfx_platform_data(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi);
+static void SetupBgfxPlatformData(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi);
 
 App::App(WindowParams params) : Window(params),
     state_(State::kRunning),
     resetFlags_(BGFX_RESET_VSYNC),
-    debugFlags_(BGFX_DEBUG_TEXT)
+    debugFlags_(BGFX_DEBUG_TEXT),
+    timeOffset_(bx::getHPCounter())
     {}
 
 App::~App() {
@@ -48,7 +52,7 @@ void App::CreateGfx() {
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(window_, &wmInfo);
 
-    setup_bgfx_platform_data(pd, wmInfo);
+    SetupBgfxPlatformData(pd, wmInfo);
 
     bgfx::Init bgfx_init;
     bgfx_init.type = bgfx::RendererType::Count; // auto choose renderer
@@ -58,7 +62,13 @@ void App::CreateGfx() {
     bgfx_init.platformData = pd;
     bgfx::init(bgfx_init);
 
-    bgfx::setViewClear(viewId(), BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH);
+    bgfx::setViewClear(0
+        , BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH
+        , 0x303030ff
+        , 1.0f
+        , 0
+    );
+
     bgfx::setViewRect(viewId(), 0, 0, width(), height());
 }
 
@@ -117,6 +127,7 @@ int App::Run() {
                 state_ = State::kShutdown;
             }
         }
+
         Render();
 
         frameTime = SDL_GetTicks() - frameStart;
@@ -132,7 +143,7 @@ int App::Run() {
     return 0;
 }
 
-static void setup_bgfx_platform_data(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi) {
+static void SetupBgfxPlatformData(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi) {
     switch (wmi.subsystem) {
         case SDL_SYSWM_UNKNOWN: abort();
 
