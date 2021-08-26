@@ -29,10 +29,10 @@ public:
     virtual void Destroy() override {
         meshUnload(m_mesh);
 
-        // Cleanup.
         bgfx::destroy(m_program);
-
         bgfx::destroy(u_time);
+
+        ExampleApp::Destroy();
     }
 
     virtual void Draw() override {

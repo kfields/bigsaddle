@@ -12,5 +12,5 @@ function(USES_EXAMPLES THIS)
     target_link_libraries(${THIS} BigExamples)
     set_target_properties(
         ${THIS} PROPERTIES
-        VS_DEBUGGER_WORKING_DIRECTORY "${BIG_ROOT}/lib/bgfx/examples/runtime")
+        VS_DEBUGGER_WORKING_DIRECTORY "${BIG_ROOT}/assets")
 endfunction()
