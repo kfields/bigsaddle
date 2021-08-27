@@ -85,8 +85,10 @@ public:
         ExampleApp::Create();
 		timeOffset_ = bx::getHPCounter();
         int32_t edgeAntiAlias = 1;
-		//TODO:Only wants to work on same viewId as ImGui, (255).  Wierd.
-        nvg_ = nvgCreate(edgeAntiAlias, 255);
+		bgfx::ViewId viewId = AllocViewId();
+		bgfx::setViewName(viewId, "NanoVG");
+		bgfx::setViewMode(viewId, bgfx::ViewMode::Sequential);
+		nvg_ = nvgCreate(edgeAntiAlias, viewId);
         loadDemoData(nvg_, &data_);
     }
     virtual void Destroy() override {

@@ -195,13 +195,10 @@ public:
 
     virtual void Draw() override {
         ExampleApp::Draw();
-        //ImGui::ShowDemoWindow();
         ShowExampleDialog();
 
 		const uint32_t ypitch = kMaxDims;
 		const uint32_t zpitch = kMaxDims*kMaxDims;
-
-        //showExampleDialog(this);
 
         ImGui::SetNextWindowPos(
                 ImVec2(width() - width() / 5.0f - 10.0f, 10.0f)

@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.4)
 
 include(./cmake/Config.cmake)
+
+#
+# GLM
+#
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared library" FORCE)
+set(BUILD_STATIC_LIBS ON CACHE BOOL "Build static library" FORCE)
+
+add_subdirectory(lib/glm)
+
 #
 # SDL - Minimal build for now
 #

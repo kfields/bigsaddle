@@ -1,6 +1,9 @@
-#include <imgui.h>
+#include <imgui/imgui.h>
 #include <bx/math.h>
 #include <bgfx/utils/utils.h>
+
+#include <glm/trigonometric.hpp>
+
 #include <examples/example_app.h>
 
 struct Texture {
@@ -62,6 +65,8 @@ class Sprite {
         y_(0.0f),
         width_(0.0f),
         height_(0.0f),
+        scale_(1.0f),
+        angle_(0.0f),
         texture_(Texture()) {}
 
     ~Sprite() {
@@ -109,27 +114,21 @@ class Sprite {
     }
 
     void Sprite::Draw() {
-        float scale = 1.0f;
-        float rotation = 45.0f;
-        float centerMat[16];
         float scaleMat[16];
         float rotateMat[16];
         float transMat[16];
 
-        bx::mtxTranslate(centerMat, -0.5f, -0.5f, 0.0f);
-        bx::mtxScale(scaleMat, width_ * scale, height_ * scale, 1.0f);
-        bx::mtxRotateXYZ(rotateMat, 0.0f, 0.0f, rotation);
+        bx::mtxScale(scaleMat, width_ * scale_, height_ * scale_, 1.0f);
+        bx::mtxRotateXYZ(rotateMat, 0.0f, 0.0f, glm::radians(angle_));
         bx::mtxTranslate(transMat, x_, y_, 0.0f);
 
         float tmpMat[16];
         float tmpMat2[16];
-        float tmpMat3[16];
 
-        bx::mtxMul(tmpMat, centerMat, scaleMat);
-        bx::mtxMul(tmpMat2, tmpMat, rotateMat);
-        bx::mtxMul(tmpMat3, tmpMat2, transMat);
+        bx::mtxMul(tmpMat, scaleMat, rotateMat);
+        bx::mtxMul(tmpMat2, tmpMat, transMat);
 
-        bgfx::setTransform(tmpMat3);
+        bgfx::setTransform(tmpMat2);
 
         bgfx::setVertexBuffer(0, vbh_);
         bgfx::setIndexBuffer(ibh_);
@@ -147,6 +146,8 @@ class Sprite {
     float y_;
     float width_;
     float height_;
+    float scale_;
+    float angle_;
     Texture texture_;
 
     bgfx::ProgramHandle program_;
@@ -173,11 +174,25 @@ public:
         ExampleApp::Draw();
         ShowExampleDialog();
 
+        ImGui::SetNextWindowPos(
+            ImVec2(width() - width() / 5.0f - 10.0f, 10.0f)
+            , ImGuiCond_FirstUseEver
+        );
+        ImGui::SetNextWindowSize(
+            ImVec2(width() / 5.0f, height() / 7.0f)
+            , ImGuiCond_FirstUseEver
+        );
+        ImGui::Begin("Settings", NULL, 0);
+
+        ImGui::SliderFloat("Scale", &sprite_->scale_, 0.25f, 4.0f);
+        ImGui::SliderFloat("Angle", &sprite_->angle_, 0.0f, 360.0f);
+
+        ImGui::End();
+
         float ortho[16];
         const bgfx::Caps* caps = bgfx::getCaps();
         bx::mtxOrtho(ortho, 0, width(), height(), 0, 0.0f, 1000.0f, 0.0f, caps->homogeneousDepth);
         bgfx::setViewTransform(viewId_, NULL, ortho);
-
 
         sprite_->Draw();
     }
