@@ -29,6 +29,8 @@ public:
     uint32_t resetFlags_;
     uint32_t debugFlags_;
     int64_t timeOffset_;
+    bool debug_ = false;
+    bool capture_ = false;
 
 };
 

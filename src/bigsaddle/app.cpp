@@ -55,6 +55,7 @@ void App::CreateGfx() {
     SetupBgfxPlatformData(pd, wmInfo);
 
     bgfx::Init bgfx_init;
+    bgfx_init.debug = debug_;
     bgfx_init.type = bgfx::RendererType::Count; // auto choose renderer
     bgfx_init.resolution.width = width();
     bgfx_init.resolution.height = height();
@@ -90,6 +91,18 @@ bool App::Dispatch(const SDL_Event& event) {
         return false;
     //if (gui().Dispatch(&event)) return true;
     gui().Dispatch(&event);
+    capture_ = false;
+    switch (event.type)
+    {
+        case SDL_KEYDOWN:
+        {
+            int key = event.key.keysym.scancode;
+            if (key == SDL_SCANCODE_F11) {
+                capture_ = true;
+                return true;
+            }
+        }
+    }
     return Window::Dispatch(event);
 }
 
@@ -101,7 +114,7 @@ void App::PreRender() {
 void App::PostRender() {
     gui().Render();
     bgfx::touch(viewId());
-    bgfx::frame();
+    bgfx::frame(capture_);
     Window::PostRender();
 }
 
