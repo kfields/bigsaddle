@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(50-sprite LANGUAGES CXX)
+project(51-sprite LANGUAGES CXX)
 
 set(THIS ${PROJECT_NAME})
 
@@ -13,5 +13,4 @@ set(SOURCES
     sprite.cpp
 )
 
-add_executable(${THIS} ${HEADERS} ${SOURCES})
-USES_EXAMPLES(${THIS})
+add_example(${THIS} ${HEADERS} ${SOURCES})
