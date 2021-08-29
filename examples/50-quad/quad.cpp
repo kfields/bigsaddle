@@ -81,16 +81,6 @@ class Quad {
         bgfx::destroy(texture_color_);
     }
 
-    void SetPosition(float x, float y) {
-        x_ = x;
-        y_ = y;
-    }
-
-    void SetDimensions(float width, float height) {
-        width_ = width;
-        height_ = height;
-    }
-
     void Init(float x, float y, float width, float height, Texture* texture) {
         x_ = x;
         y_ = y;

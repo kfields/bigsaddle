@@ -1,4 +1,4 @@
-$input v_texcoord0
+$input v_color0, v_texcoord0
 
 /*
  * Copyright 2011-2021 Branimir Karadzic. All rights reserved.
@@ -11,5 +11,5 @@ SAMPLER2D(s_texColor, 0);
 
 void main()
 {
-	gl_FragColor = texture2D(s_texColor, v_texcoord0.xy*0.5+0.5);
+	gl_FragColor = texture2D(s_texColor, v_texcoord0.xy*0.5+0.5) * v_color0;
 }
