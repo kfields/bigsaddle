@@ -28,7 +28,7 @@
 #	[WERROR]
 # )
 function( shaderc_parse ARG_OUT )
-    message(shaderc_parse: ${ARG_OUT})
+    #message(shaderc_parse: ${ARG_OUT})
 	cmake_parse_arguments( ARG "DEPENDS;ANDROID;ASM_JS;IOS;LINUX;NACL;OSX;WINDOWS;PREPROCESS;RAW;FRAGMENT;VERTEX;COMPUTE;VERBOSE;DEBUG;DISASM;WERROR" "FILE;OUTPUT;VARYINGDEF;BIN2C;PROFILE;O" "INCLUDES;DEFINES" ${ARGN} )
 	set( CLI "" )
 
@@ -177,7 +177,7 @@ function( shaderc_parse ARG_OUT )
 endfunction()
 
 function( add_bgfx_shader THIS FILE)
-    message(add_bgfx_shader: ${FILE})
+    #message(add_bgfx_shader: ${FILE})
 	get_filename_component( FILENAME "${FILE}" NAME_WE )
 	string( SUBSTRING "${FILENAME}" 0 2 TYPE )
 	if( "${TYPE}" STREQUAL "fs" )
@@ -255,7 +255,7 @@ function( add_bgfx_shader THIS FILE)
 		endif()
 
 		foreach( OUT ${OUTPUTS} )
-        message(add_bgfx_shader:OUTPUTS: ${OUT})
+            #message(add_bgfx_shader:OUTPUTS: ${OUT})
 			list( APPEND OUTPUT_FILES ${${OUT}_OUTPUT} )
 			#list( APPEND COMMANDS COMMAND "$<TARGET_FILE:shaderc>" ${${OUT}} )
             list( APPEND COMMANDS COMMAND shadercRelease ${${OUT}} )
@@ -264,7 +264,7 @@ function( add_bgfx_shader THIS FILE)
 		endforeach()
 
 		file( RELATIVE_PATH PRINT_NAME ${BIG_ROOT}/examples ${FILE} )
-        message(add_bgfx_shader:add_custom_command: ${FILE}:${OUTPUT_FILES}:${COMMANDS})
+        #message(add_bgfx_shader:add_custom_command: ${FILE}:${OUTPUT_FILES}:${COMMANDS})
 		add_custom_command(
             TARGET ${THIS}
             POST_BUILD
