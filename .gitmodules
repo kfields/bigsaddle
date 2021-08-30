@@ -20,3 +20,6 @@
 [submodule "lib/pugixml"]
 	path = lib/pugixml
 	url = https://github.com/zeux/pugixml
+[submodule "lib/fmt"]
+	path = lib/fmt
+	url = https://github.com/fmtlib/fmt
