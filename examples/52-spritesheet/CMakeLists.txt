@@ -5,6 +5,7 @@ project(52-spritesheet LANGUAGES CXX)
 set(THIS ${PROJECT_NAME})
 
 include(${BIG_ROOT}/cmake/Examples.cmake)
+include(${BIG_ROOT}/cmake/Pugi.cmake)
 
 set(HEADERS
 )
@@ -14,3 +15,4 @@ set(SOURCES
 )
 
 add_example(${THIS} ${HEADERS} ${SOURCES})
+USES_PUGI(${THIS})

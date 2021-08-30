@@ -46,6 +46,8 @@ elseif(${BIG_RENDERER_VULKAN})
 endif()
 
 set(BIG_ROOT ${CMAKE_CURRENT_LIST_DIR}/..)
+set(GLM_ROOT ${BIG_ROOT}/lib/glm)
+set(PUGI_ROOT ${BIG_ROOT}/lib/pugixml)
 set(IMGUI_ROOT ${BIG_ROOT}/lib/imgui)
 set(BX_ROOT ${BIG_ROOT}/lib/bx)
 set(BIMG_ROOT ${BIG_ROOT}/lib/bimg)

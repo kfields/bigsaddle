@@ -1,8 +1,14 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <filesystem>
+
+#include <pugixml.hpp>
+
 #include <imgui/imgui.h>
 #include <bx/math.h>
 #include <bgfx/utils/utils.h>
 
-//#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -29,24 +35,93 @@ struct ColorRgba {
     };
 };
 
+struct TexCoord {
+    TexCoord(float _u, float _v) : u(_u), v(_v) {}
+    float u;
+    float v;
+};
+
 struct Texture {
-    void Load(const std::string& _path) {
+    Texture() {}
+    Texture(Texture* _parent, std::string _name, int _x, int _y, int _width, int _height) :
+        parent(_parent), name(_name), texture(_parent->texture), x(_x), y(_y), width(_width), height(_height) {
+        float pWidth = parent->width;
+        float hWidth = parent->width / 2;
+        float pHeight = parent->height;
+        float hHeight = parent->height / 2;
+        coords[0] = TexCoord(x / pWidth, (y + height) / pHeight);
+        coords[1] = TexCoord((x + width) / pWidth, (y + height) / pHeight);
+        coords[2] = TexCoord(x / pWidth, y / pHeight);
+        coords[3] = TexCoord((x + width) / pWidth, y / pHeight);
+    }
+
+    void Load(const std::filesystem::path& _path) {
         bgfx::TextureInfo info = bgfx::TextureInfo();
 
-        texture = loadTexture(_path.data(), BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT, 0, &info);
+        texture = loadTexture(_path.string().c_str(), BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT, 0, &info);
         if (!bgfx::isValid(texture)) {
             //TODO: throw
         }
 
         width = info.width;
         height = info.height;
-        path = _path;
-
+        name = _path.string();
     }
-    std::string path;
+    std::string name;
     bgfx::TextureHandle texture;
-    int width;
-    int height;
+    float x;
+    float y;
+    float width;
+    float height;
+    Texture* parent;
+    TexCoord coords[4] = {
+        {0.0f,  1.0f},
+        {1.0f,  1.0f},
+        {0.0f, 0.0f},
+        {1.0f, 0.0f}
+    };
+
+};
+
+class TextureManager {
+public:
+    int LoadSpriteSheet(const std::filesystem::path& _path) {
+        pugi::xml_document doc;
+        pugi::xml_parse_result result = doc.load_file(_path.c_str());
+        if (!result)
+            return -1;
+        
+        pugi::xml_node atlas = doc.child("TextureAtlas");
+        const char* imagePath = atlas.attribute("imagePath").as_string();
+
+        Texture* texture = new Texture();
+        texture->Load(_path.parent_path() / imagePath);
+
+        for (pugi::xml_node subTex: atlas.children("SubTexture"))
+        {
+            //<SubTexture name="beam0.png" x="143" y="377" width="43" height="31"/>
+            std::string name = subTex.attribute("name").as_string();
+            int x = subTex.attribute("x").as_int();
+            int y = subTex.attribute("y").as_int();
+            int width = subTex.attribute("width").as_int();
+            int height = subTex.attribute("height").as_int();
+            //std::cout << name << x << y << width << height << "\n";
+            Texture* subTex = new Texture(texture, name, x, y, width, height);
+            textures_[name] = subTex;
+        }
+    }
+    Texture* GetTexture(const std::string& _name) {
+        return textures_[_name];
+    }
+    std::vector<const char*> GetNames() {
+        std::vector<const char*> names;
+        for (std::map<std::string, Texture*>::iterator it = textures_.begin(); it != textures_.end(); ++it) {
+            names.push_back(it->first.c_str());
+        }
+        return names;
+    }
+    // Data members
+    std::map<std::string, Texture*> textures_;
 };
 
 struct PosColorTexCoord0Vertex
@@ -57,7 +132,6 @@ struct PosColorTexCoord0Vertex
     ColorRgba m_abgr;
 	float m_u;
 	float m_v;
-    float m_w;
 
 	static void Init()
 	{
@@ -65,7 +139,7 @@ struct PosColorTexCoord0Vertex
 			.begin()
 			.add(bgfx::Attrib::Position,  3, bgfx::AttribType::Float)
 			.add(bgfx::Attrib::Color0,    4, bgfx::AttribType::Uint8, true)
-			.add(bgfx::Attrib::TexCoord0, 3, bgfx::AttribType::Float)
+			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
 			.end();
 	}
 
@@ -74,15 +148,10 @@ struct PosColorTexCoord0Vertex
 bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 
 static PosColorTexCoord0Vertex s_quadVertices[4] = {
-    {-1.0f,  1.0f,  1.0f, 0xff000000, -1.0f,  1.0f,  1.0f },
-    { 1.0f,  1.0f,  1.0f, 0xff000000,  1.0f,  1.0f,  1.0f },
-    {-1.0f, -1.0f,  1.0f, 0xff000000, -1.0f, -1.0f,  1.0f },
-    { 1.0f, -1.0f,  1.0f, 0xff000000,  1.0f, -1.0f,  1.0f }
-};
-
-static const uint16_t s_quadIndices[6] = {
-    0, 1, 2,
-    1, 3, 2
+    {-1.0f,  1.0f,  1.0f, 0xff000000, 0.0f,  1.0f},
+    { 1.0f,  1.0f,  1.0f, 0xff000000,  1.0f,  1.0f},
+    {-1.0f, -1.0f,  1.0f, 0xff000000, 0.0f, 0.0f},
+    { 1.0f, -1.0f,  1.0f, 0xff000000,  1.0f, 0.0f}
 };
 
 class Sprite {
@@ -146,11 +215,9 @@ class Sprite {
                 vertex[i].m_y = vert[1];
                 vertex[i].m_z = vert[2];
                 vertex[i].m_abgr = color_;
-                vertex[i].m_u = srcVert[i].m_u;
-                vertex[i].m_v = srcVert[i].m_v;
-                vertex[i].m_w = srcVert[i].m_w;
+                vertex[i].m_u = texture_.coords[i].u;
+                vertex[i].m_v = texture_.coords[i].v;
             }
-            float zz = 0.0f;
 
             uint16_t* indices = (uint16_t*)tib.data;
 
@@ -172,6 +239,12 @@ class Sprite {
 
             bgfx::submit(_view, program_);
         }
+    }
+
+    void SetTexture(Texture* tex) {
+        texture_ = *tex;
+        width_ = tex->width;
+        height_ = tex->height;
     }
 
     // Data members
@@ -196,11 +269,17 @@ public:
 
     virtual void Create() override {
         ExampleApp::Create();
-        texture_ = new Texture();
-        texture_->Load("images/playerShip1_orange.png");
+
+        texMgr_ = new TextureManager();
+        texMgr_->LoadSpriteSheet("spaceshooter/spritesheet/sheet.xml");
+
+        //texture_ = new Texture();
+        //texture_->Load("images/playerShip1_orange.png");
+        texture_ = texMgr_->GetTexture("playerShip1_green.png");
         sprite_ = new Sprite();
-        sprite_->Init(width()/2, height()/2, texture_->width, texture_->height, texture_);
+        sprite_->Init(width() / 2, height() / 2, texture_->width, texture_->height, texture_);
     }
+
     virtual void Draw() override {
         ExampleApp::Draw();
         ShowExampleDialog();
@@ -226,6 +305,12 @@ public:
         if (ImGui::ColorEdit4("Color", color))
             sprite_->color_ = ColorRgba(color);
 
+        std::vector<const char*> names = texMgr_->GetNames();
+        static int item_current = 1;
+        if (ImGui::ListBox("Textures", &item_current, names.data(), names.size(), 4)) {
+            sprite_->SetTexture(texMgr_->GetTexture(names[item_current]));
+        }
+
         ImGui::End();
 
         float ortho[16];
@@ -237,6 +322,7 @@ public:
     }
     //Data members
     Texture* texture_ = nullptr;
+    TextureManager* texMgr_ = nullptr;
     Sprite* sprite_ = nullptr;
 };
 

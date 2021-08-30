@@ -2,7 +2,6 @@
 #include <bx/math.h>
 #include <bgfx/utils/utils.h>
 
-//#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -57,7 +56,6 @@ struct PosColorTexCoord0Vertex
     ColorRgba m_abgr;
 	float m_u;
 	float m_v;
-    float m_w;
 
 	static void Init()
 	{
@@ -65,7 +63,7 @@ struct PosColorTexCoord0Vertex
 			.begin()
 			.add(bgfx::Attrib::Position,  3, bgfx::AttribType::Float)
 			.add(bgfx::Attrib::Color0,    4, bgfx::AttribType::Uint8, true)
-			.add(bgfx::Attrib::TexCoord0, 3, bgfx::AttribType::Float)
+			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
 			.end();
 	}
 
@@ -74,15 +72,10 @@ struct PosColorTexCoord0Vertex
 bgfx::VertexLayout PosColorTexCoord0Vertex::ms_layout;
 
 static PosColorTexCoord0Vertex s_quadVertices[4] = {
-    {-1.0f,  1.0f,  1.0f, 0xff000000, -1.0f,  1.0f,  1.0f },
-    { 1.0f,  1.0f,  1.0f, 0xff000000,  1.0f,  1.0f,  1.0f },
-    {-1.0f, -1.0f,  1.0f, 0xff000000, -1.0f, -1.0f,  1.0f },
-    { 1.0f, -1.0f,  1.0f, 0xff000000,  1.0f, -1.0f,  1.0f }
-};
-
-static const uint16_t s_quadIndices[6] = {
-    0, 1, 2,
-    1, 3, 2
+    {-1.0f,  1.0f,  1.0f, 0xff000000, 0.0f,  1.0f},
+    { 1.0f,  1.0f,  1.0f, 0xff000000,  1.0f,  1.0f},
+    {-1.0f, -1.0f,  1.0f, 0xff000000, 0.0f, 0.0f},
+    { 1.0f, -1.0f,  1.0f, 0xff000000,  1.0f, 0.0f}
 };
 
 class Sprite {
@@ -148,7 +141,6 @@ class Sprite {
                 vertex[i].m_abgr = color_;
                 vertex[i].m_u = srcVert[i].m_u;
                 vertex[i].m_v = srcVert[i].m_v;
-                vertex[i].m_w = srcVert[i].m_w;
             }
             float zz = 0.0f;
 

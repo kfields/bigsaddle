@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.4)
 include(./cmake/Config.cmake)
 
 #
+# pugixml
+#
+add_subdirectory(lib/pugixml)
+
+#
 # GLM
 #
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared library" FORCE)
