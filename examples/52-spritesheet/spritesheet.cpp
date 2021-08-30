@@ -120,6 +120,9 @@ public:
         }
         return names;
     }
+    int GetNameIndex(const std::string& _name) {
+        return std::distance(textures_.begin(), textures_.find(_name));
+    }
     // Data members
     std::map<std::string, Texture*> textures_;
 };
@@ -271,11 +274,9 @@ public:
         ExampleApp::Create();
 
         texMgr_ = new TextureManager();
-        texMgr_->LoadSpriteSheet("spaceshooter/spritesheet/sheet.xml");
+        texMgr_->LoadSpriteSheet("spaceshooter/sheet.xml");
 
-        //texture_ = new Texture();
-        //texture_->Load("images/playerShip1_orange.png");
-        texture_ = texMgr_->GetTexture("playerShip1_green.png");
+        texture_ = texMgr_->GetTexture("playerShip1_orange.png");
         sprite_ = new Sprite();
         sprite_->Init(width() / 2, height() / 2, texture_->width, texture_->height, texture_);
     }
@@ -306,7 +307,7 @@ public:
             sprite_->color_ = ColorRgba(color);
 
         std::vector<const char*> names = texMgr_->GetNames();
-        static int item_current = 1;
+        static int item_current = texMgr_->GetNameIndex(sprite_->texture_.name);
         if (ImGui::ListBox("Textures", &item_current, names.data(), names.size(), 4)) {
             sprite_->SetTexture(texMgr_->GetTexture(names[item_current]));
         }
@@ -328,7 +329,7 @@ public:
 
 EXAMPLE_MAIN(
     ExampleSpriteSheet
-    , "50-spritesheet"
+    , "52-spritesheet"
     , "Render sprites from spritesheet."
     , "https://bkaradzic.github.io/bgfx/examples.html#helloworld"
 );
