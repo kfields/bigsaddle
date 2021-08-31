@@ -16,6 +16,62 @@
 
 #include <examples/example_app.h>
 
+struct Timer {
+public:
+    typedef std::chrono::nanoseconds duration;
+    typedef duration::rep rep;
+    typedef duration::period period;
+    typedef std::chrono::time_point<std::chrono::high_resolution_clock, duration> time_point;
+
+    std::chrono::high_resolution_clock clock;
+    time_point startTime;		//tick count at construction
+    time_point lastElapsed;	//
+    duration alarmInterval;	//
+    time_point alarmTime;		//
+    duration frequency;
+
+    Timer() {
+        Reset();
+    }
+    Timer(duration interval) {
+        Reset();
+        SetAlarm(interval);
+    }
+    time_point Now() { return clock.now(); }
+    void Reset() {
+        frequency = duration(1);
+        startTime = Now();
+        lastElapsed = startTime;
+        SetAlarm(frequency);
+    }
+    void SetAlarm(duration interval) {
+        auto time = Now();
+        alarmInterval = interval;
+        alarmTime = time + alarmInterval;
+    }
+    void ResetAlarm() {
+        auto time = Now();
+        alarmTime = time + alarmInterval;
+    }
+    void ResetAlarmMinus(duration interval) {
+        auto time = Now();
+        alarmTime = time + (alarmInterval - interval);
+    }
+    bool CheckAlarm() {
+        auto time = Now();
+        if (time >= alarmTime)
+            return true;
+        else
+            return false;
+    }
+    long GetElapsed() {
+        auto time = Now();
+        long elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(time - lastElapsed).count();
+        lastElapsed = time;
+        return elapsed;
+    }
+};
+
 struct ColorRgba {
     ColorRgba() : r(255), g(255), b(255), a(255) {}
     ColorRgba(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a)
@@ -45,6 +101,18 @@ struct TexCoord {
 
 struct Texture {
     Texture() {}
+    Texture(const Texture& that) {
+        name = that.name;
+        texture = that.texture;
+        x = that.x;
+        y = that.y;
+        width = that.width;
+        height = that.height;
+        coords[0] = that.coords[0];
+        coords[1] = that.coords[1];
+        coords[2] = that.coords[2];
+        coords[3] = that.coords[3];
+    }
     Texture(Texture* _parent, std::string _name, int _x, int _y, int _width, int _height) :
         parent(_parent), name(_name), texture(_parent->texture), x(_x), y(_y), width(_width), height(_height) {
         float pWidth = parent->width;
@@ -56,7 +124,14 @@ struct Texture {
         coords[2] = TexCoord(x / pWidth, y / pHeight);
         coords[3] = TexCoord((x + width) / pWidth, y / pHeight);
     }
-
+    Texture Mirror() {
+        Texture texture(*this);
+        texture.coords[0].u = coords[1].u;
+        texture.coords[1].u = coords[0].u;
+        texture.coords[2].u = coords[3].u;
+        texture.coords[3].u = coords[2].u;
+        return texture;
+    }
     void Load(const std::filesystem::path& _path) {
         bgfx::TextureInfo info = bgfx::TextureInfo();
 
@@ -69,13 +144,13 @@ struct Texture {
         height = info.height;
         name = _path.string();
     }
+    Texture* parent;
     std::string name;
     bgfx::TextureHandle texture;
     float x;
     float y;
     float width;
     float height;
-    Texture* parent;
     TexCoord coords[4] = {
         {0.0f,  1.0f},
         {1.0f,  1.0f},
@@ -268,8 +343,18 @@ class Sprite {
 
 struct SpriteAnimation {
     SpriteAnimation() {}
-    SpriteAnimation(std::string _name) : name(_name) {
-
+    SpriteAnimation(const SpriteAnimation& that) {
+        name = that.name;
+        frames = that.frames;
+    }
+    SpriteAnimation(std::string _name) : name(_name) {}
+    SpriteAnimation* Mirror(std::string _name) {
+        SpriteAnimation& animation = *new SpriteAnimation(*this);
+        animation.name = _name;
+        for (int i = 0; i < frames.size(); ++i) {
+            animation.frames[i] = frames[i].Mirror();
+        }
+        return &animation;
     }
     void AddFrame(Texture* texture) {
         frames.push_back(*texture);
@@ -285,60 +370,28 @@ struct SpriteAnimation {
     std::vector<Texture> frames;
 };
 
-struct Timer {
-public:
-    typedef std::chrono::nanoseconds duration;
-    typedef duration::rep rep;
-    typedef duration::period period;
-    typedef std::chrono::time_point<std::chrono::high_resolution_clock, duration> time_point;
-
-    std::chrono::high_resolution_clock clock;
-    time_point startTime;		//tick count at construction
-    time_point lastElapsed;	//
-    duration alarmInterval;	//
-    time_point alarmTime;		//
-    duration frequency;
-
-    Timer() {
-        Reset();
+struct SpriteAnimations {
+    void AddAnimation(SpriteAnimation* _animation) {
+        animations[_animation->name] = _animation;
     }
-    Timer(duration interval) {
-        Reset();
-        SetAlarm(interval);
+    SpriteAnimation* GetAnimation(std::string name) {
+        if (name == "default") {
+            return animations.begin()->second;
+        }
+        return animations[name];
     }
-    time_point Now() { return clock.now(); }
-    void Reset() {
-        frequency = duration(1);
-        startTime = Now();
-        lastElapsed = startTime;
-        SetAlarm(frequency);
+    std::vector<const char*> GetNames() {
+        std::vector<const char*> names;
+        for (std::map<std::string, SpriteAnimation*>::iterator it = animations.begin(); it != animations.end(); ++it) {
+            names.push_back(it->first.c_str());
+        }
+        return names;
     }
-    void SetAlarm(duration interval) {
-        auto time = Now();
-        alarmInterval = interval;
-        alarmTime = time + alarmInterval;
+    int GetNameIndex(const std::string& _name) {
+        return std::distance(animations.begin(), animations.find(_name));
     }
-    void ResetAlarm() {
-        auto time = Now();
-        alarmTime = time + alarmInterval;
-    }
-    void ResetAlarmMinus(duration interval) {
-        auto time = Now();
-        alarmTime = time + (alarmInterval - interval);
-    }
-    bool CheckAlarm() {
-        auto time = Now();
-        if (time >= alarmTime)
-            return true;
-        else
-            return false;
-    }
-    long GetElapsed() {
-        auto time = Now();
-        long elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(time - lastElapsed).count();
-        lastElapsed = time;
-        return elapsed;
-    }
+    // Data members
+    std::map<std::string, SpriteAnimation*> animations;
 };
 
 struct AnimatedSprite : Sprite {
@@ -356,16 +409,24 @@ struct AnimatedSprite : Sprite {
         animation = *_animation;
         texture_ = animation.GetFrame(0);
     }
+    void SetAnimation(std::string name) {
+        SetAnimation(animations.animations[name]);
+    }
+    void SetAnimations(SpriteAnimations* _animations) {
+        animations = *_animations;
+        SetAnimation(animations.GetAnimation("default"));
+    }
     void SetFps(int _fps) {
-        fps = _fps;
+        fps = _fps == 0 ? 1 : _fps;
         UpdateFps();
     }
     void UpdateFps() {
         timer.SetAlarm(std::chrono::milliseconds(1000 / fps));
     }
     // Data members
-    int index = 0;
+    SpriteAnimations animations;
     SpriteAnimation animation;
+    int index = 0;
     int fps = 10; //animation frames per second
     Timer timer;
 };
@@ -386,14 +447,23 @@ public:
         sprite_ = new AnimatedSprite();
         sprite_->Init(width() / 2, height() / 2, texture_->width, texture_->height, texture_);
 
-        SpriteAnimation* walk = new SpriteAnimation("walk");
+        SpriteAnimations* animations = new SpriteAnimations();
+
+        SpriteAnimation* walk = new SpriteAnimation("walkRight");
         for (int i = 0; i < 8; ++i) {
             walk->AddFrame(texMgr_->GetTexture(fmt::format("walk{}", i)));
         }
-        sprite_->SetAnimation(walk);
+        animations->AddAnimation(walk);
+        animations->AddAnimation(walk->Mirror("walkLeft"));
 
-        timeOffset_ = bx::getHPCounter();
-        lastTime_ = (float)((bx::getHPCounter() - timeOffset_) / double(bx::getHPFrequency()));
+        SpriteAnimation* run = new SpriteAnimation("runRight");
+        for (int i = 0; i < 3; ++i) {
+            run->AddFrame(texMgr_->GetTexture(fmt::format("run{}", i)));
+        }
+        animations->AddAnimation(run);
+        animations->AddAnimation(run->Mirror("runLeft"));
+
+        sprite_->SetAnimations(animations);
     }
 
     virtual void Draw() override {
@@ -421,12 +491,13 @@ public:
         if (ImGui::ColorEdit4("Color", color))
             sprite_->color_ = ColorRgba(color);
 
-        /*std::vector<const char*> names = texMgr_->GetNames();
-        static int item_current = texMgr_->GetNameIndex(sprite_->texture_.name);
-        if (ImGui::ListBox("Textures", &item_current, names.data(), names.size(), 4)) {
-            sprite_->SetTexture(texMgr_->GetTexture(names[item_current]));
-        }*/
-        if (ImGui::SliderInt("Fps", &sprite_->fps, 0, 60)) {
+        std::vector<const char*> names = sprite_->animations.GetNames();
+        static int item_current = sprite_->animations.GetNameIndex(sprite_->animation.name);
+        if (ImGui::ListBox("Animations", &item_current, names.data(), names.size(), 4)) {
+            sprite_->SetAnimation(sprite_->animations.GetAnimation(names[item_current]));
+        }
+
+        if (ImGui::SliderInt("Fps", &sprite_->fps, 1, 60)) {
             sprite_->UpdateFps();
         }
 
@@ -437,9 +508,6 @@ public:
         bx::mtxOrtho(ortho, 0, width(), height(), 0, 0.0f, 1000.0f, 0.0f, caps->homogeneousDepth);
         bgfx::setViewTransform(viewId_, NULL, ortho);
 
-        float time = (float)((bx::getHPCounter() - timeOffset_) / double(bx::getHPFrequency()));
-        float deltaTime = time - lastTime_;
-        lastTime_ = time;
         sprite_->Update();
         sprite_->Draw(viewId_);
     }
@@ -447,8 +515,6 @@ public:
     Texture* texture_ = nullptr;
     TextureManager* texMgr_ = nullptr;
     AnimatedSprite* sprite_ = nullptr;
-    int64_t timeOffset_;
-    float lastTime_;
 };
 
 EXAMPLE_MAIN(
