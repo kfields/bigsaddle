@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.4)
 include(./cmake/Config.cmake)
 
 #
+# fmt
+#
+add_subdirectory(lib/fmt)
+
+#
 # pugixml
 #
 add_subdirectory(lib/pugixml)

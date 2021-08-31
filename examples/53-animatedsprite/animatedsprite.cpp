@@ -3,10 +3,12 @@
 #include <vector>
 #include <filesystem>
 
+#include <fmt/core.h>
 #include <pugixml.hpp>
 
 #include <imgui/imgui.h>
 #include <bx/math.h>
+#include <bx/timer.h>
 #include <bgfx/utils/utils.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -265,23 +267,107 @@ class Sprite {
 };
 
 struct SpriteAnimation {
+    SpriteAnimation() {}
     SpriteAnimation(std::string _name) : name(_name) {
 
     }
     void AddFrame(Texture* texture) {
         frames.push_back(*texture);
     }
+    Texture GetFrame(int index) {
+        return frames[index];
+    }
+    int Count() {
+        return frames.size();
+    }
     // Data members
     std::string name;
     std::vector<Texture> frames;
 };
 
-struct AnimatedSprite : Sprite {
-    void Update(float deltaTime) {
+struct Timer {
+public:
+    typedef std::chrono::nanoseconds duration;
+    typedef duration::rep rep;
+    typedef duration::period period;
+    typedef std::chrono::time_point<std::chrono::high_resolution_clock, duration> time_point;
 
+    std::chrono::high_resolution_clock clock;
+    time_point startTime;		//tick count at construction
+    time_point lastElapsed;	//
+    duration alarmInterval;	//
+    time_point alarmTime;		//
+    duration frequency;
+
+    Timer() {
+        Reset();
+    }
+    Timer(duration interval) {
+        Reset();
+        SetAlarm(interval);
+    }
+    time_point Now() { return clock.now(); }
+    void Reset() {
+        frequency = duration(1);
+        startTime = Now();
+        lastElapsed = startTime;
+        SetAlarm(frequency);
+    }
+    void SetAlarm(duration interval) {
+        auto time = Now();
+        alarmInterval = interval;
+        alarmTime = time + alarmInterval;
+    }
+    void ResetAlarm() {
+        auto time = Now();
+        alarmTime = time + alarmInterval;
+    }
+    void ResetAlarmMinus(duration interval) {
+        auto time = Now();
+        alarmTime = time + (alarmInterval - interval);
+    }
+    bool CheckAlarm() {
+        auto time = Now();
+        if (time >= alarmTime)
+            return true;
+        else
+            return false;
+    }
+    long GetElapsed() {
+        auto time = Now();
+        long elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(time - lastElapsed).count();
+        lastElapsed = time;
+        return elapsed;
+    }
+};
+
+struct AnimatedSprite : Sprite {
+    AnimatedSprite() : Sprite() {
+        SetFps(10);
+    }
+    void Update() {
+        if (timer.CheckAlarm()) {
+            index = index + 1 > animation.Count() -1 ? 0 : index + 1;
+            texture_ = animation.GetFrame(index);
+            timer.ResetAlarm();
+        }
+    }
+    void SetAnimation(SpriteAnimation* _animation) {
+        animation = *_animation;
+        texture_ = animation.GetFrame(0);
+    }
+    void SetFps(int _fps) {
+        fps = _fps;
+        UpdateFps();
+    }
+    void UpdateFps() {
+        timer.SetAlarm(std::chrono::milliseconds(1000 / fps));
     }
     // Data members
-    SpriteAnimation* animation;
+    int index = 0;
+    SpriteAnimation animation;
+    int fps = 10; //animation frames per second
+    Timer timer;
 };
 
 using namespace bigsaddle;
@@ -297,10 +383,17 @@ public:
         texMgr_->LoadSpriteSheet("characters/robot/sheet.xml");
 
         texture_ = texMgr_->GetTexture("idle");
-        sprite_ = new Sprite();
+        sprite_ = new AnimatedSprite();
         sprite_->Init(width() / 2, height() / 2, texture_->width, texture_->height, texture_);
 
         SpriteAnimation* walk = new SpriteAnimation("walk");
+        for (int i = 0; i < 8; ++i) {
+            walk->AddFrame(texMgr_->GetTexture(fmt::format("walk{}", i)));
+        }
+        sprite_->SetAnimation(walk);
+
+        timeOffset_ = bx::getHPCounter();
+        lastTime_ = (float)((bx::getHPCounter() - timeOffset_) / double(bx::getHPFrequency()));
     }
 
     virtual void Draw() override {
@@ -328,10 +421,13 @@ public:
         if (ImGui::ColorEdit4("Color", color))
             sprite_->color_ = ColorRgba(color);
 
-        std::vector<const char*> names = texMgr_->GetNames();
+        /*std::vector<const char*> names = texMgr_->GetNames();
         static int item_current = texMgr_->GetNameIndex(sprite_->texture_.name);
         if (ImGui::ListBox("Textures", &item_current, names.data(), names.size(), 4)) {
             sprite_->SetTexture(texMgr_->GetTexture(names[item_current]));
+        }*/
+        if (ImGui::SliderInt("Fps", &sprite_->fps, 0, 60)) {
+            sprite_->UpdateFps();
         }
 
         ImGui::End();
@@ -341,12 +437,18 @@ public:
         bx::mtxOrtho(ortho, 0, width(), height(), 0, 0.0f, 1000.0f, 0.0f, caps->homogeneousDepth);
         bgfx::setViewTransform(viewId_, NULL, ortho);
 
+        float time = (float)((bx::getHPCounter() - timeOffset_) / double(bx::getHPFrequency()));
+        float deltaTime = time - lastTime_;
+        lastTime_ = time;
+        sprite_->Update();
         sprite_->Draw(viewId_);
     }
     //Data members
     Texture* texture_ = nullptr;
     TextureManager* texMgr_ = nullptr;
-    Sprite* sprite_ = nullptr;
+    AnimatedSprite* sprite_ = nullptr;
+    int64_t timeOffset_;
+    float lastTime_;
 };
 
 EXAMPLE_MAIN(

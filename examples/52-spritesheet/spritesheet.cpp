@@ -279,6 +279,7 @@ public:
         texture_ = texMgr_->GetTexture("playerShip1_orange.png");
         sprite_ = new Sprite();
         sprite_->Init(width() / 2, height() / 2, texture_->width, texture_->height, texture_);
+        timeOffset_ = bx::getHPCounter();
     }
 
     virtual void Draw() override {

@@ -3,6 +3,7 @@ include_guard()
 include(${CMAKE_CURRENT_LIST_DIR}/Big.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Utils.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Glm.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Fmt.cmake)
 
 include(${CMAKE_CURRENT_LIST_DIR}/bgfx/shader.cmake)
 
@@ -10,6 +11,7 @@ function(USES_EXAMPLES THIS)
     USES_BIG(${THIS})
     USES_UTILS(${THIS})
     USES_GLM(${THIS})
+    USES_FMT(${THIS})
     target_include_directories(${THIS} PRIVATE
         ${BIG_ROOT}
     )
