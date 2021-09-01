@@ -2,6 +2,8 @@ include_guard()
 
 include(CMakeDependentOption)
 
+option(COMPILE_SHADERS "Compile Shaders" OFF)
+
 set(BIG_PLATFORM ${CMAKE_SYSTEM_NAME})
 
 set(BIG_PLATFORM_WINDOWS OFF)

@@ -46,9 +46,7 @@ struct Texture {
     Texture(Texture* _parent, std::string _name, int _x, int _y, int _width, int _height) :
         parent(_parent), name(_name), texture(_parent->texture), x(_x), y(_y), width(_width), height(_height) {
         float pWidth = parent->width;
-        float hWidth = parent->width / 2;
         float pHeight = parent->height;
-        float hHeight = parent->height / 2;
         coords[0] = TexCoord(x / pWidth, (y + height) / pHeight);
         coords[1] = TexCoord((x + width) / pWidth, (y + height) / pHeight);
         coords[2] = TexCoord(x / pWidth, y / pHeight);
@@ -279,7 +277,6 @@ public:
         texture_ = texMgr_->GetTexture("playerShip1_orange.png");
         sprite_ = new Sprite();
         sprite_->Init(width() / 2, height() / 2, texture_->width, texture_->height, texture_);
-        timeOffset_ = bx::getHPCounter();
     }
 
     virtual void Draw() override {

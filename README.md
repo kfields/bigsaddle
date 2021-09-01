@@ -12,7 +12,7 @@ An opinionated, object oriented, minimalistic framework/starter kit for:
 
 ## Motivation
 
-I wanted to take the pain out of cross platform development for my personal projects
+I wanted to take the pain out of cross platform 3D development for my personal projects
 
 ## Features
 
@@ -32,9 +32,11 @@ Uses ImGui docking branch with support for docking and viewports
     cd build-debug
     cmake -DCMAKE_BUILD_TYPE=Debug ..
 
-## Vulkan
+## Shader Compilation
 
-    cmake -DBIG_RENDERER_VULKAN=ON -DCMAKE_BUILD_TYPE=Debug ..
+* Build bgfx with the --with-tools option as described [here](https://bkaradzic.github.io/bgfx/build.html)
+* shadercRelease needs to be on your path
+* pass -DCOMPILE_SHADERS to cmake
 
 ## Wayland
 
@@ -43,7 +45,3 @@ Uses ImGui docking branch with support for docking and viewports
     sudo add-apt-repository ppa:christianrauch/libdecoration
 
     cmake -DBIG_WM_WAYLAND=ON -DCMAKE_BUILD_TYPE=Debug ..
-
-## Vulkan and Wayland
-
-    cmake -DBIG_RENDERER_VULKAN=ON -DBIG_WM_WAYLAND=ON -DCMAKE_BUILD_TYPE=Debug ..
