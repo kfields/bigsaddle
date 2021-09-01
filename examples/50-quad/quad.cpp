@@ -103,7 +103,7 @@ class Quad {
         texture_color_ = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
     }
 
-    void Quad::Draw() {
+    void Draw() {
         float scaleMat[16];
         float rotateMat[16];
         float transMat[16];

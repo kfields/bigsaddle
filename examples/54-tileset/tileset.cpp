@@ -95,18 +95,19 @@ public:
         Texture* texture = new Texture();
         texture->Load(_path.parent_path() / imagePath);
 
-        for (pugi::xml_node subTex: atlas.children("SubTexture"))
+        for (pugi::xml_node node: atlas.children("SubTexture"))
         {
             //<SubTexture name="beam0.png" x="143" y="377" width="43" height="31"/>
-            std::string name = subTex.attribute("name").as_string();
-            int x = subTex.attribute("x").as_int();
-            int y = subTex.attribute("y").as_int();
-            int width = subTex.attribute("width").as_int();
-            int height = subTex.attribute("height").as_int();
+            std::string name = node.attribute("name").as_string();
+            int x = node.attribute("x").as_int();
+            int y = node.attribute("y").as_int();
+            int width = node.attribute("width").as_int();
+            int height = node.attribute("height").as_int();
             //std::cout << name << x << y << width << height << "\n";
             Texture* subTex = new Texture(texture, name, x, y, width, height);
             textures_[name] = subTex;
         }
+        return 0;
     }
     Texture* GetTexture(const std::string& _name) {
         return textures_[_name];
