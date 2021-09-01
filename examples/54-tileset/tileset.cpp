@@ -80,30 +80,54 @@ struct Texture {
     };
 
 };
-
-class TextureManager {
+/*
+<tileset name="tiles"
+    tilewidth="128"
+    tileheight="128"
+    tilecount="148"
+    columns="12"
+    margin="0"
+    spacing="0"
+    >
+*/
+class Tileset {
 public:
-    int LoadSpriteSheet(const std::filesystem::path& _path) {
+    int Load(const std::filesystem::path& _path) {
         pugi::xml_document doc;
         pugi::xml_parse_result result = doc.load_file(_path.c_str());
         if (!result)
             return -1;
         
-        pugi::xml_node atlas = doc.child("TextureAtlas");
-        const char* imagePath = atlas.attribute("imagePath").as_string();
+        pugi::xml_node tsNode = doc.child("tileset");
+        name_ = tsNode.attribute("name").as_string();
+        tilewidth_ = tsNode.attribute("tilewidth").as_int();
+        tileheight_ = tsNode.attribute("tileheight").as_int();
+        tilecount_ = tsNode.attribute("tilecount").as_int();
+        columns_ = tsNode.attribute("columns").as_int();
+        margin_ = tsNode.attribute("margin").as_int();
+        spacing_ = tsNode.attribute("spacing").as_int();
+
+        //<image source="tiles.png" width="1536" height="1664"/>
+        pugi::xml_node imNode = tsNode.child("image");
+        const char* imPath = imNode.attribute("source").as_string();
+        int imWidth = imNode.attribute("width").as_int();
+        int imHeight = imNode.attribute("height").as_int();
+
+        rows_ = imHeight / tileheight_;
 
         Texture* texture = new Texture();
-        texture->Load(_path.parent_path() / imagePath);
+        texture->Load(_path.parent_path() / imPath);
 
-        for (pugi::xml_node node: atlas.children("SubTexture"))
+        for (pugi::xml_node node: tsNode.children("tile"))
         {
-            //<SubTexture name="beam0.png" x="143" y="377" width="43" height="31"/>
-            std::string name = node.attribute("name").as_string();
-            int x = node.attribute("x").as_int();
-            int y = node.attribute("y").as_int();
-            int width = node.attribute("width").as_int();
-            int height = node.attribute("height").as_int();
-            //std::cout << name << x << y << width << height << "\n";
+            std::string name = node.attribute("id").as_string();
+            int id = node.attribute("id").as_int();
+            int row = id / columns_;
+            int col = id % columns_;
+            int x = col * tilewidth_;
+            int y = row * tileheight_;
+            int width = tilewidth_;
+            int height = tileheight_;
             Texture* subTex = new Texture(texture, name, x, y, width, height);
             textures_[name] = subTex;
         }
@@ -124,6 +148,15 @@ public:
     }
     // Data members
     std::map<std::string, Texture*> textures_;
+    std::string name_;
+    int tilewidth_;
+    int tileheight_;
+    int tilecount_;
+    int columns_;
+    int rows_;
+    int margin_;
+    int spacing_;
+
 };
 
 struct PosColorTexCoord0Vertex
@@ -272,10 +305,10 @@ public:
     virtual void Create() override {
         ExampleApp::Create();
 
-        texMgr_ = new TextureManager();
-        texMgr_->LoadSpriteSheet("spaceshooter/sheet.xml");
+        tileset_ = new Tileset();
+        tileset_->Load("platformer/tiles.tsx");
 
-        texture_ = texMgr_->GetTexture("playerShip1_orange.png");
+        texture_ = tileset_->GetTexture("1");
         sprite_ = new Sprite();
         sprite_->Init(width() / 2, height() / 2, texture_->width, texture_->height, texture_);
     }
@@ -305,10 +338,10 @@ public:
         if (ImGui::ColorEdit4("Color", color))
             sprite_->color_ = ColorRgba(color);
 
-        std::vector<const char*> names = texMgr_->GetNames();
-        static int item_current = texMgr_->GetNameIndex(sprite_->texture_.name);
+        std::vector<const char*> names = tileset_->GetNames();
+        static int item_current = tileset_->GetNameIndex(sprite_->texture_.name);
         if (ImGui::ListBox("Textures", &item_current, names.data(), names.size(), 4)) {
-            sprite_->SetTexture(texMgr_->GetTexture(names[item_current]));
+            sprite_->SetTexture(tileset_->GetTexture(names[item_current]));
         }
 
         ImGui::End();
@@ -322,7 +355,7 @@ public:
     }
     //Data members
     Texture* texture_ = nullptr;
-    TextureManager* texMgr_ = nullptr;
+    Tileset* tileset_ = nullptr;
     Sprite* sprite_ = nullptr;
 };
 
