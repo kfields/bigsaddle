@@ -8,7 +8,13 @@ include(${BIG_ROOT}/cmake/Big.cmake)
 include(${BIG_ROOT}/cmake/Utils.cmake)
 
 set(HEADERS
+    common.h
     example_app.h
+    common/color.h
+    common/texture.h
+    common/sprite.h
+    common/tile.h
+    common/csv.h
 )
 
 set(SOURCES
@@ -31,3 +37,4 @@ add_subdirectory(51-sprite)
 add_subdirectory(52-spritesheet)
 add_subdirectory(53-animatedsprite)
 add_subdirectory(54-tileset)
+add_subdirectory(55-tilemap)

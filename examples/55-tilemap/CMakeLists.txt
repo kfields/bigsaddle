@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(52-spritesheet LANGUAGES CXX)
+project(55-tilemap LANGUAGES CXX)
 
 set(THIS ${PROJECT_NAME})
 
@@ -10,7 +10,8 @@ set(HEADERS
 )
 
 set(SOURCES
-    spritesheet.cpp
+    tilemap.cpp
 )
 
 add_example(${THIS} ${HEADERS} ${SOURCES})
+
