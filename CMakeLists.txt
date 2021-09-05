@@ -21,6 +21,11 @@ set(BUILD_STATIC_LIBS ON CACHE BOOL "Build static library" FORCE)
 add_subdirectory(lib/glm)
 
 #
+# Entt
+#
+add_subdirectory(lib/entt)
+
+#
 # SDL - Minimal build for now
 #
 set(SDL_SHARED OFF CACHE BOOL "Build a shared version of the library" FORCE)

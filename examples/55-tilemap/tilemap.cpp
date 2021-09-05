@@ -68,7 +68,7 @@ public:
                 int gid = data_[j][i];
                 if (gid == 0)
                     continue;
-                sprites_.push_back(Sprite::Produce(i * tilewidth, j * tileheight, tilewidth, tileheight, map_->tiles_[gid]));
+                sprites_.push_back(Sprite::Produce(i * tilewidth, j * tileheight, map_->tiles_[gid]));
             }
         }
     }
@@ -188,7 +188,6 @@ public:
         bx::mtxOrtho(ortho, 0, width(), height(), 0, 0.0f, 1000.0f, 0.0f, caps->homogeneousDepth);
         bgfx::setViewTransform(viewId_, NULL, ortho);
         */
-        float scale = 0.5f;
         float ortho[16];
         const bgfx::Caps* caps = bgfx::getCaps();
         bx::mtxOrtho(ortho, 0, width()*2, height()*2, 0, 0.0f, 1000.0f, 0.0f, caps->homogeneousDepth);

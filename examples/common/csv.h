@@ -36,7 +36,7 @@ struct CSVRow
     }
     // Data members
     std::string         m_line;
-    std::vector<int>    m_data;
+    std::vector<std::string::size_type>    m_data;
 };
 
 std::istream& operator>>(std::istream& str, CSVRow& data)

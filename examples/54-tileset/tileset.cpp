@@ -27,7 +27,7 @@ public:
         tileset_->Load("platformer/tiles.tsx");
 
         texture_ = tileset_->GetTile(0);
-        sprite_ = Sprite::Produce(width() / 2, height() / 2, texture_.width, texture_.height, texture_);
+        sprite_ = Sprite::Produce(width() / 2, height() / 2, texture_);
     }
 
     virtual void Draw() override {

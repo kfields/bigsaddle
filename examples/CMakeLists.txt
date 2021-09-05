@@ -15,6 +15,7 @@ set(HEADERS
     common/sprite.h
     common/tile.h
     common/csv.h
+    common/timer.h
 )
 
 set(SOURCES

@@ -39,16 +39,14 @@ public:
     Sprite()
         : x_(0.0f),
         y_(0.0f),
-        width_(0.0f),
-        height_(0.0f),
         scale_(1.0f),
         angle_(0.0f),
         texture_(Texture())
     {
     }
 
-    Sprite(float x, float y, float width, float height, Texture& texture) :
-        x_(x), y_(y), width_(width), height_(height), scale_(1.0f), angle_(0.0f),
+    Sprite(float x, float y, Texture& texture) :
+        x_(x), y_(y), scale_(1.0f), angle_(0.0f),
         texture_(texture) {}
 
     ~Sprite() {
@@ -62,10 +60,10 @@ public:
         texture_color_ = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
         isSetup_ = true;
     }
-    static Sprite* Produce(float x, float y, float width, float height, Texture& texture) {
+    static Sprite* Produce(float x, float y, Texture& texture) {
         if (!isSetup_)
             Setup();
-        return new Sprite(x, y, width, height, texture);
+        return new Sprite(x, y, texture);
     }
     static void Shutdown() {
         if (bgfx::isValid(program_)) {
@@ -87,8 +85,8 @@ public:
         {
             PosColorTexCoord0Vertex* srcVert = s_quadVertices;
             PosColorTexCoord0Vertex* vertex = (PosColorTexCoord0Vertex*)tvb.data;
-            float halfWidth = width_ / 2;
-            float halfHeight = height_ / 2;
+            float halfWidth = float(texture_.width / 2);
+            float halfHeight = float(texture_.height / 2);
             for (int i = 0; i < 4; ++i) {
                 glm::vec4 vert = model * glm::vec4(srcVert[i].m_x * halfWidth, srcVert[i].m_y * halfHeight, 0.0f, 1.0f);
                 vertex[i].m_x = vert[0];
@@ -123,15 +121,11 @@ public:
 
     void SetTexture(Texture& tex) {
         texture_ = tex;
-        width_ = tex.width;
-        height_ = tex.height;
     }
 
     // Data members
     float x_;
     float y_;
-    float width_;
-    float height_;
     float scale_;
     float angle_;
     Texture texture_;

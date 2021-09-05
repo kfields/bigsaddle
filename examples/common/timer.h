@@ -52,7 +52,7 @@ public:
     }
     long GetElapsed() {
         auto time = Now();
-        long elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(time - lastElapsed).count();
+        long elapsed = long(std::chrono::duration_cast<std::chrono::milliseconds>(time - lastElapsed).count());
         lastElapsed = time;
         return elapsed;
     }

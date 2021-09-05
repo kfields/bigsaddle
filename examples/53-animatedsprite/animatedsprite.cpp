@@ -73,14 +73,14 @@ struct AnimatedSprite : Sprite {
     AnimatedSprite() : Sprite() {
         SetFps(10);
     }
-    AnimatedSprite(float x, float y, float width, float height, Texture& texture) : Sprite(x, y, width, height, texture) {
+    AnimatedSprite(float x, float y, Texture& texture) : Sprite(x, y, texture) {
         SetFps(10);
     }
 
-    static AnimatedSprite* Produce(float x, float y, float width, float height, Texture& texture) {
+    static AnimatedSprite* Produce(float x, float y, Texture& texture) {
         if (!isSetup_)
             Setup();
-        return new AnimatedSprite(x, y, width, height, texture);
+        return new AnimatedSprite(x, y, texture);
     }
     void Update() {
         if (timer.CheckAlarm()) {
@@ -128,7 +128,7 @@ public:
         texMgr_->LoadSpriteSheet("characters/robot/sheet.xml");
 
         texture_ = *texMgr_->GetTexture("idle");
-        sprite_ = AnimatedSprite::Produce(width() / 2, height() / 2, texture_.width, texture_.height, texture_);
+        sprite_ = AnimatedSprite::Produce(width() / 2, height() / 2, texture_);
 
         SpriteAnimations* animations = new SpriteAnimations();
 

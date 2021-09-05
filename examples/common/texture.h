@@ -14,8 +14,8 @@ struct Texture {
     Texture() {}
     Texture(Texture* parent, int _id, std::string _name, int _x, int _y, int _width, int _height) :
         id(_id), name(_name), texture(parent->texture), x(_x), y(_y), width(_width), height(_height) {
-        float pWidth = parent->width;
-        float pHeight = parent->height;
+        float pWidth = float(parent->width);
+        float pHeight = float(parent->height);
         coords[0] = TexCoord(x / pWidth, (y + height) / pHeight);
         coords[1] = TexCoord((x + width) / pWidth, (y + height) / pHeight);
         coords[2] = TexCoord(x / pWidth, y / pHeight);
@@ -80,7 +80,7 @@ public:
             int width = node.attribute("width").as_int();
             int height = node.attribute("height").as_int();
             //std::cout << name << x << y << width << height << "\n";
-            Texture* subTex = new Texture(texture, textures_.size(), name, x, y, width, height);
+            Texture* subTex = new Texture(texture, int(textures_.size()), name, x, y, width, height);
             textures_[name] = subTex;
         }
         return 0;
@@ -96,7 +96,7 @@ public:
         return names;
     }
     int GetNameIndex(const std::string& _name) {
-        return std::distance(textures_.begin(), textures_.find(_name));
+        return int(std::distance(textures_.begin(), textures_.find(_name)));
     }
     // Data members
     std::map<std::string, Texture*> textures_;
