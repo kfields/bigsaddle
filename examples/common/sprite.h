@@ -3,6 +3,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "model.h"
+
 struct PosColorTexCoord0Vertex
 {
 	float m_x;
@@ -33,7 +35,7 @@ static PosColorTexCoord0Vertex s_quadVertices[4] = {
     { 1.0f, -1.0f,  1.0f, 0xff000000,  1.0f, 0.0f}
 };
 
-class Sprite {
+class Sprite : public Model {
 public:
 
     Sprite()
@@ -54,6 +56,12 @@ public:
             bgfx::destroy(texture_.texture);
         }
     }
+
+    void Create(float x, float y, Texture& texture) {
+        Model::Create(x, y);
+        s_registry.emplace<Texture>(handle_, texture);
+    }
+
     static void Setup() {
         PosColorTexCoord0Vertex::Setup();
         program_ = loadProgram("vs_sprite", "fs_sprite");
@@ -63,7 +71,10 @@ public:
     static Sprite* Produce(float x, float y, Texture& texture) {
         if (!isSetup_)
             Setup();
-        return new Sprite(x, y, texture);
+        //return new Sprite(x, y, texture);
+        Sprite* sprite = new Sprite(x, y, texture);
+        sprite->Create(x, y, texture);
+        return sprite;
     }
     static void Shutdown() {
         if (bgfx::isValid(program_)) {
@@ -75,8 +86,8 @@ public:
     {
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(x_, y_, 0.0f));
-        model = glm::scale(model, glm::vec3(scale_, scale_, 1.0f));
         model = glm::rotate(model, glm::radians(angle_), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::scale(model, glm::vec3(scale_, scale_, 1.0f));
 
         bgfx::TransientVertexBuffer tvb;
         bgfx::TransientIndexBuffer tib;

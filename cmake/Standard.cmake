@@ -5,6 +5,12 @@ include_guard()
 include(${CMAKE_CURRENT_LIST_DIR}/Config.cmake)
 
 function(USES_STD THIS)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_compile_definitions(${THIS} PRIVATE BX_CONFIG_DEBUG=1)
+    else()
+        target_compile_definitions(${THIS} PRIVATE BX_CONFIG_DEBUG=0)
+    endif()
+
     if(${BIG_PLATFORM} STREQUAL "Linux")
         target_compile_definitions(${THIS} PRIVATE
             ${BIG_COMPILE_DEFS}

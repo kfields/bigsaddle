@@ -6,6 +6,7 @@ set(THIS ${PROJECT_NAME})
 
 include(${BIG_ROOT}/cmake/Big.cmake)
 include(${BIG_ROOT}/cmake/Utils.cmake)
+include(${BIG_ROOT}/cmake/Entt.cmake)
 
 set(HEADERS
     common.h
@@ -21,11 +22,13 @@ set(HEADERS
 set(SOURCES
     example_app.cpp
     example_dialog.cpp
+    common/entity.cpp
 )
 
 add_library(${THIS} ${HEADERS} ${SOURCES})
 USES_BIG(${THIS})
 USES_UTILS(${THIS})
+USES_ENTT(${THIS})
 
 add_subdirectory(00-helloworld)
 add_subdirectory(01-cubes)

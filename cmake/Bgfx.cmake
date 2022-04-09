@@ -4,6 +4,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/Standard.cmake)
 
 function(USES_BGFX THIS)
     USES_STD(${THIS})
+
     target_include_directories(${THIS} PRIVATE
         ${BX_COMPATIBILITY}
         ${BX_ROOT}/include
