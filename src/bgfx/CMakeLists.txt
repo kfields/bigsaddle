@@ -35,6 +35,7 @@ set(BGFX_SRC
     ${_}/topology.cpp
     ${_}/debug_renderdoc.cpp
     ${_}/renderer_noop.cpp
+    ${_}/renderer_agc.cpp
     ${_}/renderer_d3d9.cpp
     ${_}/renderer_d3d11.cpp
     ${_}/renderer_d3d12.cpp
@@ -79,9 +80,8 @@ add_library(${THIS} STATIC
 )
 USES_STD(${THIS})
 
-#TODO:PRIxPTR???
 if(BX_COMPATIBILITY)
-    target_compile_definitions(${THIS} PRIVATE PRIxPTR="Ix")
+    target_compile_definitions(${THIS} PRIVATE -D__STDC_FORMAT_MACROS=1)
 endif()
 
 install(TARGETS ${THIS} EXPORT BgfxTargets
