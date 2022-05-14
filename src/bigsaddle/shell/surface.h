@@ -51,6 +51,8 @@ public:
     uint16_t viewId_;
     Surface* parent_;
     std::list<Surface*> children_;
+
+    bgfx::FrameBufferHandle frameBuffer_;
 };
 
 } //namespace bigsaddle

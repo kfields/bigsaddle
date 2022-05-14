@@ -31,7 +31,6 @@ public:
 
     //Data members
     ImGuiViewport* viewport_;
-    bgfx::FrameBufferHandle frameBuffer_;
 };
 
 } //namespace bigsaddle

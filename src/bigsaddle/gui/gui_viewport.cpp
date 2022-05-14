@@ -15,7 +15,7 @@
 namespace bigsaddle {
 
 GuiViewport::GuiViewport(WindowParams params) : Window(params),
-    viewport_(nullptr), frameBuffer_(BGFX_INVALID_HANDLE)
+    viewport_(nullptr)
 {
     //viewId_ |= 0x7F;
 }
