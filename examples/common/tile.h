@@ -5,6 +5,8 @@
 #include <fmt/core.h>
 #include <pugixml.hpp>
 
+#include "texture.h"
+
 struct Tile : Texture {
     Tile() : Texture() {}
     Tile(Texture* parent, int _id, std::string _name, int _x, int _y, int _width, int _height) :
@@ -76,8 +78,8 @@ public:
         }
         return names;
     }
-    Tile GetTile(int id) {
-        return tiles_[id];
+    Tile* GetTile(int id) {
+        return &tiles_[id];
     }
     // Data members
     std::vector<Tile> tiles_;

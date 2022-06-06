@@ -31,7 +31,7 @@ public:
     template<typename T>
     bool HasComponent()
     {
-        return s_registry.has<T>(handle_);
+        return s_registry.any_of<T>(handle_);
     }
 
     template<typename T>

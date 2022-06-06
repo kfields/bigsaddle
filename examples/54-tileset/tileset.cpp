@@ -26,7 +26,7 @@ public:
         tileset_ = new Tileset();
         tileset_->Load("platformer/tiles.tsx");
 
-        texture_ = tileset_->GetTile(0);
+        texture_ = *tileset_->GetTile(0);
         sprite_ = Sprite::Produce(width() / 2, height() / 2, texture_);
     }
 
@@ -58,7 +58,7 @@ public:
         std::vector<const char*> names = tileset_->GetNames();
         static int item_current = sprite_->texture_.id;
         if (ImGui::ListBox("Textures", &item_current, names.data(), names.size(), 4)) {
-            sprite_->SetTexture(tileset_->GetTile(item_current));
+            sprite_->SetTexture(*tileset_->GetTile(item_current));
         }
 
         ImGui::End();

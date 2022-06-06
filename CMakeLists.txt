@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.4)
 
 include(./cmake/Config.cmake)
 
+set(-DCMAKE_CXX_STANDARD=20 -std=c++20)
+
 #
 # fmt
 #

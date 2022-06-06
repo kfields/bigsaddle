@@ -13,7 +13,7 @@ namespace bigsaddle {
 class Win32Window : public WindowBase {
  public:
 
-    Win32Window(WindowParams& params = WindowParams()) : WindowBase(params) {}
+    Win32Window(WindowParams params = WindowParams()) : WindowBase(params) {}
     virtual ~Win32Window();
 
     int AttachTo(HWND hParent);
