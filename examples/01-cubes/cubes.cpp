@@ -218,7 +218,7 @@ public:
 		ImGui::Checkbox("Write A", &a_);
 
 		ImGui::Text("Primitive topology:");
-		ImGui::Combo("", (int*)&pt_, s_ptNames, BX_COUNTOF(s_ptNames));
+		ImGui::Combo("##combo", (int*)&pt_, s_ptNames, BX_COUNTOF(s_ptNames));
 
 		ImGui::End();
 
