@@ -12,48 +12,54 @@
 
 #include "gui_viewport.h"
 
-namespace bigsaddle {
-
-GuiViewport::GuiViewport(WindowParams params) : Window(params),
-    viewport_(nullptr)
+namespace bigsaddle
 {
-    //viewId_ |= 0x7F;
-}
 
-void GuiViewport::Create() {
+  GuiViewport::GuiViewport(WindowParams params) : Window(params),
+                                                  viewport_(nullptr)
+  {
+    // viewId_ |= 0x7F;
+  }
+
+  void GuiViewport::Create()
+  {
     Window::Create();
     Reset();
-}
+  }
 
-void GuiViewport::Destroy() {
-    if (bgfx::isValid(frameBuffer_)) {
-        destroy(frameBuffer_);
-        frameBuffer_.idx = BGFX_INVALID_HANDLE;
-        bgfx::setViewFrameBuffer(viewId(), BGFX_INVALID_HANDLE);
-        bgfx::frame();
+  void GuiViewport::Destroy()
+  {
+    if (bgfx::isValid(frameBuffer_))
+    {
+      destroy(frameBuffer_);
+      frameBuffer_.idx = BGFX_INVALID_HANDLE;
+      bgfx::setViewFrameBuffer(viewId(), BGFX_INVALID_HANDLE);
+      bgfx::frame();
     }
 
     Window::Destroy();
-}
+  }
 
-void GuiViewport::PostRender() {
+  void GuiViewport::PostRender()
+  {
     gui().renderer().Render(viewId(), viewport_->DrawData);
     Window::PostRender();
-}
+  }
 
-void GuiViewport::Reset(ResetKind kind)
-{
-    if (kind == ResetKind::kSoft) {
-        if (bgfx::isValid(frameBuffer_))
-            bgfx::setViewFrameBuffer(viewId(), frameBuffer_);
-        return;
+  void GuiViewport::Reset(ResetKind kind)
+  {
+    if (kind == ResetKind::kSoft)
+    {
+      if (bgfx::isValid(frameBuffer_))
+        bgfx::setViewFrameBuffer(viewId(), frameBuffer_);
+      return;
     }
-    
-    if (bgfx::isValid(frameBuffer_))
-        destroy(frameBuffer_);
-    void* nh = GetHandle();
-    frameBuffer_ = bgfx::createFrameBuffer(nh, width(), height());
-    bgfx::setViewFrameBuffer(viewId(), frameBuffer_);
-}
 
-} //namespace bigsaddle
+    if (bgfx::isValid(frameBuffer_))
+      destroy(frameBuffer_);
+    void *nh = GetHandle();
+    frameBuffer_ = bgfx::createFrameBuffer(nh, width(), height(), bgfx::TextureFormat::BGRA8);
+    bgfx::setViewFrameBuffer(viewId(), frameBuffer_);
+  }
+
+} // namespace bigsaddle

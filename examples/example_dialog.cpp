@@ -3,6 +3,8 @@
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
+#include <limits>
+
 #include <imgui/imgui.h>
 #include <iconfontheaders/icons_font_awesome.h>
 #include <iconfontheaders/icons_kenney.h>
@@ -41,8 +43,8 @@ struct SampleData
 		m_values[m_offset] = value;
 		m_offset = (m_offset+1) % kNumSamples;
 
-		float min =  bx::kFloatMax;
-		float max = -bx::kFloatMax;
+		float min =  std::numeric_limits<float>::min();
+		float max = -std::numeric_limits<float>::max();
 		float avg =  0.0f;
 
 		for (uint32_t ii = 0; ii < kNumSamples; ++ii)

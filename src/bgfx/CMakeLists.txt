@@ -109,6 +109,7 @@ target_include_directories(${THIS}
         ${BGFX_ROOT}/3rdparty
         ${BGFX_ROOT}/3rdparty/khronos
         ${BGFX_ROOT}/3rdparty/dxsdk/include
+        ${BGFX_ROOT}/3rdparty/directx-headers/include/directx
 )
 
 target_link_libraries(${THIS} PRIVATE astc-codec)
