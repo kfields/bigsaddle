@@ -4,9 +4,9 @@
 
 using namespace bigsaddle;
 
-//void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float height, float t, int blowup, struct DemoData* data)
-//void renderDemo(struct NVGcontext* vg, float width, float height, float t)
-void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float height, float t)
+// void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float height, float t, int blowup, struct DemoData* data)
+// void renderDemo(struct NVGcontext* vg, float width, float height, float t)
+void renderDemo(struct NVGcontext *vg, float mx, float my, float width, float height, float t)
 {
 	float x, y, popx, popy;
 
@@ -35,7 +35,8 @@ void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float he
 	}*/
 
 	// Widgets.
-	x = width - 520; y = height - 420;
+	x = width - 520;
+	y = height - 420;
 	drawWindow(vg, "Widgets `n Stuff", x, y, 300, 400);
 	x += 10;
 	y += 45;
@@ -76,34 +77,40 @@ void renderDemo(struct NVGcontext* vg, float mx, float my, float width, float he
 	nvgRestore(vg);
 }
 
-class ExampleNanoVG : public ExampleApp {
+class ExampleNanoVG : public ExampleApp
+{
 public:
 	ExampleNanoVG(ExampleParams params) : ExampleApp(params),
-    nvg_(nullptr) {    
-    }
-    virtual void Create() override {
-        ExampleApp::Create();
+																				nvg_(nullptr)
+	{
+	}
+	virtual void Create() override
+	{
+		ExampleApp::Create();
 		timeOffset_ = bx::getHPCounter();
-        int32_t edgeAntiAlias = 1;
+		int32_t edgeAntiAlias = 1;
 		bgfx::ViewId viewId = AllocViewId();
 		bgfx::setViewName(viewId, "NanoVG");
 		bgfx::setViewMode(viewId, bgfx::ViewMode::Sequential);
 		nvg_ = nvgCreate(edgeAntiAlias, viewId);
-        loadDemoData(nvg_, &data_);
-    }
-    virtual void Destroy() override {
-        freeDemoData(nvg_, &data_);
-        nvgDelete(nvg_);
+		loadDemoData(nvg_, &data_);
+	}
+	virtual void Destroy() override
+	{
+		freeDemoData(nvg_, &data_);
+		nvgDelete(nvg_);
 		ExampleApp::Destroy();
-    }
-    virtual void Draw() override {
-        ExampleApp::Draw();
+	}
+	virtual void Draw() override
+	{
+		ExampleApp::Draw();
 		ShowExampleDialog();
 
 		float width = size_.width;
 		float height = size_.height;
 		float x, y, popx, popy;
-		x = width - 520; y = height - 420;
+		x = width - 520;
+		y = height - 420;
 
 		nvgBeginFrame(nvg_, width, height, 1.0f);
 
@@ -113,20 +120,15 @@ public:
 
 		int mx, my;
 		Uint32 mState = SDL_GetMouseState(&mx, &my);
-		//renderDemo(nvg_, float(m_mouseState.m_mx), float(m_mouseState.m_my), float(m_width), float(m_height), time, 0, &m_data);
+		// renderDemo(nvg_, float(m_mouseState.m_mx), float(m_mouseState.m_my), float(m_width), float(m_height), time, 0, &m_data);
 		renderDemo(nvg_, float(mx), float(my), width, height, time);
 		nvgEndFrame(nvg_);
-
-    }
-    //Data members
-    NVGcontext* nvg_;
+	}
+	// Data members
+	NVGcontext *nvg_;
 	int64_t timeOffset_;
-    DemoData data_;
+	DemoData data_;
 };
 
 EXAMPLE_MAIN(
-	ExampleNanoVG
-	, "20-nanovg"
-	, "NanoVG is small antialiased vector graphics rendering library."
-	, "https://bkaradzic.github.io/bgfx/examples.html#nanovg"
-);
+		ExampleNanoVG, "20-nanovg", "NanoVG is small antialiased vector graphics rendering library.", "https://bkaradzic.github.io/bgfx/examples.html#nanovg");
