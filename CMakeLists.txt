@@ -44,6 +44,11 @@ set(VIDEO_WAYLAND ${BIG_WM_WAYLAND} CACHE BOOL "Enable Wayland support" FORCE)
 add_subdirectory(lib/sdl)
 
 #
+# bimg
+#
+add_subdirectory(src/bimg)
+
+#
 # bgfx
 #
 add_subdirectory(src/bgfx)

@@ -31,6 +31,7 @@ Uses ImGui docking branch with support for docking and viewports
     mkdir build-debug
     cd build-debug
     cmake -DCMAKE_BUILD_TYPE=Debug ..
+    cmake -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Debug ..
 
 ## Shader Compilation
 
