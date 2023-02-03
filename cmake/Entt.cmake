@@ -7,6 +7,6 @@ function(USES_ENTT THIS)
   target_include_directories(${THIS} PRIVATE
     ${ENTT_ROOT/src}
   )
-  target_link_libraries(${THIS} EnTT)
+  target_link_libraries(${THIS} PRIVATE EnTT)
 
 endfunction()

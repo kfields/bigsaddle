@@ -35,4 +35,4 @@ USES_SHELL(${THIS})
 
 target_include_directories(${THIS} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/renderer)
 
-target_link_libraries(${THIS} ImGui bgfx BigShell${BIG_PLATFORM})
+target_link_libraries(${THIS} PRIVATE ImGui bgfx BigShell${BIG_PLATFORM})

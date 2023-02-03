@@ -46,6 +46,7 @@ add_subdirectory(lib/sdl)
 #
 # bimg
 #
+add_subdirectory(lib/astc-encoder)
 add_subdirectory(src/bimg)
 
 #

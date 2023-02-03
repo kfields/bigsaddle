@@ -1,4 +1,5 @@
 #include "SDL_syswm.h"
+#include "build_config/SDL_build_config.h"
 
 #include <imgui/imgui.h>
 
@@ -44,8 +45,8 @@ void WindowBase::Create() {
         return;
     }
     SDL_SysWMinfo wmi;
-    SDL_VERSION(&wmi.version);
-    if (!SDL_GetWindowWMInfo(window_, &wmi)) {
+    //SDL_VERSION(&wmi.version);
+    if (!SDL_GetWindowWMInfo(window_, &wmi, SDL_SYSWM_CURRENT_VERSION)) {
         printf(
             "SDL_SysWMinfo could not be retrieved. SDL_Error: %s\n",
             SDL_GetError());
@@ -77,11 +78,14 @@ void WindowBase::OnSize() {
 }
 
 bool WindowBase::Dispatch(const SDL_Event& event) {
+    if (event.type >= SDL_EVENT_WINDOW_FIRST && event.type <= SDL_EVENT_WINDOW_LAST)
+        return DispatchWindowEvent(event);
+
     switch (event.type) {
-        case SDL_QUIT:
+        case SDL_EVENT_QUIT:
             return false;
-        case SDL_WINDOWEVENT:
-            return DispatchWindowEvent(event);
+        /*case SDL_WINDOWEVENT:
+            return DispatchWindowEvent(event);*/
         }
     return true;
 }
@@ -93,17 +97,16 @@ bool WindowBase::DispatchWindowEvent(const SDL_Event& event) {
             return windowMap_[event.window.windowID]->DispatchWindowEvent(event);
     }
 
-    Uint8 window_event = event.window.event;
-    switch (window_event) {
-        case SDL_WINDOWEVENT_SIZE_CHANGED:
+    switch (event.type) {
+        case SDL_EVENT_WINDOW_RESIZED:
             OnSize();
-        case SDL_WINDOWEVENT_MOVED:
-        case SDL_WINDOWEVENT_SHOWN:
+        case SDL_EVENT_WINDOW_MOVED:
+        case SDL_EVENT_WINDOW_SHOWN:
             break;
-        case SDL_WINDOWEVENT_EXPOSED:
+        case SDL_EVENT_WINDOW_EXPOSED:
             Render();
             break;
-        case SDL_WINDOWEVENT_CLOSE:
+        case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
             return false;
     }
     return true;

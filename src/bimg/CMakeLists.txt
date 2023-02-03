@@ -49,6 +49,4 @@ target_include_directories(${THIS}
         ${BIMG_ROOT}/3rdparty/tinyexr/deps/miniz
 )
 
-target_link_libraries(${THIS} PRIVATE astc-codec)
-
-add_subdirectory(astc-codec)
+target_link_libraries(${THIS} PRIVATE astcenc-native-static)

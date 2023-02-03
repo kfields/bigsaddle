@@ -8,6 +8,6 @@ function(USES_GUI THIS)
   #target_include_directories(${THIS} PRIVATE
   #  ${IMGUI_ROOT}
   #)
-  target_link_libraries(${THIS} BigGui)
+  target_link_libraries(${THIS} PRIVATE BigGui)
 
 endfunction()

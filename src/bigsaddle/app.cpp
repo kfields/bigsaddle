@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "SDL_syswm.h"
+#include "build_config/SDL_build_config.h"
 
 #include <imgui/imgui.h>
 
@@ -49,8 +50,12 @@ void App::CreateGfx() {
 
     bgfx::PlatformData pd{};
     SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(window_, &wmInfo);
+    //SDL_VERSION(&wmInfo.version);
+    int ok = SDL_GetWindowWMInfo(window_, &wmInfo, SDL_SYSWM_CURRENT_VERSION);
+    if(ok != 0) {
+        const char* err = SDL_GetError();
+        std::cout << err;
+    }
 
     SetupBgfxPlatformData(pd, wmInfo);
 
@@ -94,7 +99,7 @@ bool App::Dispatch(const SDL_Event& event) {
     capture_ = false;
     switch (event.type)
     {
-        case SDL_KEYDOWN:
+        case SDL_EVENT_KEY_DOWN:
         {
             int key = event.key.keysym.scancode;
             if (key == SDL_SCANCODE_F11) {

@@ -20,7 +20,7 @@ function(USES_EXAMPLES THIS)
     target_include_directories(${THIS} PRIVATE
         ${BIG_ROOT}
     )
-    target_link_libraries(${THIS} BigExamples)
+    target_link_libraries(${THIS} PRIVATE BigExamples)
     set_target_properties(
         ${THIS} PROPERTIES
         VS_DEBUGGER_WORKING_DIRECTORY "${BIG_ROOT}/examples/runtime")

@@ -1,4 +1,5 @@
 #include "SDL_syswm.h"
+#include "build_config/SDL_build_config.h"
 
 #include "win32_window.h"
 
@@ -15,8 +16,8 @@ RECT Win32Window::GetClientArea() {
 
 HWND Win32Window::GetNativeHandle() {
     SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(window_, &wmInfo);
+    //SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(window_, &wmInfo, SDL_SYSWM_CURRENT_VERSION);
     HWND hwnd = wmInfo.info.win.window;
     return hwnd;
 }

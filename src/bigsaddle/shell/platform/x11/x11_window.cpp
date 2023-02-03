@@ -2,6 +2,7 @@
 
 #include "SDL.h"
 #include "SDL_syswm.h"
+#include "build_config/SDL_build_config.h"
 
 #include "x11_window.h"
 

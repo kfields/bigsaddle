@@ -40,7 +40,7 @@ namespace bigsaddle
     App &app = *(App *)main_viewport->PlatformUserData;
 
     Uint32 sdl_flags = 0;
-    sdl_flags |= SDL_GetWindowFlags(app.window_) & SDL_WINDOW_ALLOW_HIGHDPI;
+    sdl_flags |= SDL_GetWindowFlags(app.window_);
     sdl_flags |= SDL_WINDOW_HIDDEN;
     sdl_flags |= (viewport->Flags & ImGuiViewportFlags_NoDecoration) ? SDL_WINDOW_BORDERLESS : 0;
     sdl_flags |= (viewport->Flags & ImGuiViewportFlags_NoDecoration) ? 0 : SDL_WINDOW_RESIZABLE;

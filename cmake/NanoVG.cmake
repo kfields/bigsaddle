@@ -7,6 +7,6 @@ function(USES_NVG THIS)
   target_include_directories(${THIS} PRIVATE
     ${NVG_ROOT}
   )
-  target_link_libraries(${THIS} NanoVG)
+  target_link_libraries(${THIS} PRIVATE NanoVG)
 
 endfunction()

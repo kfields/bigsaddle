@@ -18,5 +18,5 @@ function(USES_BGFX THIS)
         ${BGFX_ROOT}/3rdparty/khronos
         ${BGFX_ROOT}/examples/common
     )
-    target_link_libraries(${THIS} bgfx)
+    target_link_libraries(${THIS} PRIVATE bgfx)
 endfunction()

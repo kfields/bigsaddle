@@ -7,6 +7,6 @@ function(USES_PUGI THIS)
   target_include_directories(${THIS} PRIVATE
     ${PUGI_ROOT}/src
   )
-  target_link_libraries(${THIS} pugixml)
+  target_link_libraries(${THIS} PRIVATE pugixml)
 
 endfunction()

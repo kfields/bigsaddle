@@ -6,6 +6,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/Standard.cmake)
 
 function(USES_X11 THIS)
     USES_STD(${THIS})
-    target_link_libraries(${THIS} X11)
+    target_link_libraries(${THIS} PRIVATE X11)
 endfunction()
 

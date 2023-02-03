@@ -10,5 +10,5 @@ function(USES_BIMG THIS)
         ${BIMG_ROOT}/include
         ${BIMG_ROOT}/3rdparty
     )
-    target_link_libraries(${THIS} bimg)
+    target_link_libraries(${THIS} PRIVATE bimg)
 endfunction()

@@ -118,10 +118,10 @@ public:
 		const double freq = double(bx::getHPFrequency());
 		float time = (float)((now - timeOffset_) / freq);
 
-		int mx, my;
+		float mx, my;
 		Uint32 mState = SDL_GetMouseState(&mx, &my);
 		// renderDemo(nvg_, float(m_mouseState.m_mx), float(m_mouseState.m_my), float(m_width), float(m_height), time, 0, &m_data);
-		renderDemo(nvg_, float(mx), float(my), width, height, time);
+		renderDemo(nvg_, mx, my, width, height, time);
 		nvgEndFrame(nvg_);
 	}
 	// Data members

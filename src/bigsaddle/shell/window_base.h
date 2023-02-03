@@ -32,7 +32,7 @@ struct WindowParams {
     WindowParams(std::string _name = "Big Saddle",
         Point _origin = Point(SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED),
         Size _size = Size(800,600),
-        uint32_t _flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
+        uint32_t _flags = SDL_WINDOW_RESIZABLE
     ) {
         name = _name;
         origin = _origin;

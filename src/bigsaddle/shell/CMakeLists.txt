@@ -25,7 +25,7 @@ add_library(${THIS} ${SHELL_SRC} ${SHELL_HEADERS})
 USES_SDL(${THIS})
 USES_BGFX(${THIS})
 
-target_link_libraries(${THIS} bgfx BigShell${BIG_PLATFORM})
+target_link_libraries(${THIS} PRIVATE bgfx BigShell${BIG_PLATFORM})
 
 if(${BIG_PLATFORM_WINDOWS})
     add_subdirectory(platform/windows)
