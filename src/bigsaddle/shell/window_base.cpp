@@ -84,8 +84,6 @@ bool WindowBase::Dispatch(const SDL_Event& event) {
     switch (event.type) {
         case SDL_EVENT_QUIT:
             return false;
-        /*case SDL_WINDOWEVENT:
-            return DispatchWindowEvent(event);*/
         }
     return true;
 }
