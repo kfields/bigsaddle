@@ -252,8 +252,6 @@ namespace bigsaddle
         main_viewport->PlatformHandle = (void *)window_;
 #ifdef _WIN32
         SDL_SysWMinfo info;
-        // SDL_version version;
-        // SDL_VERSION(&version);
         if (SDL_GetWindowWMInfo(window_, &info, SDL_SYSWM_CURRENT_VERSION))
         {
             main_viewport->PlatformHandleRaw = info.info.win.window;
@@ -451,9 +449,9 @@ namespace bigsaddle
             monitor.WorkSize = ImVec2((float)r.w, (float)r.h);
 #endif
 #if SDL_HAS_PER_MONITOR_DPI
-            float dpi = 0.0f;
+            /*float dpi = 0.0f;
             if (!SDL_GetDisplayPhysicalDPI(id, &dpi, NULL, NULL))
-                monitor.DpiScale = dpi / 96.0f;
+                monitor.DpiScale = dpi / 96.0f;*/
 #endif
             platform_io.Monitors.push_back(monitor);
         }

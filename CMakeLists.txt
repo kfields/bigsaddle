@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.4)
 
+project(BIGSADDLE VERSION 0.1.0 LANGUAGES CXX)
+
 include(./cmake/Config.cmake)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(-DCMAKE_CXX_STANDARD=20 -std=c++20)
 
@@ -32,6 +36,8 @@ add_subdirectory(lib/entt)
 #
 set(HAVE_LIBC ON)
 set(SDL_SHARED OFF CACHE BOOL "Build a shared version of the library" FORCE)
+set(SDL_STATIC ON CACHE BOOL "Build a static version of the library" FORCE)
+set(SDL_TEST OFF CACHE BOOL "Build the SDL3_test library" FORCE)
 
 set(SDL_RENDER OFF CACHE BOOL "Use render subsystem" FORCE)
 set(SDL_AUDIO OFF CACHE BOOL "Use audio subsystem" FORCE)

@@ -50,7 +50,6 @@ void App::CreateGfx() {
 
     bgfx::PlatformData pd{};
     SDL_SysWMinfo wmInfo;
-    //SDL_VERSION(&wmInfo.version);
     int ok = SDL_GetWindowWMInfo(window_, &wmInfo, SDL_SYSWM_CURRENT_VERSION);
     if(ok != 0) {
         const char* err = SDL_GetError();

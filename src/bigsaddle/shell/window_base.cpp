@@ -45,8 +45,7 @@ void WindowBase::Create() {
         return;
     }
     SDL_SysWMinfo wmi;
-    //SDL_VERSION(&wmi.version);
-    if (!SDL_GetWindowWMInfo(window_, &wmi, SDL_SYSWM_CURRENT_VERSION)) {
+    if (0 != SDL_GetWindowWMInfo(window_, &wmi, SDL_SYSWM_CURRENT_VERSION)) {
         printf(
             "SDL_SysWMinfo could not be retrieved. SDL_Error: %s\n",
             SDL_GetError());
