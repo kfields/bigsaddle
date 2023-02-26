@@ -53,6 +53,7 @@ void WindowBase::Create() {
     }
     SetWindowId(SDL_GetWindowID(window_));
     MapWindow(windowId(), this);
+    ComputePixelSize();
 }
 
 void WindowBase::Show() {
@@ -71,8 +72,21 @@ void WindowBase::SetSize(Size size) {
     OnSize();
 }
 
+void WindowBase::ComputePixelSize() {
+    int w, h;
+    SDL_GetWindowSize(window_, &w, &h);
+    size_ = Size(w, h);
+    // printf("Window size: width=%i, height=%i\n", w, h);
+    int pw, ph;
+    SDL_GetWindowSizeInPixels(window_, &pw, &ph);
+    pixelSize_ = Size(pw, ph);
+    // printf("Window size in pixels: width=%i, height=%i\n", pw, ph);
+    pixelRatio_ = (float)pw / (float)w;
+    // printf("Pixel ratio: %f\n", pixelRatio_);
+}
+
 void WindowBase::OnSize() {
-    SDL_GetWindowSize(window_, &size_.width, &size_.height);
+    ComputePixelSize();
     Reset();
 }
 

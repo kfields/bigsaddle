@@ -62,7 +62,9 @@ void App::CreateGfx() {
     bgfx_init.debug = debug_;
     bgfx_init.type = bgfx::RendererType::Count; // auto choose renderer
     bgfx_init.resolution.width = width();
+    //bgfx_init.resolution.width = pixelWidth();
     bgfx_init.resolution.height = height();
+    //bgfx_init.resolution.height = pixelHeight();
     bgfx_init.resolution.reset = resetFlags_;
     bgfx_init.platformData = pd;
     bgfx::init(bgfx_init);
@@ -75,6 +77,7 @@ void App::CreateGfx() {
     );
 
     bgfx::setViewRect(viewId(), 0, 0, width(), height());
+    //bgfx::setViewRect(viewId(), 0, 0, pixelWidth(), pixelHeight());
 }
 
 void App::CreateGui(){
@@ -84,7 +87,9 @@ void App::CreateGui(){
 void App::Reset(ResetKind kind)
 {
     bgfx::reset(width(), height(), resetFlags_);
+    //bgfx::reset(pixelWidth(), pixelHeight(), resetFlags_);
     bgfx::setViewRect(viewId(), 0, 0, width(), height());
+    //bgfx::setViewRect(viewId(), 0, 0, pixelWidth(), pixelHeight());
     for (auto child : children_) {
         child->Reset(ResetKind::kSoft);
     }

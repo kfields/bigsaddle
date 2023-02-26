@@ -70,6 +70,7 @@ public:
     //
     void SetPosition(Point origin);
     void SetSize(Size size);
+    void ComputePixelSize();
     //
     static void MapWindow(uint32_t key, WindowBase* window) { windowMap_[key] = window; }
     static void UnmapWindow(uint32_t key) { windowMap_.erase(key); }
@@ -80,6 +81,8 @@ public:
     int y() { return origin_.y; }
     int width() { return size_.width; }
     int height() { return size_.height; }
+    int pixelWidth() { return pixelSize_.width; }
+    int pixelHeight() { return pixelSize_.height; }
     Gui& gui() { return *gui_; }
     //Data members
     uint32_t windowId_;
@@ -87,6 +90,8 @@ public:
     std::string name_;
     Point origin_;
     Size size_;
+    Size pixelSize_;
+    float pixelRatio_ = 1.0f;
     uint32_t flags_;
     SDL_Window* window_;
     Gui* gui_;

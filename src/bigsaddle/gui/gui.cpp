@@ -252,7 +252,7 @@ namespace bigsaddle
         main_viewport->PlatformHandle = (void *)window_;
 #ifdef _WIN32
         SDL_SysWMinfo info;
-        if (SDL_GetWindowWMInfo(window_, &info, SDL_SYSWM_CURRENT_VERSION))
+        if (0 == SDL_GetWindowWMInfo(window_, &info, SDL_SYSWM_CURRENT_VERSION))
         {
             main_viewport->PlatformHandleRaw = info.info.win.window;
         }
@@ -452,6 +452,9 @@ namespace bigsaddle
             /*float dpi = 0.0f;
             if (!SDL_GetDisplayPhysicalDPI(id, &dpi, NULL, NULL))
                 monitor.DpiScale = dpi / 96.0f;*/
+            //const SDL_DisplayMode *SDL_GetCurrentDisplayMode(SDL_DisplayID displayID)
+            const SDL_DisplayMode* displayMode = SDL_GetCurrentDisplayMode(id);
+            monitor.DpiScale = displayMode->display_scale;
 #endif
             platform_io.Monitors.push_back(monitor);
         }
@@ -465,10 +468,8 @@ namespace bigsaddle
         SDL_GetWindowSize(window_, &w, &h);
         if (SDL_GetWindowFlags(window_) & SDL_WINDOW_MINIMIZED)
             w = h = 0;
-        io().DisplaySize = ImVec2((float)w, (float)h);
-
-        // SDL_GL_GetDrawableSize(window_, &display_w, &display_h);
         SDL_GetWindowSizeInPixels(window_, &display_w, &display_h);
+        io().DisplaySize = ImVec2((float)w, (float)h);
         if (w > 0 && h > 0)
             io().DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);
 
