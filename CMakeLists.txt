@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4)
 
-project(BIGSADDLE VERSION 0.1.0 LANGUAGES CXX)
+project(BIGSADDLE VERSION 0.1.0 LANGUAGES CXX C)
 
 include(./cmake/Config.cmake)
 

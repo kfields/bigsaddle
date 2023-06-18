@@ -668,7 +668,7 @@ VK_IMPORT_DEVICE
 			if (VK_SUCCESS == result
 			&&  0 < numExtensionProperties)
 			{
-				VkExtensionProperties* extensionProperties = (VkExtensionProperties*)BX_ALLOC(g_allocator, numExtensionProperties * sizeof(VkExtensionProperties) );
+				VkExtensionProperties* extensionProperties = (VkExtensionProperties*)bx::alloc(g_allocator, numExtensionProperties * sizeof(VkExtensionProperties) );
 				result = enumerateExtensionProperties(_physicalDevice
 					, NULL
 					, &numExtensionProperties
@@ -697,7 +697,7 @@ VK_IMPORT_DEVICE
 					BX_UNUSED(supported);
 				}
 
-				BX_FREE(g_allocator, extensionProperties);
+				bx::free(g_allocator, extensionProperties);
 			}
 		}
 
@@ -708,7 +708,7 @@ VK_IMPORT_DEVICE
 		if (VK_SUCCESS == result
 		&&  0 < numLayerProperties)
 		{
-			VkLayerProperties* layerProperties = (VkLayerProperties*)BX_ALLOC(g_allocator, numLayerProperties * sizeof(VkLayerProperties) );
+			VkLayerProperties* layerProperties = (VkLayerProperties*)bx::alloc(g_allocator, numLayerProperties * sizeof(VkLayerProperties) );
 			result = enumerateLayerProperties(_physicalDevice, &numLayerProperties, layerProperties);
 
 			char indent = VK_NULL_HANDLE == _physicalDevice ? '\0' : '\t';
@@ -743,7 +743,7 @@ VK_IMPORT_DEVICE
 				if (VK_SUCCESS == result
 				&&  0 < numExtensionProperties)
 				{
-					VkExtensionProperties* extensionProperties = (VkExtensionProperties*)BX_ALLOC(g_allocator, numExtensionProperties * sizeof(VkExtensionProperties) );
+					VkExtensionProperties* extensionProperties = (VkExtensionProperties*)bx::alloc(g_allocator, numExtensionProperties * sizeof(VkExtensionProperties) );
 					result = enumerateExtensionProperties(_physicalDevice
 						, layerProperties[layer].layerName
 						, &numExtensionProperties
@@ -769,11 +769,11 @@ VK_IMPORT_DEVICE
 						BX_UNUSED(supported);
 					}
 
-					BX_FREE(g_allocator, extensionProperties);
+					bx::free(g_allocator, extensionProperties);
 				}
 			}
 
-			BX_FREE(g_allocator, layerProperties);
+			bx::free(g_allocator, layerProperties);
 		}
 	}
 
@@ -1664,7 +1664,7 @@ VK_IMPORT_INSTANCE
 					, NULL
 					);
 
-				VkQueueFamilyProperties* queueFamilyPropertices = (VkQueueFamilyProperties*)BX_ALLOC(g_allocator, queueFamilyPropertyCount * sizeof(VkQueueFamilyProperties) );
+				VkQueueFamilyProperties* queueFamilyPropertices = (VkQueueFamilyProperties*)bx::alloc(g_allocator, queueFamilyPropertyCount * sizeof(VkQueueFamilyProperties) );
 				vkGetPhysicalDeviceQueueFamilyProperties(
 					  m_physicalDevice
 					, &queueFamilyPropertyCount
@@ -1694,7 +1694,7 @@ VK_IMPORT_INSTANCE
 					}
 				}
 
-				BX_FREE(g_allocator, queueFamilyPropertices);
+				bx::free(g_allocator, queueFamilyPropertices);
 
 				if (UINT32_MAX == m_globalQueueFamily)
 				{
@@ -2353,11 +2353,11 @@ VK_IMPORT_DEVICE
 		{
 			if (NULL != m_uniforms[_handle.idx])
 			{
-				BX_FREE(g_allocator, m_uniforms[_handle.idx]);
+				bx::free(g_allocator, m_uniforms[_handle.idx]);
 			}
 
 			const uint32_t size = bx::alignUp(g_uniformTypeSize[_type] * _num, 16);
-			void* data = BX_ALLOC(g_allocator, size);
+			void* data = bx::alloc(g_allocator, size);
 			bx::memSet(data, 0, size);
 			m_uniforms[_handle.idx] = data;
 			m_uniformReg.add(_handle, _name);
@@ -2365,7 +2365,7 @@ VK_IMPORT_DEVICE
 
 		void destroyUniform(UniformHandle _handle) override
 		{
-			BX_FREE(g_allocator, m_uniforms[_handle.idx]);
+			bx::free(g_allocator, m_uniforms[_handle.idx]);
 			m_uniforms[_handle.idx] = NULL;
 		}
 
@@ -3662,7 +3662,7 @@ VK_IMPORT_DEVICE
 
 			if (cached)
 			{
-				cachedData = BX_ALLOC(g_allocator, length);
+				cachedData = bx::alloc(g_allocator, length);
 				if (g_callback->cacheRead(hash, cachedData, length) )
 				{
 					BX_TRACE("Loading cached pipeline state (size %d).", length);
@@ -3705,7 +3705,7 @@ VK_IMPORT_DEVICE
 
 			if (NULL != cachedData)
 			{
-				BX_FREE(g_allocator, cachedData);
+				bx::free(g_allocator, cachedData);
 			}
 
 			return pipeline;
@@ -3986,13 +3986,13 @@ VK_IMPORT_DEVICE
 					const uint32_t dstPitch = width * dstBpp / 8;
 					const uint32_t dstSize = height * dstPitch;
 
-					void* dst = BX_ALLOC(g_allocator, dstSize);
+					void* dst = bx::alloc(g_allocator, dstSize);
 
 					bimg::imageConvert(g_allocator, dst, bimg::TextureFormat::BGRA8, src, bimg::TextureFormat::Enum(_swapChain.m_colorFormat), width, height, 1);
 
 					_func(dst, width, height, dstPitch, _userData);
 
-					BX_FREE(g_allocator, dst);
+					bx::free(g_allocator, dst);
 				}
 
 				vkUnmapMemory(m_device, _memory);
@@ -4428,7 +4428,7 @@ VK_IMPORT_DEVICE
 
 	RendererContextI* rendererCreate(const Init& _init)
 	{
-		s_renderVK = BX_NEW(g_allocator, RendererContextVK);
+		s_renderVK = bx::alloc(g_allocator, RendererContextVK);
 		if (!s_renderVK->init(_init) )
 		{
 			BX_DELETE(g_allocator, s_renderVK);
@@ -5899,7 +5899,7 @@ VK_DESTROY
 				uint8_t  layer;
 			};
 
-			ImageInfo* imageInfos = (ImageInfo*)BX_ALLOC(g_allocator, sizeof(ImageInfo) * numSrd);
+			ImageInfo* imageInfos = (ImageInfo*)bx::alloc(g_allocator, sizeof(ImageInfo) * numSrd);
 			bx::memSet(imageInfos, 0, sizeof(ImageInfo) * numSrd);
 			uint32_t alignment = 1; // tightly aligned buffer
 
@@ -5917,7 +5917,7 @@ VK_DESTROY
 							const uint32_t slice = bx::strideAlign(bx::max<uint32_t>(mip.m_height, 4) * pitch, alignment);
 							const uint32_t size  = slice * mip.m_depth;
 
-							uint8_t* temp = (uint8_t*)BX_ALLOC(g_allocator, size);
+							uint8_t* temp = (uint8_t*)bx::alloc(g_allocator, size);
 							bimg::imageDecodeToBgra8(
 								  g_allocator
 								, temp
@@ -5944,7 +5944,7 @@ VK_DESTROY
 							const uint32_t slice = bx::strideAlign( (mip.m_height / blockInfo.blockHeight) * pitch, alignment);
 							const uint32_t size  = slice * mip.m_depth;
 
-							uint8_t* temp = (uint8_t*)BX_ALLOC(g_allocator, size);
+							uint8_t* temp = (uint8_t*)bx::alloc(g_allocator, size);
 							bimg::imageCopy(
 								  temp
 								, mip.m_height / blockInfo.blockHeight
@@ -5970,7 +5970,7 @@ VK_DESTROY
 							const uint32_t slice = bx::strideAlign(mip.m_height * pitch, alignment);
 							const uint32_t size  = slice * mip.m_depth;
 
-							uint8_t* temp = (uint8_t*)BX_ALLOC(g_allocator, size);
+							uint8_t* temp = (uint8_t*)bx::alloc(g_allocator, size);
 							bimg::imageCopy(
 								  temp
 								, mip.m_height
@@ -5996,7 +5996,7 @@ VK_DESTROY
 			}
 
 			uint32_t totalMemSize = 0;
-			VkBufferImageCopy* bufferCopyInfo = (VkBufferImageCopy*)BX_ALLOC(g_allocator, sizeof(VkBufferImageCopy) * numSrd);
+			VkBufferImageCopy* bufferCopyInfo = (VkBufferImageCopy*)bx::alloc(g_allocator, sizeof(VkBufferImageCopy) * numSrd);
 
 			for (uint32_t ii = 0; ii < numSrd; ++ii)
 			{
@@ -6051,14 +6051,14 @@ VK_DESTROY
 				setImageMemoryBarrier(_commandBuffer, m_sampledLayout);
 			}
 
-			BX_FREE(g_allocator, bufferCopyInfo);
+			bx::free(g_allocator, bufferCopyInfo);
 
 			for (uint32_t ii = 0; ii < numSrd; ++ii)
 			{
-				BX_FREE(g_allocator, imageInfos[ii].data);
+				bx::free(g_allocator, imageInfos[ii].data);
 			}
 
-			BX_FREE(g_allocator, imageInfos);
+			bx::free(g_allocator, imageInfos);
 
 			m_readback.create(m_textureImage, m_width, m_height, TextureFormat::Enum(m_textureFormat) );
 		}
@@ -6106,7 +6106,7 @@ VK_DESTROY
 
 		if (convert)
 		{
-			temp = (uint8_t*)BX_ALLOC(g_allocator, slicepitch);
+			temp = (uint8_t*)bx::alloc(g_allocator, slicepitch);
 			bimg::imageDecodeToBgra8(g_allocator, temp, data, _rect.m_width, _rect.m_height, srcpitch, bimg::TextureFormat::Enum(m_requestedFormat) );
 			data = temp;
 		}
@@ -6133,7 +6133,7 @@ VK_DESTROY
 
 		if (NULL != temp)
 		{
-			BX_FREE(g_allocator, temp);
+			bx::free(g_allocator, temp);
 		}
 	}
 
@@ -7228,13 +7228,13 @@ VK_DESTROY
 			return selectedFormat;
 		}
 
-		VkSurfaceFormatKHR* surfaceFormats = (VkSurfaceFormatKHR*)BX_ALLOC(g_allocator, numSurfaceFormats * sizeof(VkSurfaceFormatKHR) );
+		VkSurfaceFormatKHR* surfaceFormats = (VkSurfaceFormatKHR*)bx::alloc(g_allocator, numSurfaceFormats * sizeof(VkSurfaceFormatKHR) );
 		result = vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, m_surface, &numSurfaceFormats, surfaceFormats);
 
 		if (VK_SUCCESS != result)
 		{
 			BX_TRACE("findSurfaceFormat error: vkGetPhysicalDeviceSurfaceFormatsKHR failed %d: %s.", result, getName(result) );
-			BX_FREE(g_allocator, surfaceFormats);
+			bx::free(g_allocator, surfaceFormats);
 			return selectedFormat;
 		}
 
@@ -7274,7 +7274,7 @@ VK_DESTROY
 			}
 		}
 
-		BX_FREE(g_allocator, surfaceFormats);
+		bx::free(g_allocator, surfaceFormats);
 
 		if (TextureFormat::Count == selectedFormat)
 		{

@@ -83,7 +83,7 @@ namespace bigsaddle
         for (int i = 1; i < platform_io.Viewports.Size; i++)
         {
             ImGuiViewport *viewport = platform_io.Viewports[i];
-            if (viewport->Flags & ImGuiViewportFlags_Minimized)
+            if (viewport->Flags & ImGuiViewportFlags_IsMinimized)
                 continue;
             if (platform_io.Platform_RenderWindow)
                 platform_io.Platform_RenderWindow(viewport, nullptr);
@@ -155,7 +155,7 @@ namespace bigsaddle
 #ifdef _WIN32
             io.KeySuper = false;
 #else
-            io.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
+            io.KeySuper = ((SDL_GetModState() & SDL_KMOD_GUI) != 0);
 #endif
             return true;
         }
@@ -454,7 +454,7 @@ namespace bigsaddle
                 monitor.DpiScale = dpi / 96.0f;*/
             //const SDL_DisplayMode *SDL_GetCurrentDisplayMode(SDL_DisplayID displayID)
             const SDL_DisplayMode* displayMode = SDL_GetCurrentDisplayMode(id);
-            monitor.DpiScale = displayMode->display_scale;
+            monitor.DpiScale = displayMode->pixel_density;
 #endif
             platform_io.Monitors.push_back(monitor);
         }

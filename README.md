@@ -32,6 +32,8 @@ Uses ImGui docking branch with support for docking and viewports
     cd build-debug
     cmake -DCMAKE_BUILD_TYPE=Debug ..
     # or
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ..
+    # or
     cmake -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Debug ..
 
 ## Shader Compilation
@@ -40,6 +42,8 @@ Uses ImGui docking branch with support for docking and viewports
 * shadercRelease needs to be on your path
 * pass -DCOMPILE_SHADERS to cmake
 
+## OpenGL
+    sudo apt install freeglut3-dev
 ## Wayland
 
     sudo apt install libwayland-dev
