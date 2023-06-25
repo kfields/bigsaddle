@@ -64,7 +64,6 @@ void WindowBase::Show() {
 void WindowBase::SetPosition(Point origin) {
     origin_ = origin;
     SDL_SetWindowPosition(window_, origin.x, origin.y);
-    Reset();
 }
 
 void WindowBase::SetSize(Size size) {
