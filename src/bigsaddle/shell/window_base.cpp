@@ -36,8 +36,8 @@ void WindowBase::Destroy() {
 }
 
 void WindowBase::Create() {
-    window_ = SDL_CreateWindow(
-      name_.c_str(), width(),
+    window_ = SDL_CreateWindowWithPosition(
+      name_.c_str(), x(), y(), width(),
       height(), flags_);
 
     if (window_ == nullptr) {
