@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.4)
 
+#set(CMAKE_C_COMPILER "/usr/bin/clang")
+#set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+#set(CMAKE_CXX_FLAGS "-stdlib=libc++")
+
 project(BIGSADDLE VERSION 0.1.0 LANGUAGES CXX C)
 
 include(./cmake/Config.cmake)
@@ -48,6 +52,11 @@ set(VIDEO_X11 ${BIG_WM_X11} CACHE BOOL "Enable X11 support" FORCE)
 set(VIDEO_WAYLAND ${BIG_WM_WAYLAND} CACHE BOOL "Enable Wayland support" FORCE)
 
 add_subdirectory(lib/sdl)
+
+#
+# tint
+#
+add_subdirectory(lib/tint)
 
 #
 # bimg

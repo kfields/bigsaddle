@@ -44,7 +44,7 @@ set(BGFX_SRC
     ${_}/renderer_webgpu.cpp
 
     ${_}/glcontext_egl.cpp
-    ${_}/glcontext_glx.cpp
+    #${_}/glcontext_glx.cpp
     ${_}/glcontext_html5.cpp
     ${_}/glcontext_wgl.cpp
 
