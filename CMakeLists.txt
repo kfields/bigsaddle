@@ -54,11 +54,6 @@ set(VIDEO_WAYLAND ${BIG_WM_WAYLAND} CACHE BOOL "Enable Wayland support" FORCE)
 add_subdirectory(lib/sdl)
 
 #
-# tint
-#
-add_subdirectory(lib/tint)
-
-#
 # bimg
 #
 add_subdirectory(lib/astc-encoder)
