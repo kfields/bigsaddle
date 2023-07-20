@@ -225,7 +225,7 @@ static void SetupBgfxPlatformData(bgfx::PlatformData &pd, const SDL_SysWMinfo &w
             break;
 #endif
 
-        //default: spdlog::critical("Unknown Window system."); std::abort();
+        default: spdlog::critical("Unknown Window system."); std::abort();
     }
     pd.context = NULL;
     pd.backBuffer = NULL;

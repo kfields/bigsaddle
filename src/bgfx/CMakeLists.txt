@@ -10,16 +10,6 @@ set(BX_SRC
   ${BX_ROOT}/src/amalgamated.cpp
 )
 
-#set(OPTION_ASTC_TESTS OFF CACHE BOOL "Build all the unit tests" FORCE)
-#add_subdirectory(${BIMG_ROOT}/3rdparty/astc-codec astc-codec)
-
-#set(BIMG_SRC
-#  ${BIMG_ROOT}/src/image.cpp
-#  ${BIMG_ROOT}/src/image_gnf.cpp
-#  ${BIMG_ROOT}/src/image_decode.cpp
-#  ${BIMG_ROOT}/3rdparty/tinyexr/deps/miniz/miniz.c
-#)
-
 set(BGFX_HEADERS
     ${BGFX_ROOT}/include/bgfx/bgfx.h
 )
@@ -41,6 +31,7 @@ set(BGFX_SRC
     ${_}/renderer_gnm.cpp
     ${_}/renderer_nvn.cpp
     ${_}/renderer_gl.cpp
+    ${_}/renderer_vk.cpp
     ${_}/renderer_webgpu.cpp
 
     ${_}/glcontext_egl.cpp
@@ -52,15 +43,16 @@ set(BGFX_SRC
     ${_}/shader_dx9bc.cpp
     ${_}/shader_spirv.cpp
 )
-if(${BIG_WM_WAYLAND})
-set(BGFX_SRC ${BGFX_SRC}
-    renderer_vk.cpp
-)
-else()
-set(BGFX_SRC ${BGFX_SRC}
-    ${_}/renderer_vk.cpp
-)
-endif()
+
+#if(${BIG_WM_WAYLAND})
+#set(BGFX_SRC ${BGFX_SRC}
+#    renderer_vk.cpp
+#)
+#else()
+#set(BGFX_SRC ${BGFX_SRC}
+#    ${_}/renderer_vk.cpp
+#)
+#endif()
 
 if(WIN32)
 set(BGFX_SRC ${BGFX_SRC}
@@ -72,8 +64,6 @@ endif()
 add_library(${THIS} STATIC
   ${BX_SRC}
   ${BX_ROOT}/include
-  #${BIMG_SRC}
-  #${BIMG_ROOT}/include
   ${BGFX_SRC}
   ${BGFX_ROOT}/include
 )
@@ -101,8 +91,6 @@ target_include_directories(${THIS}
         ${BX_ROOT}/include
         ${BX_ROOT}/3rdparty
         ${BIMG_ROOT}/include
-        #${BIMG_ROOT}/3rdparty
-        #${BIMG_ROOT}/3rdparty/tinyexr/deps/miniz
         ${BGFX_ROOT}/include
         ${BGFX_ROOT}/src
         ${BGFX_ROOT}/3rdparty
