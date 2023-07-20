@@ -29,6 +29,3 @@
 [submodule "lib/astc-encoder"]
 	path = lib/astc-encoder
 	url = https://github.com/ARM-software/astc-encoder
-[submodule "lib/tint"]
-	path = lib/tint
-	url = https://dawn.googlesource.com/tint
