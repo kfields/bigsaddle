@@ -1,5 +1,4 @@
 #include <SDL.h>
-#include <SDL_syswm.h>
 
 #include <imgui/imgui.h>
 

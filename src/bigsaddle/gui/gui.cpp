@@ -1,7 +1,6 @@
 // SDL
 // (the multi-viewports feature requires SDL features supported from SDL 2.0.4+. SDL 2.0.5+ is highly recommended)
 #include <SDL.h>
-#include <SDL_syswm.h>
 #if defined(__APPLE__)
 #include "TargetConditionals.h"
 #endif
@@ -404,10 +403,10 @@ namespace bigsaddle
             io.NavInputs[NAV_NO] = vn;                                                            \
     }
         const int thumb_dead_zone = 8000;                                       // SDL_gamecontroller.h suggests using this value.
-        MAP_BUTTON(ImGuiNavInput_Activate, SDL_GAMEPAD_BUTTON_A);               // Cross / A
-        MAP_BUTTON(ImGuiNavInput_Cancel, SDL_GAMEPAD_BUTTON_B);                 // Circle / B
-        MAP_BUTTON(ImGuiNavInput_Menu, SDL_GAMEPAD_BUTTON_X);                   // Square / X
-        MAP_BUTTON(ImGuiNavInput_Input, SDL_GAMEPAD_BUTTON_Y);                  // Triangle / Y
+        MAP_BUTTON(ImGuiNavInput_Activate, SDL_GAMEPAD_BUTTON_SOUTH);               // Cross / A
+        MAP_BUTTON(ImGuiNavInput_Cancel, SDL_GAMEPAD_BUTTON_EAST);                 // Circle / B
+        MAP_BUTTON(ImGuiNavInput_Menu, SDL_GAMEPAD_BUTTON_WEST);                   // Square / X
+        MAP_BUTTON(ImGuiNavInput_Input, SDL_GAMEPAD_BUTTON_NORTH);                  // Triangle / Y
         MAP_BUTTON(ImGuiNavInput_DpadLeft, SDL_GAMEPAD_BUTTON_DPAD_LEFT);       // D-Pad Left
         MAP_BUTTON(ImGuiNavInput_DpadRight, SDL_GAMEPAD_BUTTON_DPAD_RIGHT);     // D-Pad Right
         MAP_BUTTON(ImGuiNavInput_DpadUp, SDL_GAMEPAD_BUTTON_DPAD_UP);           // D-Pad Up
@@ -474,8 +473,8 @@ namespace bigsaddle
             io().DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);
 
         // Setup time step (we don't use SDL_GetTicks() because it is using millisecond resolution)
-        static Uint64 frequency = SDL_GetPerformanceFrequency();
-        Uint64 current_time = SDL_GetPerformanceCounter();
+        static uint64_t frequency = SDL_GetPerformanceFrequency();
+        uint64_t current_time = SDL_GetPerformanceCounter();
         io().DeltaTime = time_ > 0 ? (float)((double)(current_time - time_) / frequency) : (float)(1.0f / 60.0f);
         time_ = current_time;
 

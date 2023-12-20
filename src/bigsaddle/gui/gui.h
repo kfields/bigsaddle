@@ -45,7 +45,7 @@ public:
     ImGuiContext* context_ = nullptr;
     ImGuiIO* io_ = nullptr;
     //
-    Uint64      time_ = 0;
+    uint64_t      time_ = 0;
     bool        mousePressed_[3];
     SDL_Cursor* mouseCursors_[ImGuiMouseCursor_COUNT];
     static char* clipboardTextData_;

@@ -1,4 +1,3 @@
-#include "SDL_syswm.h"
 #include "build_config/SDL_build_config.h"
 
 #include <imgui/imgui.h>
@@ -36,19 +35,12 @@ void WindowBase::Destroy() {
 }
 
 void WindowBase::Create() {
-    window_ = SDL_CreateWindowWithPosition(
-      name_.c_str(), x(), y(), width(),
+    window_ = SDL_CreateWindow(
+      name_.c_str(), width(),
       height(), flags_);
 
     if (window_ == nullptr) {
         printf("WindowBase could not be created. SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-    SDL_SysWMinfo wmi;
-    if (0 != SDL_GetWindowWMInfo(window_, &wmi, SDL_SYSWM_CURRENT_VERSION)) {
-        printf(
-            "SDL_SysWMinfo could not be retrieved. SDL_Error: %s\n",
-            SDL_GetError());
         return;
     }
     SetWindowId(SDL_GetWindowID(window_));

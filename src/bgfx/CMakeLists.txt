@@ -25,14 +25,14 @@ set(BGFX_SRC
     ${_}/debug_renderdoc.cpp
     ${_}/renderer_noop.cpp
     ${_}/renderer_agc.cpp
-    ${_}/renderer_d3d9.cpp
+    #${_}/renderer_d3d9.cpp
     ${_}/renderer_d3d11.cpp
     ${_}/renderer_d3d12.cpp
     ${_}/renderer_gnm.cpp
     ${_}/renderer_nvn.cpp
     ${_}/renderer_gl.cpp
     ${_}/renderer_vk.cpp
-    ${_}/renderer_webgpu.cpp
+    #${_}/renderer_webgpu.cpp
 
     ${_}/glcontext_egl.cpp
     #${_}/glcontext_glx.cpp
@@ -40,7 +40,7 @@ set(BGFX_SRC
     ${_}/glcontext_wgl.cpp
 
     ${_}/shader_dxbc.cpp
-    ${_}/shader_dx9bc.cpp
+    #${_}/shader_dx9bc.cpp
     ${_}/shader_spirv.cpp
 )
 

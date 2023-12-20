@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "SDL.h"
-#include "SDL_syswm.h"
 #include "build_config/SDL_build_config.h"
 
 #include <imgui/imgui.h>
@@ -18,7 +17,7 @@
 
 namespace bigsaddle {
 
-static void SetupBgfxPlatformData(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi);
+static void SetupBgfxPlatformData(SDL_Window *sdl_window_, bgfx::PlatformData &pd);
 
 App::App(WindowParams params) : Window(params),
     state_(State::kRunning),
@@ -49,14 +48,8 @@ void App::CreateGfx() {
     auto result = bgfx::renderFrame(); // single threaded mode
 
     bgfx::PlatformData pd{};
-    SDL_SysWMinfo wmInfo;
-    int ok = SDL_GetWindowWMInfo(window_, &wmInfo, SDL_SYSWM_CURRENT_VERSION);
-    if(ok != 0) {
-        const char* err = SDL_GetError();
-        std::cout << err;
-    }
 
-    SetupBgfxPlatformData(pd, wmInfo);
+    SetupBgfxPlatformData(window_, pd);
 
     bgfx::Init bgfx_init;
     bgfx_init.debug = debug_;
@@ -165,69 +158,49 @@ int App::Run() {
     return 0;
 }
 
-static void SetupBgfxPlatformData(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi) {
-    switch (wmi.subsystem) {
-        case SDL_SYSWM_UNKNOWN:
-                //default: spdlog::critical("Unknown Window system.");
-                std::abort();
-
-
+static void SetupBgfxPlatformData(SDL_Window *sdl_window_, bgfx::PlatformData &pd) {
 #if defined(SDL_VIDEO_DRIVER_X11)
-        case SDL_SYSWM_X11:
-            pd.ndt = wmi.info.x11.display;
-            pd.nwh = (void *)(uintptr_t)wmi.info.x11.window;
-            break;
+    //pd.ndt = wmi.info.x11.display;
+    pd.ndt = SDL_GetProperty(SDL_GetWindowProperties(sdl_window_), "SDL.window.x11.display", 0);
+    //pd.nwh = (void *)(uintptr_t)wmi.info.x11.window;
+    pd.nwh = SDL_GetProperty(SDL_GetWindowProperties(sdl_window_), "SDL.window.x11.window", 0);
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_WAYLAND)
-        case SDL_SYSWM_WAYLAND:
-            pd.ndt = wmi.info.wl.display;
-            pd.nwh = wmi.info.wl.surface;
-            break;
+    pd.ndt = wmi.info.wl.display;
+    pd.nwh = wmi.info.wl.surface;
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_MIR)
-        case SDL_SYSWM_MIR:
-            pd.ndt = wmi.info.mir.connection;
-            pd.nwh = wmi.info.mir.surface;
-            break;
+    pd.ndt = wmi.info.mir.connection;
+    pd.nwh = wmi.info.mir.surface;
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_COCOA)
-        case SDL_SYSWM_COCOA:
-            pd.ndt = NULL;
-            pd.nwh = wmi.info.cocoa.window;
-            break;
+    pd.ndt = NULL;
+    pd.nwh = wmi.info.cocoa.window;
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_UIKIT)
-        case SDL_SYSWM_UIKIT:
-            pd.ndt = NULL;
-            pd.nwh = wmi.info.uikit.window;
-            break;
+    pd.ndt = NULL;
+    pd.nwh = wmi.info.uikit.window;
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_WINDOWS)
-        case SDL_SYSWM_WINDOWS:
-            pd.ndt = NULL;
-            pd.nwh = wmi.info.win.window;
-            break;
+    pd.ndt = NULL;
+    pd.nwh = wmi.info.win.window;
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_WINRT)
-        case SDL_SYSWM_WINRT:
-            pd.ndt = NULL;
-            pd.nwh = wmi.info.winrt.window;
-            break;
+    pd.ndt = NULL;
+    pd.nwh = wmi.info.winrt.window;
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_VIVANTE)
-        case SDL_SYSWM_VIVANTE:
-            pd.ndt = wmi.info.vivante.display;
-            pd.nwh = wmi.info.vivante.window;
-            break;
+    pd.ndt = wmi.info.vivante.display;
+    pd.nwh = wmi.info.vivante.window;
 #endif
-    }
+
     pd.context = NULL;
     pd.backBuffer = NULL;
     pd.backBufferDS = NULL;
