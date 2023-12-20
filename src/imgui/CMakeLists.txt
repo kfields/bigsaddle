@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(ImGui LANGUAGES CXX)
+set(THIS ImGui)
 
-set(THIS ${PROJECT_NAME})
+project(${THIS} LANGUAGES CXX)
 
 include(../../cmake/Standard.cmake)
 

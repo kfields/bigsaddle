@@ -167,7 +167,10 @@ int App::Run() {
 
 static void SetupBgfxPlatformData(bgfx::PlatformData &pd, const SDL_SysWMinfo &wmi) {
     switch (wmi.subsystem) {
-        case SDL_SYSWM_UNKNOWN: abort();
+        case SDL_SYSWM_UNKNOWN:
+                //default: spdlog::critical("Unknown Window system.");
+                std::abort();
+
 
 #if defined(SDL_VIDEO_DRIVER_X11)
         case SDL_SYSWM_X11:
@@ -224,8 +227,6 @@ static void SetupBgfxPlatformData(bgfx::PlatformData &pd, const SDL_SysWMinfo &w
             pd.nwh = wmi.info.vivante.window;
             break;
 #endif
-
-        default: spdlog::critical("Unknown Window system."); std::abort();
     }
     pd.context = NULL;
     pd.backBuffer = NULL;

@@ -17,7 +17,6 @@ function(USES_STD THIS)
             NOMINMAX
         )
     endif()
-    #target_compile_features(${THIS} PUBLIC cxx_std_17)
     target_compile_features(${THIS} PUBLIC cxx_std_20)
     set_property(TARGET ${THIS} PROPERTY CXX_STANDARD 20)
     if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))

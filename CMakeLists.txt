@@ -46,10 +46,10 @@ set(SDL_TEST OFF CACHE BOOL "Build the SDL3_test library" FORCE)
 set(SDL_RENDER OFF CACHE BOOL "Use render subsystem" FORCE)
 set(SDL_AUDIO OFF CACHE BOOL "Use audio subsystem" FORCE)
 set(SDL_HAPTIC OFF CACHE BOOL "Use haptic subsystem" FORCE)
-set(HIDAPI OFF CACHE BOOL "Use HIDAPI for low level joystick drivers" FORCE)
+#set(HIDAPI OFF CACHE BOOL "Use HIDAPI for low level joystick drivers" FORCE)
 
-set(VIDEO_X11 ${BIG_WM_X11} CACHE BOOL "Enable X11 support" FORCE)
-set(VIDEO_WAYLAND ${BIG_WM_WAYLAND} CACHE BOOL "Enable Wayland support" FORCE)
+set(SDL_X11 ${BIG_WM_X11} CACHE BOOL "Enable X11 support" FORCE)
+set(SDL_WAYLAND ${BIG_WM_WAYLAND} CACHE BOOL "Enable Wayland support" FORCE)
 
 add_subdirectory(lib/sdl)
 
