@@ -85,16 +85,16 @@ public:
     int pixelHeight() { return pixelSize_.height; }
     Gui& gui() { return *gui_; }
     //Data members
-    uint32_t windowId_;
+    uint32_t windowId_ = 0;
     static std::map<uint32_t, WindowBase*> windowMap_;
     std::string name_;
     Point origin_;
     Size size_;
     Size pixelSize_;
     float pixelRatio_ = 1.0f;
-    uint32_t flags_;
-    SDL_Window* window_;
-    Gui* gui_;
+    uint32_t flags_ = 0;
+    SDL_Window* window_ = nullptr;
+    Gui* gui_  = nullptr;
 };
 
 } //namespace bigsaddle

@@ -35,9 +35,16 @@ void WindowBase::Destroy() {
 }
 
 void WindowBase::Create() {
-    window_ = SDL_CreateWindow(
-      name_.c_str(), width(),
-      height(), flags_);
+    SDL_PropertiesID props = SDL_CreateProperties();
+    SDL_SetStringProperty(props, "title", name_.c_str());
+    SDL_SetNumberProperty(props, "x", x());
+    SDL_SetNumberProperty(props, "w", y());
+    SDL_SetNumberProperty(props, "width", width());
+    SDL_SetNumberProperty(props, "height", height());
+    SDL_SetNumberProperty(props, "flags", flags_);
+    //SDL_SetBooleanProperty(props, "borderless", SDL_TRUE);
+    window_ = SDL_CreateWindowWithProperties(props);
+    SDL_DestroyProperties(props);
 
     if (window_ == nullptr) {
         printf("WindowBase could not be created. SDL_Error: %s\n", SDL_GetError());

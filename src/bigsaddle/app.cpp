@@ -163,7 +163,7 @@ static void SetupBgfxPlatformData(SDL_Window *sdl_window_, bgfx::PlatformData &p
     //pd.ndt = wmi.info.x11.display;
     pd.ndt = SDL_GetProperty(SDL_GetWindowProperties(sdl_window_), "SDL.window.x11.display", 0);
     //pd.nwh = (void *)(uintptr_t)wmi.info.x11.window;
-    pd.nwh = SDL_GetProperty(SDL_GetWindowProperties(sdl_window_), "SDL.window.x11.window", 0);
+    pd.nwh = (void *)SDL_GetNumberProperty(SDL_GetWindowProperties(sdl_window_), "SDL.window.x11.window", 0);
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_WAYLAND)

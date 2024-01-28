@@ -223,7 +223,7 @@ namespace bigsaddle
         io.KeyMap[ImGuiKey_Space] = SDL_SCANCODE_SPACE;
         io.KeyMap[ImGuiKey_Enter] = SDL_SCANCODE_RETURN;
         io.KeyMap[ImGuiKey_Escape] = SDL_SCANCODE_ESCAPE;
-        io.KeyMap[ImGuiKey_KeyPadEnter] = SDL_SCANCODE_KP_ENTER;
+        io.KeyMap[ImGuiKey_KeypadEnter] = SDL_SCANCODE_KP_ENTER;
         io.KeyMap[ImGuiKey_A] = SDL_SCANCODE_A;
         io.KeyMap[ImGuiKey_C] = SDL_SCANCODE_C;
         io.KeyMap[ImGuiKey_V] = SDL_SCANCODE_V;
@@ -309,7 +309,7 @@ namespace bigsaddle
             mouse_window = focused_window;
 
         // SDL_CaptureMouse() let the OS know e.g. that our imgui drag outside the SDL window boundaries shouldn't e.g. trigger other operations outside
-        SDL_CaptureMouse(ImGui::IsAnyMouseDown() ? SDL_TRUE : SDL_FALSE);
+        //SDL_CaptureMouse(ImGui::IsAnyMouseDown() ? SDL_TRUE : SDL_FALSE);
 #else
         // SDL 2.0.3 and non-windowed systems: single-viewport only
         SDL_Window *mouse_window = (SDL_GetWindowFlags(bd->Window) & SDL_WINDOW_INPUT_FOCUS) ? bd->Window : NULL;
